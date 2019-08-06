@@ -1,0 +1,47 @@
+@import "../../../sass/func";
+    $card: pxToRem(-104px) pxToRem(0px) pxToRem(48px) pxToRem(40px);
+    $mechine: pxToRem(-52px) pxToRem(0px) pxToRem(42px) pxToRem(47px);
+    $menu2: pxToRem(0px) pxToRem(0px) pxToRem(42px) pxToRem(48px);
+
+@mixin sprite-width($sprite) {
+    width: nth($sprite, 3);
+}
+
+@mixin sprite-height($sprite) {
+    height: nth($sprite, 4);
+}
+
+@mixin sprite-position($sprite) {
+    $sprite-offset-x: nth($sprite, 1);
+    $sprite-offset-y: nth($sprite, 2);
+    background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite($sprite) {
+    @include sprite-position($sprite);
+
+    @include sprite-width($sprite);
+    @include sprite-height($sprite);
+}
+
+.sprite {
+    background: url("../images/sprite.png");
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border: none;
+    display: block;
+    vertical-align: middle;
+    font-style: normal;
+    background-size: pxToRem(152px) pxToRem(48px)
+    // color:$icon-font-color;
+}
+
+.card{
+@include sprite($card);
+}
+.mechine{
+@include sprite($mechine);
+}
+.menu2{
+@include sprite($menu2);
+}

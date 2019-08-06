@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <title>首页</title>
+    <!-- build:css ../css/main.css -->
+    <link rel="stylesheet" href="../css/index.css" />
+    <!-- endbuild -->
+    <!-- build:css ../css/common.css -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <!-- endbuild -->
+    <!-- build:js ../js/lib/adapt.js -->
+    <script
+      src="../../../lib/adapt.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <!-- endbuild -->
+  </head>
+
+  <body>
+    <div class="content">
+      <div class="main-content">
+        <header class="main-header">
+          <i
+            class="main-avator"
+            style="background-image: url('../images/bg_avator.png')"
+          ></i>
+          <div class="header-content">
+            <!-- 默认为女性-female  男性为male-->
+            <p class="header-title male">aabbcc</p>
+            <p class="header-id">ID: 12222222</p>
+            <p class="header-num">10</p>
+          </div>
+          <i class="main-fwg"></i>
+          <i class="main-user"></i>
+        </header>
+        <div class="main-notice">
+          <p class="animate">
+            <i class="icon-laba"></i><span>这里是公告。。。。</span>
+          </p>
+        </div>
+        <ul class="main-list main-item-list">
+          <li class="main-item item-ersai" data-type="ersai"></li>
+          <li class="main-item item-sansai" data-type="sansai"></li>
+          <li class="main-item item-anbao" data-type="anbao"></li>
+          <li class="main-item item-shisanzhang" data-type="shisanzhang"></li>
+          <li class="main-item item-tongjiu" data-type="tongjiu"></li>
+          <li class="main-item item-julebu" data-type="julebu"></li>
+          <li class="main-item item-21" data-type="xianwan"></li>
+        </ul>
+        <ul class="main-list main-user-center">
+          <i class="icon-close close-user"></i>
+          <li class="uc-item item-send" data-type="sendCard"></li>
+          <li class="uc-item item-my" data-type="myCard"></li>
+          <li class="uc-item item-record" data-type="record"></li>
+          <li class="uc-item item-qunzhu">
+            <div class="switch-wrapper">
+              <input type="checkbox" class="switch-checkbox" id="switchItems" />
+              <label class="switch-label" for="switchItems"></label>
+            </div>
+            <div class="manage-wraper">
+              <i class="icon-invite"></i>
+              <i class="icon-members"></i>
+              <i class="icon-record"></i>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- 创建房间弹窗 -->
+      <div class="create-room-popup popup-wrapper">
+        <div class="masker"></div>
+        <div class="cr-wrapper popup-content">
+          <i class="icon-close close-popup"></i>
+          <div class="btns-wapper">
+            <i class="btn-zyqzh"></i>
+            <i class="btn-gdzhj"></i>
+            <i class="btn-kfdzh"></i>
+          </div>
+          <ul class="cr-content">
+            <li class="cr-items">
+              <div class="item-title">筹码：</div>
+              <div class="checkbox-list">
+                <input type="checkbox" id="chip1" />
+                <label for="chip1">10,20,30,50,100</label>
+                <input type="checkbox" id="chip2" />
+                <label for="chip2">50,100</label>
+              </div>
+            </li>
+            <li class="cr-items">
+              <div class="item-title">上限：</div>
+              <div class="checkbox-list">
+                <input type="checkbox" id="limit1" />
+                <label for="limit1">100</label>
+                <input type="checkbox" id="limit2" />
+                <label for="limit2">300</label>
+                <input type="checkbox" id="limit3" />
+                <label for="limit3">500</label>
+                <input type="checkbox" id="limit4" />
+                <label for="limit4">1000</label>
+              </div>
+            </li>
+            <li class="cr-items">
+              <div class="item-title">局数：</div>
+              <div class="checkbox-list">
+                <input type="checkbox" id="jnum" />
+                <label for="jnum">12局 x 5房卡</label>
+              </div>
+            </li>
+
+            <li class="cr-items">
+              <div class="item-title">人数：</div>
+              <div class="checkbox-list">
+                <input type="checkbox" id="peoples1" />
+                <label for="peoples1">10人</label>
+                <input type="checkbox" id="peoples2" />
+                <label for="peoples2">13人</label>
+                <input type="checkbox" id="peoples3" />
+                <label for="peoples3">16人</label>
+                <input type="checkbox" id="peoples4" />
+                <label for="peoples4">20人</label>
+                <input type="checkbox" id="peoples5" />
+                <label for="peoples5">30人</label>
+              </div>
+            </li>
+            <li class="cr-items">
+              <div class="item-title">下注时间：</div>
+              <div class="checkbox-list">
+                <input type="checkbox" id="time1" />
+                <label for="time1">20秒</label>
+                <input type="checkbox" id="time2" />
+                <label for="time2">30秒</label>
+              </div>
+            </li>
+            <li class="cr-items">
+              <div class="item-title">赔率：</div>
+            </li>
+            <li class="cr-items">
+              <div class="item-title">龙虎出入：</div>
+              <div class="checkbox-list">
+                <input type="checkbox" id="chip1" />
+                <label for="chip1">1:3</label>
+                <input type="checkbox" id="chip2" />
+                <label for="chip2">1:2:9</label>
+                <input type="checkbox" id="chip1" />
+                <label for="chip1">1:2:8</label>
+                <input type="checkbox" id="chip2" />
+                <label for="chip2">1:2:7</label>
+              </div>
+            </li>
+            <li class="cr-items">
+              <div class="item-title">角，串：</div>
+              <div class="checkbox-list">
+                <input type="checkbox" id="chip1" />
+                <label for="chip1">1:1</label>
+                <input type="checkbox" id="chip2" />
+                <label for="chip2">1:0.95</label>
+                <input type="checkbox" id="chip2" />
+                <label for="chip2">1:0.9</label>
+              </div>
+            </li>
+            <li class="cr-items">
+              <div class="item-title">同，粘：</div>
+              <div class="checkbox-list">
+                <input type="checkbox" id="chip1" />
+                <label for="chip1">1:2</label>
+                <input type="checkbox" id="chip2" />
+                <label for="chip2">1:1.9</label>
+                <input type="checkbox" id="chip2" />
+                <label for="chip2">1:0.8</label>
+              </div>
+            </li>
+          </ul>
+          <p class="cr-bottom-txt">创建房间，无人参与，半小时后返还房卡</p>
+          <div class="btn-cr"></div>
+        </div>
+      </div>
+      <!-- 发送房卡弹窗 -->
+      <div class="popup-wrapper popup-send" >
+        <div class="masker"></div>
+        <div class="sc-content popup-content">
+          <p>
+            <span class="sc-txt1">您的房卡:</span
+            ><span class="sc-txt3 num-width">0</span
+            ><span class="sc-txt2">张</span>
+          </p>
+          <p class="sc-txt-wrapper">
+            <span class="sc-txt4 num-width2">0</span><span class="sc-txt2">张</span>
+          </p>
+          <p>
+            <span class="sc-txt1">放入房卡</span
+            ><input
+              type="tel"
+              class="s-input needsclick"
+              pattern="[0-9]"
+            /><span class="sc-txt2">张</span>
+		  </p>
+		  <div class="btn-make-gift"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!-- build:js ../js/lib/fastclick-jquery.js-->
+  <script
+    src="../../../lib/fastclick-jquery-fix-1.8.3.js"
+    type="text/javascript"
+    charset="utf-8"
+  ></script>
+  <!-- endbuild -->
+  <script src="../js/index.js" type="text/javascript" charset="utf-8"></script>
+</html>

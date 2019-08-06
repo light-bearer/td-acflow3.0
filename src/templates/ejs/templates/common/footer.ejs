@@ -1,0 +1,14 @@
+<!-- build:js <%=relative %>js/lib/fastclick-jquery.js-->
+<script src="<%=relative %>../../lib/fastclick-jquery-1.8.3.js" type="text/javascript" charset="utf-8"></script>
+<!-- endbuild -->
+<% for(var i = 0; i < scripts.length; i ++) {%>
+<% if (scripts[i].build !== "") {%>
+<!-- build:js <%=relative %><%= scripts[i].build%>.js -->
+<% } %>
+<% for(var j = 0; j < scripts[i].links.length; j ++) {%>
+<script src="<%=relative %><%= scripts[i].links[j]%>" type="text/javascript" charset="utf-8"></script>
+<% } %>
+<% if (scripts[i].build !== "") {%>
+<!-- endbuild -->
+<% } %>
+<% } %>

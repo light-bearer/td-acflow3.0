@@ -1,0 +1,45 @@
+@import "../../../sass/func";
+{{#sprites}}
+    ${{name}}: pxToRem({{px.offset_x}}) pxToRem({{px.offset_y}}) pxToRem({{px.width}}) pxToRem({{px.height}});
+{{/sprites}}
+
+@mixin sprite-width($sprite) {
+    width: nth($sprite, 3);
+}
+
+@mixin sprite-height($sprite) {
+    height: nth($sprite, 4);
+}
+
+@mixin sprite-position($sprite) {
+    $sprite-offset-x: nth($sprite, 1);
+    $sprite-offset-y: nth($sprite, 2);
+    background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite($sprite) {
+    @include sprite-position($sprite);
+
+    @include sprite-width($sprite);
+    @include sprite-height($sprite);
+}
+
+{{#spritesheet}}
+.sprite {
+    background: url("../images/{{{image}}}");
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border: none;
+    display: block;
+    vertical-align: middle;
+    font-style: normal;
+    background-size: pxToRem({{px.width}}) pxToRem({{px.height}})
+    // color:$icon-font-color;
+}
+{{/spritesheet}}
+
+{{#sprites}}
+.sprite-{{name}}{
+@include sprite(${{name}});
+}
+{{/sprites}}

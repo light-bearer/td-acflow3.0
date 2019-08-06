@@ -1,0 +1,52 @@
+{
+    "name": "td-act-gulp4",
+    "version": "2.0.0",
+    "description": "This is a scaffold for tuandai to create an activity with gulp4.",
+    "main": "index.html",
+    "bin": {
+        "fecreate": "bin/fecreate.js",
+        "febuild": "bin/febuild.js"
+    },
+    "scripts": {
+        "test": "echo 'Error: no test specified' && exit 1",
+        "gulp": "node ./node_modules/gulp/bin/gulp.js --gulpfile ./build/gulpfile.babel.js",
+        "dev": "node ./node_modules/gulp/bin/gulp.js --gulpfile ./build/gulpfile.babel.js serve",
+        "build": "node ./node_modules/gulp/bin/gulp.js --gulpfile ./build/gulpfile.babel.js build"
+    },
+    "keywords": [
+        "gulp4",
+        "tuandai",
+        "activity"
+    ],
+    "author": "Simona Mo",
+    "license": "ISC",
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-preset-env": "^1.6.1",
+        "browser-sync": "^2.23.6",
+        "del": "^3.0.0",
+        "gulp": "^4.0.0",
+        "gulp-autoprefixer": "^5.0.0",
+        "gulp-cached": "^1.1.1",
+        "gulp-changed": "^3.2.0",
+        "gulp-clean-css": "^3.9.3",
+        "gulp-ejs": "^3.1.3",
+        "gulp-if": "^2.0.2",
+        "gulp-load-plugins": "^1.5.0",
+        "gulp-remember": "^1.0.1",
+        "gulp-rev": "^8.1.1",
+        "gulp-rev-collector": "^1.3.1",
+        "gulp-rev-replace": "^0.4.4",
+        "gulp-sass": "^3.1.0",
+        "gulp-sourcemaps": "^2.6.4",
+        "gulp-uglify": "^3.0.0",
+        "gulp-useref": "^3.1.5",
+        "gulp.spritesmith": "^6.9.0",
+        "merge-stream": "^1.0.1",
+        "vinyl-buffer": "^1.0.1"
+    },
+    "dependencies": {
+        "commander": "^2.14.1",
+        "link": "^0.1.5"
+    }
+}

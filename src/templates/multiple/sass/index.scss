@@ -1,0 +1,24 @@
+@charset "UTF-8";
+@import "variables";
+@import "icons";
+@import "../../../sass/reset";
+@import "../../../sass/func";
+html,
+body {
+  position: relative;
+
+  margin: 0;
+  padding: 0;
+  // height: 100%;
+  // width: 100%;
+  // overflow: hidden;
+
+  font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+
+  -webkit-overflow-scrolling: touch !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+a {
+  text-decoration: none;
+}

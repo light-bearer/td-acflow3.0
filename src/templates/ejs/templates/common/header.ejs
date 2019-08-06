@@ -1,0 +1,23 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no" />
+    <meta name="format-detection" content="telephone=no">
+    <title>common</title>
+    <!-- build:css <%=relative %>css/main.css -->
+    <link rel="stylesheet" href="<%=relative %>css/index.css">
+    <link rel="stylesheet" href="<%=relative %>css/media.css">
+    <link rel="stylesheet" href="<%=relative %>css/animation.css">
+    <!-- endbuild -->
+    <% for(var i = 0; i < styles.length; i ++) {%>
+    <!-- build:css <%=relative %>css/<%=styles[i].build %>.css -->
+    <% for(var j = 0; j < styles[i].links.length; j ++) {%>
+    <link rel="stylesheet" href="<%=relative %><%=styles[i].links[j]%>">
+    <% } %>
+    <!-- endbuild -->
+    <% } %>
+    <!-- build:js <%=relative %>js/lib/adapt.js -->
+    <script src="<%=relative %>../../lib/adapt.js" type="text/javascript" charset="utf-8"></script>
+    <!-- endbuild -->
+
+</head>

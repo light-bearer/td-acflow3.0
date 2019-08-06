@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<%- include("common/header", {relative:"../", styles: []}) %>
+<body>
+    This is ejs page template !
+</body>
+<%- include("common/footer", {relative:"../", scripts: [{build:"", links:["js/index.js"]}, {build: "js/lib/swiper.min",links: ["../../lib/vendor/swiper/swiper.jquery.min.js"] }] }) %>
+
+</html>
