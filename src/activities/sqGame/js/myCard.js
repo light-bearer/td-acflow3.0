@@ -1,6 +1,6 @@
 (function() {
   FastClick.attach(document.body);
-  $(".back").on("click", () => {
+  $("#back").on("click", () => {
     history.back();
   });
 })();
