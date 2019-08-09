@@ -1,7 +1,7 @@
 'use strick';
 
 (function(global) {
-    var openAPI = "http://www.lanyuanoss.com";
+    var openAPI = "http://119.23.201.149:8081"; // dev
 
     /**
      * @func
