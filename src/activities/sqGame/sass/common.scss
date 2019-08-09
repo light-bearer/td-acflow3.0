@@ -123,8 +123,24 @@ a {
     transform: translate(-50%, -50%);
     z-index: 99999;
   }
+  .content-bg {
+    @include background("../images/popup_bg.png", 603px, 606px);
+    // padding-top: pxToRem(86px);
+    font-size: 0;
+  }
 }
 
 input {
-    outline: none;
+  outline: none;
+}
+.common-header {
+    // @include background('../images/mycard/bg_header.png', 750px, 119px);
+    width: 100%;
+    height: pxToRem(119px);
+    background-image: url('../images/mycard/bg_header.png');
+    background-size: pxToRem(750px) pxToRem(119px);
+    // line-height: pxToRem(119px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

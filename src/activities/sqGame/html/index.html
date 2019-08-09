@@ -182,26 +182,54 @@
         </div>
       </div>
       <!-- 发送房卡弹窗 -->
-      <div class="popup-wrapper popup-send" >
+      <div class="popup-wrapper popup-send">
         <div class="masker"></div>
-        <div class="sc-content popup-content">
+        <div class="sc-content popup-content content-bg ">
           <p>
             <span class="sc-txt1">您的房卡:</span
             ><span class="sc-txt3 num-width">0</span
             ><span class="sc-txt2">张</span>
           </p>
           <p class="sc-txt-wrapper">
-            <span class="sc-txt4 num-width2">0</span><span class="sc-txt2">张</span>
+            <span class="sc-txt4 num-width2">0</span
+            ><span class="sc-txt2">张</span>
           </p>
           <p>
             <span class="sc-txt1">放入房卡</span
             ><input
               type="tel"
-              class="s-input needsclick"
+              class="s-input u-p-input needsclick"
               pattern="[0-9]"
             /><span class="sc-txt2">张</span>
+          </p>
+          <div class="btn-make-gift"></div>
+        </div>
+      </div>
+
+      <!-- 查看战绩弹窗 -->
+      <div class="popup-wrapper popup-record" >
+        <div class="masker"></div>
+
+        <div class="r-content popup-content content-bg ">
+          <i class="icon-close close-popup-record"></i>
+          <p>
+            <span class="pr-txt">战绩</span
+            ><input
+              type="tel"
+              class="r-input u-p-input needsclick"
+              placeholder="请输入房间号"
+			/>
+			<div class="btn-submit"></div>
 		  </p>
-		  <div class="btn-make-gift"></div>
+		  <p>
+				<span class="pr-txt">个人</span
+				><input
+				  type="tel"
+				  class="r-input u-p-input needsclick"
+				  placeholder="请输入玩家ID"
+				/>
+				<div class="btn-submit"></div>
+			  </p>
         </div>
       </div>
     </div>
@@ -213,5 +241,6 @@
     charset="utf-8"
   ></script>
   <!-- endbuild -->
+  <script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
   <script src="../js/index.js" type="text/javascript" charset="utf-8"></script>
 </html>

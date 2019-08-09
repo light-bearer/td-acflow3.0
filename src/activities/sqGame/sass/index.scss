@@ -197,7 +197,6 @@
   }
 }
 
-// @yqzhDownload: '../images/createroom/btn_zyqzh_neg.png'
 .icon-close {
   @include background("../images/createroom/btn_close.png", 84px, 84px);
   position: absolute;
@@ -336,13 +335,13 @@
     background-color: rgba(0, 0, 0, 0) !important;
   }
   .sc-content {
-    @include background("../images/popup_bg.png", 603px, 606px);
+    // @include background("../images/popup_bg.png", 603px, 606px);
     padding-top: pxToRem(86px);
     font-family: "SimHei";
     color: #c3c8fc;
     text-align: center;
     font-size: 0;
-    p>* {
+    p > * {
       vertical-align: middle;
     }
     .sc-txt1 {
@@ -357,7 +356,7 @@
     }
     .sc-txt4 {
       font-size: pxToRem(130px);
-      color: #FFF63F;
+      color: #fff63f;
     }
     .num-width {
       width: pxToRem(150px);
@@ -375,16 +374,57 @@
       display: block;
     }
     .s-input {
-      @include inline-background('../images/input_bg.png', 300px, 96px);
-      border: 0;
-      color: #7E7F7F;
+      // @include inline-background("../images/input_bg.png", 300px, 96px);
+      // border: 0;
+      color: #7e7f7f;
       font-size: pxToRem(43px);
-      text-align: center;
+      // text-align: center;
     }
   }
   .btn-make-gift {
-    @include background('../images/btn_make.png', 283px, 88px);
+    @include background("../images/btn_make.png", 283px, 88px);
     margin: pxToRem(20px) auto 0 auto;
+  }
+}
+.u-p-input {
+  @include inline-background("../images/input_bg.png", 300px, 96px);
+  border: 0;
+  text-align: center;
+  // background-size: 100%;
+  // border-radius: pxToRem(5px);
+}
+.r-content {
+  // text-align: center;
+  width: pxToRem(590px) !important;
+  height: pxToRem(356px) !important;
+  background-size: pxToRem(590px) pxToRem(356px) !important;
+  padding-top: pxToRem(37px) !important;
+  >p {
+    margin-bottom: pxToRem(7px);
+  }
+  .pr-txt {
+    font-size: pxToRem(39px);
+    color: #fff;
+    display: inline-block;
+    width: pxToRem(170px);
+    text-align: center;
+  }
+  .r-input {
+    width: pxToRem(244px);
+    height: pxToRem(62px);
+    font-size: pxToRem(28px);
+    color: #737b76;
+    background-size: pxToRem(244px) pxToRem(62px);
+  }
+  .close-popup-record {
+    top: 0;
+    right: 0;
+    transform: translate(30%, -20%);
+  }
+  .btn-submit {
+    @include background("../images/user/btn_submit.png", 232px, 72px);
+    margin-left: pxToRem(180px);
+    margin-top: pxToRem(17px);
   }
 }
 

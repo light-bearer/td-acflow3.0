@@ -1,0 +1,86 @@
+@charset "UTF-8";
+@import "variables";
+@import "../../../sass/func";
+.mc-content {
+  background-image: url("../images/mycard/bg_mycard.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  padding-top: pxToRem(243px);
+  .common-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    //   text-align: center;
+    .icon-back {
+      @include background("../images/mycard/icon_back.png", 78px, 78px);
+      position: absolute;
+      left: pxToRem(17px);
+      top: pxToRem(20px);
+    }
+    .txt-mc {
+      @include inline-background("../images/mycard/icon_txt.png", 198px, 52px);
+    }
+  }
+}
+.mc-btn-wrapper {
+  background-image: url("../images/mycard/bg_btns.png");
+  width: 100%;
+  height: pxToRem(124px);
+  background-size: 100%;
+  position: absolute;
+  left: 0;
+  top: pxToRem(119px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .btn-send {
+    @include background("../images/mycard/btn_send.png", 360px, 78px);
+    &:active {
+      background-image: url("../images/mycard/btn_send_active.png");
+    }
+  }
+  .btn-receive {
+    @include background("../images/mycard/btn_receive.png", 360px, 78px);
+    &:active {
+      background-image: url("../images/mycard/btn_receive_active.png");
+    }
+  }
+}
+.mc-list {
+  width: 100%;
+  .mc-item {
+    @include background("../images/mycard/bg_item.png", 750px, 150px);
+    padding: pxToRem(20px);
+    display: flex;
+    .mc-avator-wrapper {
+      width: pxToRem(108px);
+      height: pxToRem(108px);
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .mc-item-det {
+      color: #6b4e71;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin-left: pxToRem(20px);
+      > p {
+        font-size: pxToRem(30px);
+        flex: 1;
+      }
+
+      .mc-item-time {
+        text-align: right;
+      }
+      .mc-item-num {
+        font-size: pxToRem(20px);
+        .num {
+            color: yellow;
+            margin-right: pxToRem(30px);
+        }
+      }
+    }
+  }
+}
