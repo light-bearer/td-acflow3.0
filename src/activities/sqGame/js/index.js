@@ -1,6 +1,15 @@
 (function() {
   //   FastClick.attach(document.body);
-  //防外挂
+  var openId = Util.getParam('openId'), // 登录后返回相关openid
+      code = Util.getParam('code'); // 授权code
+
+  /** 主要初始化 */
+  auth(code, function(openId) {
+    bindEvent();
+  });
+  /** bind event */
+  function bindEvent() {
+    //防外挂
   $(".main-fwg").on("click", () => {
     console.info("fwg---");
   });
@@ -46,4 +55,35 @@
         break;
     }
   });
+  }
+  
+
+  /** method */
+  function auth(code, cb) {
+        // 若code 不为空，说明授权成功， 获取用户信息
+        if (code) {
+            Util.Ajax({ 
+                url: Util.openAPI + '/app/authUserInfo',
+                type: 'get',
+                data: {
+                    "code": code
+                },
+                dataType: 'json',
+                cbOk: function(data, textStatus, jqXHR) {
+                    console.log(data);
+                    openId = data.id;
+                    cb && cb(openId)
+                },
+                cbErr: function(e, xhr, type) {
+                    Util.toast('授权失败，请重新尝试');
+                }
+            });
+            return;
+        }
+        // 若code为空，那么进行微信授权
+        var _url = window.location.href;
+        window.location.href = Util.openAPI + '/app/redirectUrl?url=' + _url; // 带上重定向地址
+       return; 
+  }
+
 })();
