@@ -3,7 +3,7 @@
 @import "../../../sass/func";
 .mc-content {
   background-image: url("../images/mycard/bg_mycard.png");
-  background-size: 100%;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   padding-top: pxToRem(243px);
   .common-header {
@@ -20,6 +20,13 @@
     .txt-mc {
       @include inline-background("../images/mycard/icon_txt.png", 198px, 52px);
     }
+    .txt-record {
+      @include inline-background(
+        "../images/record/txt_record.png",
+        201px,
+        54px
+      );
+    }
   }
 }
 .mc-btn-wrapper {
@@ -35,30 +42,47 @@
   align-items: center;
   .btn-send {
     @include background("../images/mycard/btn_send.png", 360px, 78px);
-    &:active {
+    &.active {
       background-image: url("../images/mycard/btn_send_active.png");
     }
   }
   .btn-receive {
     @include background("../images/mycard/btn_receive.png", 360px, 78px);
-    &:active {
+    &.active {
       background-image: url("../images/mycard/btn_receive_active.png");
+    }
+  }
+  .btn-join {
+    @include background("../images/record/btn_join.png", 363px, 79px);
+    &.active {
+      background-image: url("../images/record/btn_join_active.png");
+    }
+  }
+  .btn-create {
+    @include background("../images/record/btn_create.png", 363px, 79px);
+    &.active {
+      background-image: url("../images/record/btn_create_active.png");
     }
   }
 }
 .mc-list {
   width: 100%;
-  .mc-item {
+  @at-root.mc-item {
     @include background("../images/mycard/bg_item.png", 750px, 150px);
-    padding: pxToRem(20px);
+    padding: 0 pxToRem(20px);
     display: flex;
+    align-items: center;
     .mc-avator-wrapper {
       width: pxToRem(108px);
       height: pxToRem(108px);
-      img {
-        width: 100%;
-        height: 100%;
-      }
+    }
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    .mc-type-wrapper {
+      width: pxToRem(116px);
+      height: pxToRem(114px);
     }
     .mc-item-det {
       color: #6b4e71;
@@ -77,10 +101,56 @@
       .mc-item-num {
         font-size: pxToRem(20px);
         .num {
-            color: yellow;
-            margin-right: pxToRem(30px);
+          color: yellow;
+          margin-right: pxToRem(30px);
         }
       }
+    }
+    .r-item-det {
+      color: #6b4e71;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin-left: pxToRem(36px);
+      > p {
+        font-size: pxToRem(28px);
+        flex: 1;
+      }
+      p:last-child {
+        margin-top: pxToRem(35px);
+      }
+    }
+    .r-item-right {
+      width: pxToRem(165px);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      .icon-arrow {
+        @include inline-background(
+          "../images/record/icon_arrow.png",
+          66px,
+          66px
+        );
+      }
+      .r-right-num {
+        color: #6b4e71;
+        font-family: "STYuanti-SC-Bold";
+        font-weight: bold;
+        font-size: pxToRem(66px);
+        margin-right: pxToRem(20px);
+        display: inline-block;
+      }
+    }
+  }
+  .end-wrapper {
+      justify-content: center;
+    .end-txt-wrapper {
+      @include background("../images/record/bg_bottom.png", 343px, 46px);
+      font-size: pxToRem(28px);
+      line-height: pxToRem(46px);
+      color: #b8896a;
+      text-align: center;
     }
   }
 }

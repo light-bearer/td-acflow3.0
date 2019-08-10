@@ -10,24 +10,24 @@
   /** bind event */
   function bindEvent() {
     //防外挂
-    $(".main-fwg").on("click", () => {
+    $(".main-fwg").on("click", function() {
       console.info("fwg---");
     });
 
     //打开个人中心
-    $(".main-user").on("click", () => {
+    $(".main-user").on("click", function() {
       // console.info("user----");
       $(".main-item-list").hide();
       $(".main-user-center").show();
     });
     //   $(".main-user").trigger("click");
     //关闭个人中心
-    $(".close-user").on("click", () => {
+    $(".close-user").on("click", function() {
       $(".main-user-center").hide();
       $(".main-item-list").show();
     });
     //群主管理开关
-    $("#switchItems").on("change", e => {
+    $("#switchItems").on("change", function(e) {
       // console.info("change=----", $(e.currentTarget).is(":checked"));
       let isChecked = $(e.currentTarget).is(":checked");
       if (isChecked) {
@@ -37,18 +37,18 @@
       }
     });
 
-    $(".main-item-list").on("click", ".main-item", e => {
+    $(".main-item-list").on("click", ".main-item", function(e) {
       let type = $(e.currentTarget).attr("data-type");
       console.info("kkkk--", type);
       $(".create-room-popup").show();
     });
 
-    $(".masker ,.close-popup ,.close-popup-record").on("click", () => {
+    $(".masker ,.close-popup ,.close-popup-record").on("click", function() {
       // $(".create-room-popup").hide();
       $(".popup-wrapper").hide();
     });
 
-    $(".main-user-center").on("click", ".uc-item", e => {
+    $(".main-user-center").on("click", ".uc-item", function(e) {
       let type = $(e.currentTarget).attr("data-type");
       switch (type) {
         case "sendCard":
@@ -61,7 +61,8 @@
           break;
         case "record":
           //查看战绩
-          $(".popup-record").show();
+          //   $(".popup-record").show();
+          location.href = "./record.html";
           break;
       }
     });
