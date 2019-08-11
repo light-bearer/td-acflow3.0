@@ -450,3 +450,33 @@
     -webkit-transform: translateX(-100%);
   }
 }
+
+// invite
+.invite-bg {
+  @include background("../images/invite/letter.png", 519px, 630px);
+  text-align: center;
+  .icon-close {
+    top: pxToRem(20px);
+    right: 0;
+    transform: translate(90%, 0);
+  }
+  .invite-send-wrapper {
+    width: 100%;
+    height: 100%;
+    padding-top: pxToRem(85px);
+    color: #7d7974;
+    font-size: pxToRem(36px);
+    .inivatee-avator {
+      width: pxToRem(145px);
+      height: pxToRem(141px);
+    }
+    .s-first-row {
+      margin: pxToRem(17px) 0 pxToRem(50px) 0;
+      font-size: pxToRem(40px);
+    }
+    .s-last-row {
+      margin-top: pxToRem(26px);
+      color: #d55e24;
+    }
+  }
+}

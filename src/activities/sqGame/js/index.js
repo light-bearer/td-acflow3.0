@@ -23,6 +23,9 @@
         // $(".main-user-center").hide();
         triggerPages(".main-item-list");
       }
+      //防止返回时checkbox状态与群主管理内容显示不一致
+      var $checkbox = $(".switch-checkbox");
+      triggerManage($checkbox);
     }
     init();
     /**
@@ -56,16 +59,26 @@
     //群主管理开关
     $("#switchItems").on("change", function(e) {
       // console.info("change=----", $(e.currentTarget).is(":checked"));
-      let isChecked = $(e.currentTarget).is(":checked");
+      //   var isChecked = $(e.currentTarget).is(":checked");
+      //   if (isChecked) {
+      //     $(".manage-wraper").show();
+      //   } else {
+      //     $(".manage-wraper").hide();
+      //   }
+      var target = $(e.currentTarget);
+      triggerManage(target);
+    });
+    function triggerManage(target) {
+      var isChecked = target.is(":checked");
       if (isChecked) {
         $(".manage-wraper").show();
       } else {
         $(".manage-wraper").hide();
       }
-    });
+    }
 
     $(".main-item-list").on("click", ".main-item", function(e) {
-      let type = $(e.currentTarget).attr("data-type");
+      var type = $(e.currentTarget).attr("data-type");
       console.info("kkkk--", type);
       $(".create-room-popup").show();
     });
@@ -76,7 +89,7 @@
     });
 
     $(".main-user-center").on("click", ".uc-item", function(e) {
-      let type = $(e.currentTarget).attr("data-type");
+      var type = $(e.currentTarget).attr("data-type");
       switch (type) {
         case "sendCard":
           //发送房卡
@@ -92,6 +105,27 @@
           location.href = "./record.html";
           break;
       }
+    });
+
+    $(".manage-wraper").on("click", "i", function(e) {
+      var type = $(e.currentTarget).attr("data-type");
+      //   console.info("tpe----", type);
+      if (type === "invite") {
+        location.href = "./invite.html";
+        return;
+      }
+      if (type === "members") {
+        location.href = "./members.html";
+        return;
+      }
+      if (type === "record") {
+        $(".popup-record").show();
+        return;
+      }
+    });
+
+    $(".popup-record").on("click", ".btn-submit", function(e) {
+      location.href = "./record.html";
     });
   }
 
