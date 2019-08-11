@@ -61,12 +61,8 @@
   }
 }
 .main-notice {
-  width: pxToRem(539px);
-  height: pxToRem(47px);
-  border-top: 1px dashed #fff;
-  border-bottom: 1px dashed #fff;
-  background-color: rgba(0, 0, 0, 0.2);
-  line-height: pxToRem(47px);
+  @include background("../images/bg_notice.png", 540px, 48px);
+  line-height: pxToRem(48px);
   margin: auto;
   font-size: pxToRem(29px);
   color: #fff;
@@ -400,7 +396,7 @@
   height: pxToRem(356px) !important;
   background-size: pxToRem(590px) pxToRem(356px) !important;
   padding-top: pxToRem(37px) !important;
-  >p {
+  > p {
     margin-bottom: pxToRem(7px);
   }
   .pr-txt {
