@@ -9,6 +9,30 @@
   });
   /** bind event */
   function bindEvent() {
+    /**
+     * 页面初始化
+     */
+    function init() {
+      var pageType = Util.getParam("pageType");
+      if (pageType === "userCenter") {
+        // $(".main-item-list").hide();
+        // $(".main-user-center").show();
+        triggerPages(".main-user-center");
+      } else {
+        // $(".main-item-list").show();
+        // $(".main-user-center").hide();
+        triggerPages(".main-item-list");
+      }
+    }
+    init();
+    /**
+     * 切换首页及个人中心的显示
+     * @param {*} selector  当前显示页面的选择器
+     */
+    function triggerPages(selector) {
+      $(".main-list").removeClass("active");
+      $(selector).addClass("active");
+    }
     //防外挂
     $(".main-fwg").on("click", function() {
       console.info("fwg---");
@@ -17,14 +41,17 @@
     //打开个人中心
     $(".main-user").on("click", function() {
       // console.info("user----");
-      $(".main-item-list").hide();
-      $(".main-user-center").show();
+      //   $(".main-item-list").hide();
+      //   $(".main-user-center").show();
+      var _url = window.location.href;
+      window.location.href = _url + "&pageType=userCenter";
     });
     //   $(".main-user").trigger("click");
     //关闭个人中心
     $(".close-user").on("click", function() {
-      $(".main-user-center").hide();
-      $(".main-item-list").show();
+      //   $(".main-user-center").hide();
+      //   $(".main-item-list").show();
+      history.back();
     });
     //群主管理开关
     $("#switchItems").on("change", function(e) {
