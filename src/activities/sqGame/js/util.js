@@ -3,6 +3,9 @@
 (function(global) {
     var openAPI = "http://119.23.201.149:8081"; // dev
 
+    var TOKEN = 'TOKEN';
+    var BASE_INFO = 'BASE_INFO';
+
     /**
      * @func
      * @desc getCookie - 获取cookie
@@ -53,8 +56,27 @@
             }
         }    
     }
-
     
+    /**
+     * @func
+     * @desc setSession - 保存到session
+     * @param {string} key - 对应的key，必填
+     * @param {string} value - 对应value
+     */
+    function setSession(key,value){
+       window.sessionStorage[key] = value  ? JSON.stringify(value)  : ''; 
+    }
+
+    /**
+     * @func
+     * @desc getSession - 保存到session
+     * @param {string} key - 对应的key，必填
+     */
+    function getSession(key,value){
+        var _value = window.sessionStorage[key];
+        return  _value ?  JSON.parse(_value) : '';
+     }
+
     /**
      * @func
      * @desc toast - 冒泡提示
@@ -120,6 +142,7 @@
                 if(loader) {
                     showLoader();
                 }
+                xhr.setRequestHeader('token', window.sessionStorage[TOKEN])
                 config.beforeSend && config.beforeSend(xhr, settings);
 
             },
@@ -193,10 +216,14 @@ function popup(options) {
 
     
     var Util = {
+        token: TOKEN,
+        baseInfo: BASE_INFO,
         openAPI: openAPI,
         getCookie: getCookie,
         getParam: getParam,
         setParam: setParam,
+        setSession: setSession,
+        getSession: getSession,
         toast: toast,
         showLoader: showLoader,
         hideLoader: hideLoader,
