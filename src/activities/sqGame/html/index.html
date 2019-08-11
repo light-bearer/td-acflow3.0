@@ -32,7 +32,7 @@
             class="main-avator"
             style="background-image: url('../images/bg_avator.png')"
           ></i>
-          <div class="header-content">
+          <div class="header-content" id="base_info">
             <!-- 默认为女性-female  男性为male-->
             <p class="header-title male">aabbcc</p>
             <p class="header-id">ID: 12222222</p>
@@ -43,7 +43,7 @@
         </header>
         <div class="main-notice">
           <p class="animate">
-            <i class="icon-laba"></i><span>这里是公告。。。。</span>
+            <i class="icon-laba"></i><span id="sign">这里是公告。。。。</span>
           </p>
         </div>
         <ul class="main-list main-item-list">
@@ -187,7 +187,7 @@
         <div class="sc-content popup-content content-bg ">
           <p>
             <span class="sc-txt1">您的房卡:</span
-            ><span class="sc-txt3 num-width">0</span
+            ><span class="sc-txt3 num-width" id="pop_send_room_count">0</span
             ><span class="sc-txt2">张</span>
           </p>
           <p class="sc-txt-wrapper">
@@ -200,9 +200,10 @@
               type="tel"
               class="s-input u-p-input needsclick"
               pattern="[0-9]"
+              id="input_roomcard"
             /><span class="sc-txt2">张</span>
           </p>
-          <div class="btn-make-gift"></div>
+          <div class="btn-make-gift" id="btn_make_gift"></div>
         </div>
       </div>
 
