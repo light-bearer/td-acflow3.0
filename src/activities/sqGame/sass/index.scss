@@ -428,7 +428,80 @@
     margin-top: pxToRem(17px);
   }
 }
-
+//防外挂
+.info-content {
+  @include background("../images/fwg/info_bg.png", 672px, 433px);
+  padding: pxToRem(56px) pxToRem(20px) 0 pxToRem(30px);
+  top: 40% !important;
+  .close-popup-info {
+    right: 0;
+    top: pxToRem(60px);
+  }
+  .icon-info-txt {
+    @include background("../images/fwg/info_txt.png", 217px, 61px);
+    margin: 0 auto pxToRem(50px) auto;
+  }
+  @at-root.info-det-wrapper {
+    width: 100%;
+    padding-bottom: pxToRem(6px);
+    background-image: url("../images/fwg/info_border.png");
+    background-size: pxToRem(436px) pxToRem(3px);
+    background-repeat: no-repeat;
+    background-position: bottom;
+    display: flex;
+    .info-avator-wrapper {
+      width: pxToRem(120px);
+      height: pxToRem(120px);
+      margin-right: pxToRem(20px);
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .info-det {
+      flex: 1;
+      font-size: pxToRem(29px);
+      color: #fff;
+      .info-first-row {
+        padding: pxToRem(10px) 0 pxToRem(18px) 0;
+      }
+      > p {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .progress-bg {
+        @include inline-background(
+          "../images/fwg/progress_bg.png",
+          421px,
+          28px
+        );
+      }
+      .info-progress {
+        background-image: url("../images/fwg/icon_progress.png");
+        background-repeat: no-repeat;
+        background-position: left;
+        height: 100%;
+        display: inline-block;
+        background-size: 100% 100%;
+      }
+    }
+  }
+  .sign-wrapper {
+    margin: pxToRem(25px) 0 pxToRem(20px) 0;
+    font-size: pxToRem(40px);
+    color: #fff;
+    .sign-txt {
+      color: #F1B953;
+      font-size: pxToRem(45px);
+    }
+  }
+  .info-remark {
+    font-size: pxToRem(30px);
+    color: #fff;
+    text-align: center;
+  }
+}
 @keyframes wordsLoop {
   0% {
     transform: translateX(100%);
@@ -478,5 +551,56 @@
       margin-top: pxToRem(26px);
       color: #d55e24;
     }
+  }
+}
+.btn-join {
+  @include background("../images/invite/icon_join.png", 178px, 262px);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+.main-content[data-state="1"] {
+  .btn-join {
+    display: none;
+  }
+  .i-success {
+    display: none;
+  }
+}
+.main-content[data-state="2"] {
+  .masker {
+    background: #000;
+  }
+  .btn-join {
+    &.active {
+      z-index: 100000;
+    }
+  }
+  .i-success {
+    display: none;
+  }
+}
+.main-content[data-state="3"] {
+  .masker {
+    background: #000;
+  }
+  .btn-join {
+    &.active {
+      z-index: 99999;
+    }
+  }
+  .invite-bg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .invite-send-wrapper {
+    display: none;
+  }
+  .i-success {
+    font-size: pxToRem(40px);
+    color: #7d7974;
   }
 }

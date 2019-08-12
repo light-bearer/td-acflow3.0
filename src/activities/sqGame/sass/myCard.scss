@@ -65,8 +65,22 @@
     }
   }
 }
+.card-list {
+  display: inline-block;
+}
+.list-wrapper {
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  overflow: none;
+  font-size: 0;
+  // display: flex;
+}
 .mc-list {
   width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  
   @at-root.mc-item {
     @include background("../images/mycard/bg_item.png", 750px, 150px);
     padding: 0 pxToRem(20px);

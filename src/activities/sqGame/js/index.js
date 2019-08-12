@@ -39,16 +39,30 @@
     }
     //防外挂
     $(".main-fwg").on("click", function() {
-      console.info("fwg---");
+      showUserInfo();
     });
+    function showUserInfo() {
+      var info = Util.getSession([Util.baseInfo]);
+      //   console.info(info)
+      if (!info) return;
+      var $fwgInfo = $("#fwgInfo");
+      $fwgInfo.find("#fwgAvator").src = info.img;
+      $fwgInfo.find("#fwgName").html(info.nickName);
+      $fwgInfo.find("#fwgIdfwgId").html("ID:" + info.memberNumber);
+      $fwgInfo.find("#fwgLevel").html(info.level + "级");
+      $fwgInfo.find(".sign-txt").html(info.sign);
+      $(".popup-info").show();
+    }
 
     //打开个人中心
     $(".main-user").on("click", function() {
       // console.info("user----");
       //   $(".main-item-list").hide();
       //   $(".main-user-center").show();
-      var _url = window.location.href;
-      window.location.href = _url + "&pageType=userCenter";
+      if (!Util.getParam("pageType")) {
+        var _url = window.location.href;
+        window.location.href = _url + "&pageType=userCenter";
+      }
     });
     //   $(".main-user").trigger("click");
     //关闭个人中心
@@ -77,14 +91,14 @@
         $(".manage-wraper").hide();
       }
     }
-
+    //创建房间
     $(".main-item-list").on("click", ".main-item", function(e) {
       var type = $(e.currentTarget).attr("data-type");
       console.info("kkkk--", type);
       $(".create-room-popup").show();
     });
-
-    $(".masker ,.close-popup ,.close-popup-record").on("click", function() {
+    //关闭弹窗
+    $(".masker ,.icon-close").on("click", function() {
       // $(".create-room-popup").hide();
       $(".popup-wrapper").hide();
     });
@@ -98,6 +112,10 @@
           $(".popup-send")
             .find("#pop_send_room_count")
             .html(baseInfo.roomCount);
+          //   $(".popup-send")
+          //     .find("#input_roomcard")
+          //     .attr("max", +baseInfo.roomCount);
+
           $(".popup-send").show();
           break;
         case "myCard":
