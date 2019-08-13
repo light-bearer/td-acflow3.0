@@ -39,10 +39,58 @@
     }
     //防外挂
     $(".main-fwg").on("click", function() {
-      showUserInfo();
+      var baseInfo = Util.getSession([Util.baseInfo]);
+      if (!baseInfo.sign) {
+        $(".popup-edit-sign").show();
+      } else {
+        showUserInfo(baseInfo);
+      }
     });
-    function showUserInfo() {
-      var info = Util.getSession([Util.baseInfo]);
+    // 修改签名按钮事件
+    $(".es-btn").on("click", function() {
+      var type = $(this).attr("data-type");
+      var signValue = $("#signInput").val();
+
+      if (type === "show") {
+        if (!signValue) return;
+        $(".sign-sumbit-wrapper").show();
+        return;
+      }
+      if (type === "cancle") {
+        $(".popup-edit-sign").hide();
+        $("#signInput").val("");
+        $(".sign-sumbit-wrapper").hide();
+        return;
+      }
+      if (type === "submit") {
+        updateSign(signValue);
+      }
+    });
+    function updateSign(val) {
+      Util.Ajax({
+        url: Util.openAPI + "/app/newUser/updateSign",
+        type: "POST",
+        data: {
+          sign: val
+        },
+        dataType: "json",
+        cbOk: function(data, textStatus, jqXHR) {
+          console.log(data);
+          if (data.code === 0) {
+            // window.sessionStorage['TOKEN'] = data.data.token
+            Util.setSession([Util.token], 1234);
+          } else {
+            Util.toast("修改签名失败，请重新尝试");
+          }
+        },
+        cbErr: function(e, xhr, type) {
+          Util.toast("修改签名失败，请重新尝试");
+        }
+      });
+    }
+
+    function showUserInfo(info) {
+      // var info = Util.getSession([Util.baseInfo]);
       //   console.info(info)
       if (!info) return;
       var $fwgInfo = $("#fwgInfo");
@@ -215,6 +263,7 @@
             $("#sign").html(_data.sign);
           } else {
             // TODO 弹窗提示输入签名
+            $(".popup-edit-sign").show();
           }
         } else {
           Util.toast("获取个人信息失败，请重新登录");

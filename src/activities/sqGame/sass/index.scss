@@ -12,29 +12,34 @@
     border: none;
     background-size: 100%;
   }
+
   .header-content {
     width: pxToRem(440px);
     height: 100%;
     color: #fff;
     font-size: pxToRem(30px);
     margin-left: pxToRem(18px);
-    & > p {
+
+    &>p {
       width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
       //   padding-left: pxToRem(20px);
     }
+
     .header-title {
       background-position: 0 0;
       background-image: url("../images/icon_female.png");
       background-size: pxToRem(21px) pxToRem(27px);
       background-repeat: no-repeat;
       padding-left: pxToRem(44px);
+
       &.male {
         background-image: url("../images/icon_male.png");
         background-size: pxToRem(27px) pxToRem(27px);
       }
     }
+
     .header-num {
       @include background("../images/btn_grey.png", 141px, 39px);
       text-align: center;
@@ -42,6 +47,7 @@
       margin-top: pxToRem(7px);
       position: relative;
       overflow: visible;
+
       &:before {
         content: "";
         @include background("../images/icon_fangka.png", 57px, 48px);
@@ -52,14 +58,17 @@
       }
     }
   }
+
   .main-fwg {
     @include background("../images/icon_fwg.png", 79px, 98px);
     margin-right: pxToRem(12px);
   }
+
   .main-user {
     @include background("../images/icon_user.png", 102px, 99px);
   }
 }
+
 .main-notice {
   @include background("../images/bg_notice.png", 540px, 48px);
   line-height: pxToRem(48px);
@@ -68,58 +77,73 @@
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
+
   .animate {
     animation: 15s wordsLoop linear infinite normal;
   }
+
   .icon-laba {
     @include inline-background("../images/icon_laba.png", 28px, 25px);
     margin-right: pxToRem(5px);
   }
 }
+
 .main-list {
   width: 100%;
   margin-top: pxToRem(58px);
   display: none;
+
   &.active {
     display: block;
   }
 }
 
 .main-item-list {
+
   // width: 100%;
   // margin-top: pxToRem(58px);
-  > li {
+  >li {
     margin: 0 auto pxToRem(12px) auto;
   }
+
   .item-ersai {
     @include background("../images/item_ersai.png", 667px, 277px);
   }
+
   .item-sansai {
     @include background("../images/item_sansai.png", 667px, 279px);
   }
+
   .item-anbao {
     @include background("../images/item_anbao.png", 667px, 277px);
   }
+
   .item-shisanzhang {
     @include background("../images/item_shishanzhang.png", 667px, 276px);
   }
+
   .item-tongjiu {
     @include background("../images/item_tongjiu.png", 667px, 280px);
   }
+
   .item-julebu {
     @include background("../images/item_jlb.png", 666px, 180px);
   }
+
   .item-21 {
     @include background("../images/item_21.png", 667px, 276px);
   }
 }
+
 .main-user-center {
   position: relative;
   display: none;
+
   .icon-close {
     top: 0;
     right: 0;
   }
+
   .uc-item {
     width: pxToRem(738px);
     min-height: pxToRem(186px);
@@ -128,16 +152,18 @@
     background-position: top;
     display: block;
     margin: auto;
+
     @at-root .switch-wrapper {
       position: absolute;
       right: pxToRem(106px);
       top: pxToRem(55px);
+
       .switch-checkbox {
         display: none;
       }
     }
 
-    input[type="checkbox"] + label:before {
+    input[type="checkbox"]+label:before {
       content: "";
       // margin-right: pxToRem(10px);
       width: pxToRem(135px);
@@ -149,50 +175,52 @@
       display: inline-block;
     }
 
-    input[type="checkbox"]:checked + label:before {
+    input[type="checkbox"]:checked+label:before {
       background-image: url("../images/user/switch_open.png");
       background-size: pxToRem(135px) pxToRem(69px);
     }
   }
+
   .item-send {
     background-image: url("../images/user/item_send_card.png");
   }
+
   .item-my {
     background-image: url("../images/user/item_my_card.png");
   }
+
   .item-record {
     background-image: url("../images/user/item_record.png");
   }
+
   .item-qunzhu {
     background-image: url("../images/user/item_qunzhu.png");
     position: relative;
     padding-top: pxToRem(186px);
+
     @at-root .manage-wraper {
       width: pxToRem(738px);
       display: none;
       text-align: center;
+
       .icon-invite {
-        @include inline-background(
-          "../images/user/icon_invite.png",
+        @include inline-background("../images/user/icon_invite.png",
           126px,
-          114px
-        );
+          114px);
         margin-right: pxToRem(77px);
       }
+
       .icon-members {
-        @include inline-background(
-          "../images/user/icon_members.png",
+        @include inline-background("../images/user/icon_members.png",
           94px,
-          114px
-        );
+          114px);
         margin-right: pxToRem(62px);
       }
+
       .icon-record {
-        @include inline-background(
-          "../images/user/icon_check_record.png",
+        @include inline-background("../images/user/icon_check_record.png",
           126px,
-          114px
-        );
+          114px);
       }
     }
   }
@@ -212,6 +240,7 @@
   // z-index: 99999;
   padding-top: pxToRem(60px);
   text-align: center;
+
   .icon-close {
     // @include background("../images/createroom/btn_close.png", 84px, 84px);
     // position: absolute;
@@ -219,40 +248,42 @@
     right: 0;
     transform: translate(30%, -30%);
   }
+
   .btns-wapper {
     text-align: center;
     font-size: 0;
+
     .btn-zyqzh {
-      @include inline-background(
-        "../images/createroom/btn_zyqzh.png",
+      @include inline-background("../images/createroom/btn_zyqzh.png",
         195px,
-        78px
-      );
+        78px);
+
       &:active {
         background-image: url("../images/createroom/btn_zyqzh2.png");
       }
     }
+
     .btn-gdzhj {
-      @include inline-background(
-        "../images/createroom/btn_gdzhj.png",
+      @include inline-background("../images/createroom/btn_gdzhj.png",
         192px,
-        78px
-      );
+        78px);
+
       &:active {
         background-image: url("../images/createroom/btn_gdzhj2.png");
       }
     }
+
     .btn-kfdzh {
-      @include inline-background(
-        "../images/createroom/btn_kfdzh.png",
+      @include inline-background("../images/createroom/btn_kfdzh.png",
         195px,
-        78px
-      );
+        78px);
+
       &:active {
         background-image: url("../images/createroom/btn_kfdzh2.png");
       }
     }
   }
+
   .cr-bottom-txt {
     font-family: "STYuanti-SC-Bold";
     font-weight: bold;
@@ -261,11 +292,13 @@
     display: block;
     margin: pxToRem(20px) auto;
   }
+
   .btn-cr {
     @include background("../images/createroom/btn_create.png", 280px, 85px);
     margin: auto;
   }
 }
+
 .cr-content {
   width: pxToRem(656px);
   height: pxToRem(584px);
@@ -273,20 +306,24 @@
   margin-top: pxToRem(26px);
   overflow-y: auto;
   padding-bottom: pxToRem(20px);
+
   .cr-items {
     width: 100%;
     color: #fff;
     font-size: pxToRem(30px);
     // line-height: pxToRem(60px);
     display: flex;
-    & > div {
+
+    &>div {
       display: inline-block;
       line-height: pxToRem(48px);
     }
+
     .item-title {
       width: pxToRem(140px);
       text-align: center;
     }
+
     .checkbox-list {
       word-break: break-all;
       word-wrap: break-word;
@@ -294,13 +331,16 @@
       flex: 1;
     }
   }
+
   input[type="checkbox"] {
     display: none;
   }
+
   label {
     margin-right: pxToRem(10px);
   }
-  input[type="checkbox"] + label:before {
+
+  input[type="checkbox"]+label:before {
     content: "";
     vertical-align: middle;
     margin-right: pxToRem(10px);
@@ -319,7 +359,7 @@
     // );
   }
 
-  input[type="checkbox"]:checked + label:before {
+  input[type="checkbox"]:checked+label:before {
     background-image: url("../images/createroom/icon_checkbox_checked.png");
     background-repeat: no-repeat;
     background-size: pxToRem(45px) pxToRem(48px);
@@ -335,6 +375,7 @@
   .masker {
     background-color: rgba(0, 0, 0, 0) !important;
   }
+
   .sc-content {
     // @include background("../images/popup_bg.png", 603px, 606px);
     padding-top: pxToRem(86px);
@@ -342,38 +383,47 @@
     color: #c3c8fc;
     text-align: center;
     font-size: 0;
-    p > * {
+
+    p>* {
       vertical-align: middle;
     }
+
     .sc-txt1 {
       font-size: pxToRem(56px);
     }
+
     .sc-txt2 {
       font-size: pxToRem(62px);
     }
+
     .sc-txt3 {
       font-size: pxToRem(64px);
       color: #fff63f;
     }
+
     .sc-txt4 {
       font-size: pxToRem(130px);
       color: #fff63f;
     }
+
     .num-width {
       width: pxToRem(150px);
       display: inline-block;
     }
+
     .num-width2 {
       width: pxToRem(360px);
       display: inline-block;
       text-align: right;
       margin-right: pxToRem(40px);
     }
+
     .sc-txt-wrapper {
       // padding-left: pxToRem(260px);
       margin: pxToRem(70px) 0 pxToRem(20px) 0;
       display: block;
     }
+
     .s-input {
       // @include inline-background("../images/input_bg.png", 300px, 96px);
       // border: 0;
@@ -382,11 +432,13 @@
       // text-align: center;
     }
   }
+
   .btn-make-gift {
     @include background("../images/btn_make.png", 283px, 88px);
     margin: pxToRem(20px) auto 0 auto;
   }
 }
+
 .u-p-input {
   @include inline-background("../images/input_bg.png", 300px, 96px);
   border: 0;
@@ -394,15 +446,18 @@
   // background-size: 100%;
   // border-radius: pxToRem(5px);
 }
+
 .r-content {
   // text-align: center;
   width: pxToRem(590px) !important;
   height: pxToRem(356px) !important;
   background-size: pxToRem(590px) pxToRem(356px) !important;
   padding-top: pxToRem(37px) !important;
-  > p {
+
+  >p {
     margin-bottom: pxToRem(7px);
   }
+
   .pr-txt {
     font-size: pxToRem(39px);
     color: #fff;
@@ -410,6 +465,7 @@
     width: pxToRem(170px);
     text-align: center;
   }
+
   .r-input {
     width: pxToRem(244px);
     height: pxToRem(62px);
@@ -417,30 +473,36 @@
     color: #737b76;
     background-size: pxToRem(244px) pxToRem(62px);
   }
+
   .close-popup-record {
     top: 0;
     right: 0;
     transform: translate(30%, -20%);
   }
+
   .btn-submit {
     @include background("../images/user/btn_submit.png", 232px, 72px);
     margin-left: pxToRem(180px);
     margin-top: pxToRem(17px);
   }
 }
+
 //防外挂
 .info-content {
   @include background("../images/fwg/info_bg.png", 672px, 433px);
   padding: pxToRem(56px) pxToRem(20px) 0 pxToRem(30px);
   top: 40% !important;
+
   .close-popup-info {
     right: 0;
     top: pxToRem(60px);
   }
+
   .icon-info-txt {
     @include background("../images/fwg/info_txt.png", 217px, 61px);
     margin: 0 auto pxToRem(50px) auto;
   }
+
   @at-root.info-det-wrapper {
     width: 100%;
     padding-bottom: pxToRem(6px);
@@ -449,34 +511,39 @@
     background-repeat: no-repeat;
     background-position: bottom;
     display: flex;
+
     .info-avator-wrapper {
       width: pxToRem(120px);
       height: pxToRem(120px);
       margin-right: pxToRem(20px);
+
       img {
         width: 100%;
         height: 100%;
       }
     }
+
     .info-det {
       flex: 1;
       font-size: pxToRem(29px);
       color: #fff;
+
       .info-first-row {
         padding: pxToRem(10px) 0 pxToRem(18px) 0;
       }
-      > p {
+
+      >p {
         display: flex;
         justify-content: space-between;
         align-items: center;
       }
+
       .progress-bg {
-        @include inline-background(
-          "../images/fwg/progress_bg.png",
+        @include inline-background("../images/fwg/progress_bg.png",
           421px,
-          28px
-        );
+          28px);
       }
+
       .info-progress {
         background-image: url("../images/fwg/icon_progress.png");
         background-repeat: no-repeat;
@@ -487,26 +554,96 @@
       }
     }
   }
+
   .sign-wrapper {
     margin: pxToRem(25px) 0 pxToRem(20px) 0;
     font-size: pxToRem(40px);
     color: #fff;
+
     .sign-txt {
       color: #F1B953;
       font-size: pxToRem(45px);
     }
   }
+
   .info-remark {
     font-size: pxToRem(30px);
     color: #fff;
     text-align: center;
   }
 }
+
+.edit-sign-content {
+  padding: pxToRem(40px);
+  width: pxToRem(639px);
+  min-height: pxToRem(370px);
+  background-color: rgba(77, 71, 103, .9);
+  background-image: url('../images/fwg/sign_bg_top.png'), url('../images/fwg/sign_bg_bottom.png');
+  background-size: pxToRem(639px) pxToRem(99px), pxToRem(639px) pxToRem(76px);
+  background-repeat: no-repeat, no-repeat;
+  background-position: top, bottom;
+  border-radius: pxToRem(30px);
+  top: 40% !important;
+  font-size: pxToRem(26px);
+  color: #fff;
+
+  .es-txt {
+    margin-top: pxToRem(20px);
+  }
+
+  .es-txt2 {
+    font-size: pxToRem(40px);
+    color: #F7C356;
+    margin: pxToRem(70px) 0 pxToRem(60px) 0;
+  }
+
+  .es-input {
+    @include background('../images/fwg/sign_input.png', 580px, 63px);
+    background-size: 100% 100%;
+    padding: pxToRem(14px);
+    line-height: pxToRem(63px);
+    font-size: pxToRem(35px);
+    color: #D4CDCD;
+  }
+
+  .es-btn-submit {
+    @include background('../images/fwg/sign_btn_submit.png', 274px, 87px);
+  }
+
+  .es-btn-cancle {
+    @include background('../images/fwg/sign_btn_cancle.png', 265px, 88px);
+  }
+
+  .es-btns {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: pxToRem(100px);
+
+    >div:nth-child(2) {
+      margin-left: pxToRem(24px);
+    }
+  }
+
+  .es-btn-input {
+    margin: pxToRem(20px) auto 0 auto;
+  }
+}
+.sign-sumbit-wrapper {
+  display: none;
+  &.active {
+    display: block;
+  }
+}
+
+
 @keyframes wordsLoop {
   0% {
     transform: translateX(100%);
     -webkit-transform: translateX(100%);
   }
+
   100% {
     transform: translateX(-100%);
     -webkit-transform: translateX(-100%);
@@ -518,6 +655,7 @@
     transform: translateX(100%);
     -webkit-transform: translateX(100%);
   }
+
   100% {
     transform: translateX(-100%);
     -webkit-transform: translateX(-100%);
@@ -528,31 +666,37 @@
 .invite-bg {
   @include background("../images/invite/letter.png", 519px, 630px);
   text-align: center;
+
   .icon-close {
     top: pxToRem(20px);
     right: 0;
     transform: translate(90%, 0);
   }
+
   .invite-send-wrapper {
     width: 100%;
     height: 100%;
     padding-top: pxToRem(85px);
     color: #7d7974;
     font-size: pxToRem(36px);
+
     .inivatee-avator {
       width: pxToRem(145px);
       height: pxToRem(141px);
     }
+
     .s-first-row {
       margin: pxToRem(17px) 0 pxToRem(50px) 0;
       font-size: pxToRem(40px);
     }
+
     .s-last-row {
       margin-top: pxToRem(26px);
       color: #d55e24;
     }
   }
 }
+
 .btn-join {
   @include background("../images/invite/icon_join.png", 178px, 262px);
   position: absolute;
@@ -560,36 +704,44 @@
   left: 50%;
   transform: translate(-50%, 50%);
 }
+
 .main-content[data-state="1"] {
   .btn-join {
     display: none;
   }
+
   .i-success {
     display: none;
   }
 }
+
 .main-content[data-state="2"] {
   .masker {
     background: #000;
   }
+
   .btn-join {
     &.active {
       z-index: 100000;
     }
   }
+
   .i-success {
     display: none;
   }
 }
+
 .main-content[data-state="3"] {
   .masker {
     background: #000;
   }
+
   .btn-join {
     &.active {
       z-index: 99999;
     }
   }
+
   .invite-bg {
     display: flex;
     align-items: center;
@@ -599,6 +751,7 @@
   .invite-send-wrapper {
     display: none;
   }
+
   .i-success {
     font-size: pxToRem(40px);
     color: #7d7974;
