@@ -1,30 +1,54 @@
 (function() {
   FastClick.attach(document.body);
-  var limit = 10,
-    sendCurPage = 1,
-    receiveCurPage = 1,
-    hasSendList = false,
-    hasReceiveList = false;
+  // var limit = 10,
+  //   sendCurPage = 1,
+  //   receiveCurPage = 1,
+  //   hasSendList = false,
+  //   hasReceiveList = false;
+  var sendScroll = null,
+    receiveScroll = null;
   $("#back").on("click", function() {
     history.back();
   });
 
   function init() {
-    getSendList();
+    // getSendList();
+    initList();
   }
   init();
 
-  function getSendList() {
+  function initList() {
+    var sendConfig = $.extend(
+      true,
+      {
+        up: { callback: getSendList }
+      },
+      Util.baseListConfig
+    );
+    var receiveConfig = $.extend(
+      true,
+      {
+        up: {
+          callback: getReceiveList
+        }
+      },
+      Util.baseListConfig
+    );
+    sendScroll = new MeScroll("sendScroll", sendConfig);
+    receiveScroll = new MeScroll("receiveScroll", receiveConfig);
+  }
+
+  function getSendList(page) {
     Util.Ajax({
       url: Util.openAPI + "/app/roomCard/getSendList",
       type: "get",
       data: {
-        limit: limit,
-        page: sendCurPage
+        limit: page.size,
+        page: page.num
       },
       dataType: "json",
       cbOk: function(data, textStatus, jqXHR) {
-        console.log(data);
+        // console.log(data);
         if (data.code === 0) {
           var sendList = data.data.rows;
           var temp = "";
@@ -48,29 +72,34 @@
               item.roomCount +
               "</span>房卡</p></div></li>";
           });
-          if (sendCurPage === 1) {
-            hasSendList = sendList && sendList.length > 0;
-            $('.send-list').html(temp);
+          sendScroll.endBySize(sendList.length, data.data.total); //必传参数(当前页的数据个数, 总数据量)
+
+          if (page.num === 1) {
+            // hasSendList = sendList && sendList.length > 0;
+            $(".send-list").html(temp);
           } else {
-            $('.send-list').append(temp);
+            $(".send-list").append(temp);
           }
         } else {
           Util.toast("获取发送房卡列表失败，请稍后重试");
+          sendScroll.endErr();
         }
       },
       cbErr: function(e, xhr, type) {
         Util.toast("获取发送房卡列表失败，请稍后重试");
+        //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+        sendScroll.endErr();
       }
     });
   }
 
-  function getReceiveList() {
+  function getReceiveList(page) {
     Util.Ajax({
       url: Util.openAPI + "/app/roomCard/getReceiveList",
       type: "get",
       data: {
-        limit: limit,
-        page: sendCurPage
+        limit: page.size,
+        page: page.num
       },
       dataType: "json",
       cbOk: function(data, textStatus, jqXHR) {
@@ -95,18 +124,22 @@
               item.roomCount +
               "</span>房卡</p></div></li>";
           });
-          if (receiveCurPage === 1) {
-            hasReceiveList = receiveList && receiveList.length > 0;
-            $('.receive-list').html(temp);
+          receiveScroll.endBySize(receiveList.length, data.data.total); //必传参数(当前页的数据个数, 总数据量)
+
+          if (page.num === 1) {
+            // hasReceiveList = receiveList && receiveList.length > 0;
+            $(".receive-list").html(temp);
           } else {
-            $('.receive-list').append(temp);
+            $(".receive-list").append(temp);
           }
         } else {
           Util.toast("获取发送房卡列表失败，请稍后重试");
+          receiveScroll.endErr();
         }
       },
       cbErr: function(e, xhr, type) {
         Util.toast("获取发送房卡列表失败，请稍后重试");
+        receiveScroll.endErr();
       }
     });
   }
@@ -121,12 +154,12 @@
     var index = $target.index();
     var transDistance = index * -100;
     $(".list-wrapper").css("transform", "translate(" + transDistance + "%, 0)");
-    if (index === 0 && !hasSendList) {
-      getSendList();
-      return;
-    }
-    if (index === 1 && !hasReceiveList) {
-      getReceiveList();
-    }
+    // if (index === 0 && !hasSendList) {
+    //   getSendList();
+    //   return;
+    // }
+    // if (index === 1 && !hasReceiveList) {
+    //   getReceiveList();
+    // }
   });
 })();

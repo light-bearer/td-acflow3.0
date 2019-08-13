@@ -15,6 +15,10 @@
     <!-- build:css ../css/common.css -->
     <link rel="stylesheet" href="../css/common.css" />
     <!-- endbuild -->
+    <!-- build:css ../css/mescroll.min.css -->
+    <link rel="stylesheet" href="../../../lib/mescroll/mescroll.min.css" />
+    <!-- endbuild -->
+
     <!-- build:js ../js/lib/adapt.js -->
     <script
       src="../../../lib/adapt.js"
@@ -35,20 +39,27 @@
         <a class="btn-receive"></a>
       </nav>
       <div class="list-wrapper">
-        <ul class="mc-list send-list">
-          <!-- <li class="mc-item">
-            <div class="mc-avator-wrapper">
-              <img src="../images/bg_avator.png" />
-            </div>
-            <div class="mc-item-det">
-              <p class="mc-item-name">ohayo</p>
-              <p class="mc-item-time">2019年5月27日 12:54:31</p>
-              <p class="mc-item-num">发出了<span class="num">10</span>房卡</p>
-            </div>
-          </li> -->
-        </ul>
-        <ul class="mc-list receive-list">
-          <!-- <li class="mc-item">
+        <div id="sendScroll" class="mescroll" style="width: 100%;height: 100%;">
+          <ul class="mc-list send-list ">
+            <!-- <li class="mc-item">
+                  <div class="mc-avator-wrapper">
+                    <img src="../images/bg_avator.png" />
+                  </div>
+                  <div class="mc-item-det">
+                    <p class="mc-item-name">ohayo</p>
+                    <p class="mc-item-time">2019年5月27日 12:54:31</p>
+                    <p class="mc-item-num">发出了<span class="num">10</span>房卡</p>
+                  </div>
+                </li> -->
+          </ul>
+        </div>
+        <div
+          id="receiveScroll"
+          class="mescroll"
+          style="width: 100%;height: 100%;"
+        >
+          <ul class="mc-list receive-list">
+            <!-- <li class="mc-item">
             <div class="mc-avator-wrapper">
               <img src="../images/bg_avator.png" />
             </div>
@@ -58,7 +69,8 @@
               <p class="mc-item-num">收到了<span class="num">10</span>房卡</p>
             </div>
           </li> -->
-        </ul>
+          </ul>
+        </div>
       </div>
     </div>
   </body>
@@ -69,6 +81,14 @@
     charset="utf-8"
   ></script>
   <!-- endbuild -->
+  <!-- build:js ../js/lib/mescroll/mescroll.min.js-->
+  <script
+    src="../../../lib/mescroll/mescroll.min.js"
+    type="text/javascript"
+    charset="utf-8"
+  ></script>
+  <!-- endbuild -->
+
   <script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
   <script src="../js/myCard.js" type="text/javascript" charset="utf-8"></script>
 </html>
