@@ -39,6 +39,7 @@
   }
 
   function getSendList(page) {
+    console.info("senlist---", page);
     Util.Ajax({
       url: Util.openAPI + "/app/roomCard/getSendList",
       type: "get",

@@ -15,6 +15,9 @@
     <!-- build:css ../css/common.css -->
     <link rel="stylesheet" href="../css/common.css" />
     <!-- endbuild -->
+    <!-- build:css ../css/mescroll.min.css -->
+    <link rel="stylesheet" href="../../../lib/mescroll/mescroll.min.css" />
+    <!-- endbuild -->
     <!-- build:js ../js/lib/adapt.js -->
     <script
       src="../../../lib/adapt.js"
@@ -34,7 +37,36 @@
         <a class="btn-join active"></a>
         <a class="btn-create"></a>
       </nav>
-      <ul class="mc-list">
+      <div class="list-wrapper">
+        <div id="joinScroll" class="mescroll">
+          <ul class="mc-list join-records ">
+            <!-- <li class="mc-item">
+              <div class="mc-type-wrapper">
+                <img src="../images/record/icon_anbao.png" />
+              </div>
+              <div class="r-item-det">
+                <p>房间号：7879888</p>
+                <p>2019年6月8日 15:18:59</p>
+              </div>
+              <div class="r-item-right">
+                <span class="r-right-num">0</span>
+                <i class="icon-arrow"></i>
+              </div>
+            </li> -->
+            <!-- <li class="end-wrapper mc-item">
+              <p class="end-txt-wrapper">已经到底啦</p>
+            </li> -->
+          </ul>
+        </div>
+        <div id="createScroll" class="mescroll">
+          <ul class="mc-list create-records">
+            <li class="end-wrapper mc-item">
+              <p class="end-txt-wrapper">已经到底啦</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- <ul class="mc-list">
         <li class="mc-item">
           <div class="mc-type-wrapper">
             <img src="../images/record/icon_anbao.png" />
@@ -62,9 +94,9 @@
           </div>
         </li>
         <li class="end-wrapper mc-item">
-            <p class="end-txt-wrapper">已经到底啦</p>
+          <p class="end-txt-wrapper">已经到底啦</p>
         </li>
-      </ul>
+      </ul> -->
     </div>
   </body>
   <!-- build:js ../js/lib/fastclick-jquery.js-->
@@ -74,6 +106,13 @@
     charset="utf-8"
   ></script>
   <!-- endbuild -->
-  <!-- <script src="../js/util.js" type="text/javascript" charset="utf-8"></script> -->
+  <!-- build:js ../js/lib/mescroll/mescroll.min.js-->
+  <script
+    src="../../../lib/mescroll/mescroll.min.js"
+    type="text/javascript"
+    charset="utf-8"
+  ></script>
+  <!-- endbuild -->
+  <script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
   <script src="../js/record.js" type="text/javascript" charset="utf-8"></script>
 </html>

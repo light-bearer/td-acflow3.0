@@ -13,7 +13,7 @@
       empty: {
         icon: null, //图标,默认null
         tip: "暂无相关数据~", //提示
-        btntext: "ddd", //按钮,默认""
+        btntext: "", //按钮,默认""
         btnClick: null
       },
       clearEmptyId: null, //相当于同时设置了clearId和empty.warpId; 简化写法;默认null; 注意vue中不能配置此项

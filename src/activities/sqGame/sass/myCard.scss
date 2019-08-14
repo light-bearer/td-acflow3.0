@@ -1,15 +1,18 @@
 @charset "UTF-8";
 @import "variables";
 @import "../../../sass/func";
+
 .mc-content {
   background-image: url("../images/mycard/bg_mycard.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   padding-top: pxToRem(243px);
+
   .common-header {
     position: absolute;
     top: 0;
     left: 0;
+
     //   text-align: center;
     .icon-back {
       @include background("../images/mycard/icon_back.png", 78px, 78px);
@@ -17,18 +20,23 @@
       left: pxToRem(17px);
       top: pxToRem(20px);
     }
+
     .txt-mc {
       @include inline-background("../images/mycard/icon_txt.png", 198px, 52px);
     }
+
     .txt-record {
-      @include inline-background(
-        "../images/record/txt_record.png",
+      @include inline-background("../images/record/txt_record.png",
         201px,
-        54px
-      );
+        54px);
     }
   }
 }
+
+.rd-content {
+  padding-top: pxToRem(119px);
+}
+
 .mc-btn-wrapper {
   background-image: url("../images/mycard/bg_btns.png");
   width: 100%;
@@ -40,71 +48,99 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
   .btn-send {
     @include background("../images/mycard/btn_send.png", 360px, 78px);
+
     &.active {
       background-image: url("../images/mycard/btn_send_active.png");
     }
   }
+
   .btn-receive {
     @include background("../images/mycard/btn_receive.png", 360px, 78px);
+
     &.active {
       background-image: url("../images/mycard/btn_receive_active.png");
     }
   }
+
   .btn-join {
     @include background("../images/record/btn_join.png", 363px, 79px);
+
     &.active {
       background-image: url("../images/record/btn_join_active.png");
     }
   }
+
   .btn-create {
     @include background("../images/record/btn_create.png", 363px, 79px);
+
     &.active {
       background-image: url("../images/record/btn_create_active.png");
     }
   }
 }
+
 .card-list {
   display: inline-block;
 }
+
 .list-wrapper {
   width: 100%;
   height: 100%;
   white-space: nowrap;
   overflow: none;
   font-size: 0;
+
   // display: flex;
+  >div {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+  }
 }
+
+.item-bg {
+  @include background("../images/mycard/bg_item.png", 750px, 150px);
+
+}
+
 .mc-list {
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  
+
   @at-root.mc-item {
-    @include background("../images/mycard/bg_item.png", 750px, 150px);
+    // @include background("../images/mycard/bg_item.png", 750px, 150px);
+    @extend .item-bg;
     padding: 0 pxToRem(20px);
     display: flex;
     align-items: center;
+
     .mc-avator-wrapper {
       width: pxToRem(108px);
       height: pxToRem(108px);
     }
+
     img {
       width: 100%;
       height: 100%;
     }
+
     .mc-type-wrapper {
       width: pxToRem(116px);
       height: pxToRem(114px);
     }
+
     .mc-item-det {
       color: #6b4e71;
       display: flex;
       flex-direction: column;
       flex: 1;
       margin-left: pxToRem(20px);
-      > p {
+
+      >p {
         font-size: pxToRem(30px);
         flex: 1;
       }
@@ -112,28 +148,34 @@
       .mc-item-time {
         text-align: right;
       }
+
       .mc-item-num {
         font-size: pxToRem(20px);
+
         .num {
           color: yellow;
           margin-right: pxToRem(30px);
         }
       }
     }
+
     .r-item-det {
       color: #6b4e71;
       display: flex;
       flex-direction: column;
       flex: 1;
       margin-left: pxToRem(36px);
-      > p {
+
+      >p {
         font-size: pxToRem(28px);
         flex: 1;
       }
+
       p:last-child {
         margin-top: pxToRem(35px);
       }
     }
+
     .r-item-right {
       width: pxToRem(165px);
       display: flex;
@@ -141,14 +183,13 @@
       justify-content: flex-end;
 
       .icon-arrow {
-        @include inline-background(
-          "../images/record/icon_arrow.png",
+        @include inline-background("../images/record/icon_arrow.png",
           66px,
-          66px
-        );
+          66px);
       }
+
       .r-right-num {
-        color: #6b4e71;
+        // color: #6b4e71;
         font-family: "STYuanti-SC-Bold";
         font-weight: bold;
         font-size: pxToRem(66px);
@@ -157,8 +198,10 @@
       }
     }
   }
+
   .end-wrapper {
     justify-content: center;
+
     .end-txt-wrapper {
       @include background("../images/record/bg_bottom.png", 343px, 46px);
       font-size: pxToRem(28px);
@@ -175,6 +218,7 @@
   height: pxToRem(121px) !important;
   background-size: 100% 100% !important;
   padding-left: pxToRem(100px);
+
   .m-search-input {
     @include inline-background("../images/members/bg_input.png", 360px, 81px);
     background-size: 100% 100%;
@@ -187,13 +231,16 @@
     text-align: center;
     margin-right: pxToRem(56px);
   }
+
   .m-search-input::placeholder {
     color: #000;
   }
+
   .btn-search {
     @include inline-background("../images/members/btn_search.png", 174px, 73px);
   }
 }
+
 .members-top-wrapper {
   justify-content: flex-start !important;
 
@@ -203,27 +250,33 @@
     color: #e0d8f4;
   }
 }
+
 .member-txt {
   color: #4a3c91 !important;
 }
+
 .member-name {
   margin-bottom: pxToRem(40px);
 }
+
 .member-btn-wrapper {
   width: pxToRem(134px);
   position: relative;
   height: 100%;
+
   .btn-member {
     @include background("../images/members/btn_member.png", 106px, 45px);
     position: absolute;
     right: pxToRem(28px);
     bottom: pxToRem(16px);
     overflow: visible;
+
     &.active {
       .bg-bubble {
         display: block;
       }
     }
+
     @at-root.bg-bubble {
       @include background("../images/members/bg_selectors.png", 256px, 96px);
       display: none;
@@ -235,6 +288,7 @@
       padding: pxToRem(16px) pxToRem(16px) pxToRem(40px) pxToRem(16px);
       white-space: nowrap;
       font-size: 0;
+
       i[class^="btn-"] {
         width: pxToRem(99px);
         height: pxToRem(39px);
@@ -242,13 +296,104 @@
         background-size: 100% 100%;
         background-repeat: no-repeat;
       }
+
       .btn-reject {
         background-image: url("../images/members/btn_reject.png");
         margin-right: pxToRem(30px);
       }
+
       .btn-aggree {
         background-image: url("../images/members/btn_aggree.png");
       }
     }
   }
+}
+
+// 战绩详情
+.rd-room {
+  font-size: pxToRem(25px);
+  color: #fff;
+  padding: pxToRem(10px);
+
+  .rd-txt-middle {
+    margin: 0 pxToRem(10px) 0 pxToRem(20px);
+  }
+
+  .rd-txt-row {
+    margin-top: pxToRem(30px);
+    text-align: right;
+    padding-right: pxToRem(60px);
+  }
+
+  .rd-txt-yellow {
+    color: #FFED9B;
+  }
+}
+
+.rd-item {
+  // background-image: url('') !important;
+  min-height: pxToRem(120px);
+  height: auto !important;
+  background-position: top;
+  flex-direction: column !important;
+
+  .item-data-wapper {
+    @include background('../images/record/rd_item_bg.png', 750px, 120px);
+    background-size: 100% 100%;
+    padding: 0 pxToRem(25px) 0 pxToRem(17px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    // flex-direction: column;
+
+    >p {
+      flex: 1;
+    }
+
+    .rd-item-count {
+      font-size: pxToRem(30px);
+      color: #703D50;
+    }
+
+    .rd-item-result {
+      font-size: pxToRem(66px);
+
+      // text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+
+    }
+
+
+
+    .rd-icon-arrow {
+      @include inline-background('../images/record/rd_arrow.png', 93px, 93px);
+      margin-left: pxToRem(50px);
+    }
+  }
+
+  @at-root .item-data-details {
+    @include background('../images/record/rd_bg.png', 750px, 474px);
+
+    .detail-th {
+      width: 100%;
+      height: pxToRem(46px);
+      font-size: pxToRem(25px);
+      color: #fff;
+    }
+  }
+}
+
+.txt-lose {
+  color: #00D1DD;
+  -webkit-text-stroke: pxToRem(4px) #177559;
+  text-shadow: 0 0 pxToRem(5px) rgba(0, 0, 0, 0.49);
+}
+
+.txt-win {
+  color: #6B4E71;
+  -webkit-text-stroke: pxToRem(4px) #752C17;
+  text-shadow: 0 0 pxToRem(5px) rgba(0, 0, 0, 0.49);
 }
