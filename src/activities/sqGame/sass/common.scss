@@ -23,6 +23,7 @@ body {
 a {
   text-decoration: none;
 }
+
 * {
   box-sizing: border-box;
 }
@@ -41,6 +42,12 @@ a {
   height: 100%;
   overflow: auto;
   z-index: 1;
+}
+
+.mc-content {
+  background-image: url("../images/mycard/bg_mycard.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 .main-header {
@@ -99,6 +106,7 @@ a {
   //     }
   //   }
 }
+
 .popup-wrapper {
   position: absolute;
   top: 0;
@@ -107,6 +115,7 @@ a {
   right: 0;
   z-index: 9999;
   display: none;
+
   .masker {
     position: absolute;
     top: 0;
@@ -116,6 +125,7 @@ a {
     z-index: 10000;
     background-color: rgba(0, 0, 0, 0.72);
   }
+
   .popup-content {
     position: absolute;
     top: 50%;
@@ -123,6 +133,7 @@ a {
     transform: translate(-50%, -50%);
     z-index: 99999;
   }
+
   .content-bg {
     @include background("../images/popup_bg.png", 603px, 606px);
     // padding-top: pxToRem(86px);
@@ -134,14 +145,15 @@ input {
   outline: none;
   border: 0;
 }
+
 .common-header {
-    // @include background('../images/mycard/bg_header.png', 750px, 119px);
-    width: 100%;
-    height: pxToRem(119px);
-    background-image: url('../images/mycard/bg_header.png');
-    background-size: pxToRem(750px) pxToRem(119px);
-    // line-height: pxToRem(119px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  // @include background('../images/mycard/bg_header.png', 750px, 119px);
+  width: 100%;
+  height: pxToRem(119px);
+  background-image: url('../images/mycard/bg_header.png');
+  background-size: pxToRem(750px) pxToRem(119px);
+  // line-height: pxToRem(119px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -3,9 +3,9 @@
 @import "../../../sass/func";
 
 .mc-content {
-  background-image: url("../images/mycard/bg_mycard.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  // background-image: url("../images/mycard/bg_mycard.png");
+  // background-size: 100% 100%;
+  // background-repeat: no-repeat;
   padding-top: pxToRem(243px);
 
   .common-header {
@@ -107,8 +107,8 @@
 }
 
 .mc-list {
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  // height: 100%;
   overflow-y: auto;
 
   @at-root.mc-item {
