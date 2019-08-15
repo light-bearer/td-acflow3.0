@@ -29,6 +29,81 @@
   };
 
   /**
+   * 微信授权
+   * @param {string} code 
+   * @param {func} cb 
+   */
+  function auth(code, cb) {
+    // 若code 不为空，说明授权成功， 获取用户信息
+    if (code) {
+      Util.Ajax({
+        url: Util.openAPI + "/app/authUserInfo",
+        type: "get",
+        data: {
+          code: code
+        },
+        dataType: "json",
+        cbOk: function(data, textStatus, jqXHR) {
+          console.log(data);
+          if (data.code === 0) {
+            // window.sessionStorage['TOKEN'] = data.data.token
+            Util.setSession([Util.token], 1234);
+            cb && cb(data.data.token);
+          } else {
+            Util.toast("授权失败，请重新尝试");
+          }
+        },
+        cbErr: function(e, xhr, type) {
+          Util.toast("授权失败，请重新尝试");
+        }
+      });
+      return;
+    }
+    // 若code为空，那么进行微信授权
+    var _url = window.location.href;
+    window.location.href = Util.openAPI + "/app/redirectUrl?url=" + _url; // 带上重定向地址
+    return;
+  }
+
+  /**
+   * 获取用户信息
+   * @param {*} cb 
+   */
+  function getUserInfo(cb) {
+    Util.Ajax({
+      url: Util.openAPI + "/app/newUser/baseInfo",
+      type: "get",
+      data: {},
+      dataType: "json",
+      cbOk: function(data, textStatus, jqXHR) {
+        console.log(data);
+        if (data.code === 0) {
+          // console.log(data.data)
+          // 设置个人信息
+          var _data = data.data;
+          Util.setSession([Util.baseInfo], _data);
+          // var $baseinfo = $("#base_info");
+          // $baseinfo.find(".header-title").html(_data.nickName);
+          // $baseinfo.find(".header-id").html("ID:" + _data.memberNumber);
+          // $baseinfo.find(".header-num").html(_data.roomCount);
+
+          // if (_data.sign) {
+          //   $("#sign").html(_data.sign);
+          // } else {
+          //   // TODO 弹窗提示输入签名
+          //   $(".popup-edit-sign").show();
+          // }
+        } else {
+          Util.toast("获取个人信息失败，请重新登录");
+        }
+      },
+      cbErr: function(e, xhr, type) {
+        Util.toast("获取个人信息失败，请重新登录");
+      }
+    });
+  }
+
+  /**
    * @func
    * @desc getCookie - 获取cookie
    * @param {string} name - 对应的key，必填
@@ -261,7 +336,9 @@
     hideLoader: hideLoader,
     Ajax: Ajax,
     popup: popup,
-    baseListConfig: LISTCONFIG
+    baseListConfig: LISTCONFIG,
+    auth: auth,
+    getUserInfo: getUserInfo
   };
   global.Util = Util;
 })(window);

@@ -25,12 +25,12 @@
   </head>
 
   <body>
-    <div class="content mc-content" >
+    <div class="content mc-content">
       <header class="common-header members-header"></header>
       <div class="gift-wrapper">
         <div class="gift-pop-wrapper">
           <img src="../images/bg_avator.png" class="g-p-avator" />
-          <p class="gift-txt-name">ohayo</p>
+          <p class="gift-txt-name"></p>
           <p>给您发了一个礼包</p>
         </div>
         <i class="icon-gift"></i>
@@ -39,18 +39,19 @@
     <div class="content received-content">
       <section class="received-top">
         <img src="../images/bg_avator.png" class="g-reveived-avator" />
-        <p class="g-received-name">ohayo</p>
-        <p class="txt-red">1</p>
+        <p class="g-received-name"></p>
+        <p class="txt-red txt-num"></p>
       </section>
       <div class="receiver-wrapper">
         <div class="receiver-avator">
-          <img src="../images/bg_avator.png" />
+          <img src="../images/bg_avator.png" id="receiverImg" />
         </div>
         <div class="receiver-info">
-          <p>角</p>
-          <p class="txt-middle">2019年5月25日 17:43:55</p>
+          <p id="receiverName"></p>
+          <p class="txt-middle" id="receiveTime"></p>
           <p>
-            <span>领取了</span><span class="txt-count">1</span><span>房卡</span>
+            <span>领取了</span><span class="txt-count txt-num"></span
+            ><span>房卡</span>
           </p>
         </div>
       </div>
@@ -60,7 +61,7 @@
       <div class="masker"></div>
       <div class="popup-content content-bg content-get">
         <i class="icon-back-arrow"></i>
-        <p>您获得ohayo的一个房卡</p>
+        <p id="popTxt"></p>
         <div class="gift-btn-back"></div>
       </div>
     </div>
@@ -72,10 +73,11 @@
     charset="utf-8"
   ></script>
   <!-- endbuild -->
-  <!-- <script src="../js/util.js" type="text/javascript" charset="utf-8"></script> -->
+  <script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
   <script
-    src="../js/members.js"
+    src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"
     type="text/javascript"
     charset="utf-8"
   ></script>
+  <script src="../js/gift.js" type="text/javascript" charset="utf-8"></script>
 </html>

@@ -4,10 +4,35 @@
     code = Util.getParam("code"); // 授权code
 
   /** 主要初始化 */
-  auth(code, function(token) {
-    getUserInfo();
-    bindEvent();
-  });
+  (function() {
+    var baseInfo = Util.getSession(Util.baseInfo),
+      token = Util.getSession(Util.token);
+    if (baseInfo && token) {
+      initBaseInfo(baseInfo);
+      bindEvent();
+    } else {
+      Util.auth(code, function(token) {
+        Util.getUserInfo(function() {
+          initBaseInfo(baseInfo);
+        });
+        bindEvent();
+      });
+    }
+  })();
+
+  function initBaseInfo(_data) {
+    var $baseinfo = $("#base_info");
+    $baseinfo.find(".header-title").html(_data.nickName);
+    $baseinfo.find(".header-id").html("ID:" + _data.memberNumber);
+    $baseinfo.find(".header-num").html(_data.roomCount);
+
+    if (_data.sign) {
+      $("#sign").html(_data.sign);
+    } else {
+      // TODO 弹窗提示输入签名
+      $(".popup-edit-sign").show();
+    }
+  }
   /** bind event */
   function bindEvent() {
     /**
@@ -39,7 +64,7 @@
     }
     //防外挂
     $(".main-fwg").on("click", function() {
-      var baseInfo = Util.getSession([Util.baseInfo]);
+      var baseInfo = Util.getSession(Util.baseInfo);
       if (!baseInfo.sign) {
         $(".popup-edit-sign").show();
       } else {
@@ -78,7 +103,7 @@
           console.log(data);
           if (data.code === 0) {
             // window.sessionStorage['TOKEN'] = data.data.token
-            Util.setSession([Util.token], 1234);
+            Util.setSession(Util.token, 1234);
           } else {
             Util.toast("修改签名失败，请重新尝试");
           }
@@ -90,7 +115,7 @@
     }
 
     function showUserInfo(info) {
-      // var info = Util.getSession([Util.baseInfo]);
+      // var info = Util.getSession(Util.baseInfo);
       //   console.info(info)
       if (!info) return;
       var $fwgInfo = $("#fwgInfo");
@@ -156,7 +181,7 @@
       switch (type) {
         case "sendCard":
           //发送房卡
-          var baseInfo = Util.getSession([Util.baseInfo]);
+          var baseInfo = Util.getSession(Util.baseInfo);
           $(".popup-send")
             .find("#pop_send_room_count")
             .html(baseInfo.roomCount);
@@ -200,78 +225,98 @@
     });
     $(".popup-send").on("click", "#btn_make_gift", function(e) {
       var count = $("#input_roomcard").val();
-      var baseInfo = Util.getSession([Util.baseInfo]);
+      var baseInfo = Util.getSession(Util.baseInfo);
       if (count > baseInfo.roomCount) {
         Util.toast("您的房卡不足！");
         return;
       }
-    });
-  }
-
-  /** method */
-  function auth(code, cb) {
-    // 若code 不为空，说明授权成功， 获取用户信息
-    if (code) {
+      $("#showNum").val(count);
       Util.Ajax({
-        url: Util.openAPI + "/app/authUserInfo",
-        type: "get",
+        url: Util.openAPI + "/app/roomCard/send",
+        type: "post",
         data: {
-          code: code
+          roomCount: count
         },
         dataType: "json",
         cbOk: function(data, textStatus, jqXHR) {
           console.log(data);
           if (data.code === 0) {
-            // window.sessionStorage['TOKEN'] = data.data.token
-            Util.setSession([Util.token], 1234);
-            cb && cb(data.data.token);
+            location.href = "./gift.html?roomCardId=" + data.data.id;
           } else {
-            Util.toast("授权失败，请重新尝试");
+            Util.toast("发送房卡失败");
           }
         },
         cbErr: function(e, xhr, type) {
-          Util.toast("授权失败，请重新尝试");
+          Util.toast("发送房卡失败");
         }
       });
-      return;
-    }
-    // 若code为空，那么进行微信授权
-    var _url = window.location.href;
-    window.location.href = Util.openAPI + "/app/redirectUrl?url=" + _url; // 带上重定向地址
-    return;
-  }
-  // 获取用户信息
-  function getUserInfo() {
-    Util.Ajax({
-      url: Util.openAPI + "/app/newUser/baseInfo",
-      type: "get",
-      data: {},
-      dataType: "json",
-      cbOk: function(data, textStatus, jqXHR) {
-        console.log(data);
-        if (data.code === 0) {
-          // console.log(data.data)
-          // 设置个人信息
-          var _data = data.data;
-          Util.setSession([Util.baseInfo], _data);
-          var $baseinfo = $("#base_info");
-          $baseinfo.find(".header-title").html(_data.nickName);
-          $baseinfo.find(".header-id").html("ID:" + _data.memberNumber);
-          $baseinfo.find(".header-num").html(_data.roomCount);
-
-          if (_data.sign) {
-            $("#sign").html(_data.sign);
-          } else {
-            // TODO 弹窗提示输入签名
-            $(".popup-edit-sign").show();
-          }
-        } else {
-          Util.toast("获取个人信息失败，请重新登录");
-        }
-      },
-      cbErr: function(e, xhr, type) {
-        Util.toast("获取个人信息失败，请重新登录");
-      }
     });
   }
+
+  // /** method */
+  // function auth(code, cb) {
+  //   // 若code 不为空，说明授权成功， 获取用户信息
+  //   if (code) {
+  //     Util.Ajax({
+  //       url: Util.openAPI + "/app/authUserInfo",
+  //       type: "get",
+  //       data: {
+  //         code: code
+  //       },
+  //       dataType: "json",
+  //       cbOk: function(data, textStatus, jqXHR) {
+  //         console.log(data);
+  //         if (data.code === 0) {
+  //           // window.sessionStorage['TOKEN'] = data.data.token
+  //           Util.setSession(Util.token, 1234);
+  //           cb && cb(data.data.token);
+  //         } else {
+  //           Util.toast("授权失败，请重新尝试");
+  //         }
+  //       },
+  //       cbErr: function(e, xhr, type) {
+  //         Util.toast("授权失败，请重新尝试");
+  //       }
+  //     });
+  //     return;
+  //   }
+  //   // 若code为空，那么进行微信授权
+  //   var _url = window.location.href;
+  //   window.location.href = Util.openAPI + "/app/redirectUrl?url=" + _url; // 带上重定向地址
+  //   return;
+  // }
+  // // 获取用户信息
+  // function getUserInfo() {
+  //   Util.Ajax({
+  //     url: Util.openAPI + "/app/newUser/baseInfo",
+  //     type: "get",
+  //     data: {},
+  //     dataType: "json",
+  //     cbOk: function(data, textStatus, jqXHR) {
+  //       console.log(data);
+  //       if (data.code === 0) {
+  //         // console.log(data.data)
+  //         // 设置个人信息
+  //         var _data = data.data;
+  //         Util.setSession(Util.baseInfo, _data);
+  //         var $baseinfo = $("#base_info");
+  //         $baseinfo.find(".header-title").html(_data.nickName);
+  //         $baseinfo.find(".header-id").html("ID:" + _data.memberNumber);
+  //         $baseinfo.find(".header-num").html(_data.roomCount);
+
+  //         if (_data.sign) {
+  //           $("#sign").html(_data.sign);
+  //         } else {
+  //           // TODO 弹窗提示输入签名
+  //           $(".popup-edit-sign").show();
+  //         }
+  //       } else {
+  //         Util.toast("获取个人信息失败，请重新登录");
+  //       }
+  //     },
+  //     cbErr: function(e, xhr, type) {
+  //       Util.toast("获取个人信息失败，请重新登录");
+  //     }
+  //   });
+  // }
 })();
