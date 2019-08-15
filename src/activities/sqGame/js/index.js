@@ -207,7 +207,8 @@
       var type = $(e.currentTarget).attr("data-type");
       //   console.info("tpe----", type);
       if (type === "invite") {
-        location.href = "./invite.html";
+        handleInvite();
+        // location.href = "./invite.html";
         return;
       }
       if (type === "members") {
@@ -254,6 +255,26 @@
   }
 
   // /** method */
+  function handleInvite() {
+    // location.href = "./invite.html";
+    Util.Ajax({
+      url: Util.openAPI + "/app/group/inviteUser",
+      type: "get",
+      data: {},
+      dataType: "json",
+      cbOk: function(data, textStatus, jqXHR) {
+        console.log(data);
+        if (data.code === 0) {
+          location.href = "./invite.html?groupId=" + data.data.id;
+        } else {
+          Util.toast(data.msg);
+        }
+      },
+      cbErr: function(e, xhr, type) {
+        Util.toast("请求失败，请稍后再试");
+      }
+    });
+  }
   // function auth(code, cb) {
   //   // 若code 不为空，说明授权成功， 获取用户信息
   //   if (code) {
