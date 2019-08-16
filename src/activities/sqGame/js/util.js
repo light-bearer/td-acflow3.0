@@ -47,7 +47,7 @@
           console.log(data);
           if (data.code === 0) {
             // window.sessionStorage['TOKEN'] = data.data.token
-            Util.setSession([Util.token], 1234);
+            Util.setSession(TOKEN, 1234);
             cb && cb(data.data.token);
           } else {
             Util.toast("授权失败，请重新尝试");
@@ -71,7 +71,7 @@
    */
   function getUserInfo(cb) {
     Util.Ajax({
-      url: Util.openAPI + "/app/newUser/baseInfo",
+      url: openAPI + "/app/newUser/baseInfo",
       type: "get",
       data: {},
       dataType: "json",
@@ -81,7 +81,8 @@
           // console.log(data.data)
           // 设置个人信息
           var _data = data.data;
-          Util.setSession([Util.baseInfo], _data);
+          Util.setSession(BASE_INFO, _data);
+          cb && cb(_data)
           // var $baseinfo = $("#base_info");
           // $baseinfo.find(".header-title").html(_data.nickName);
           // $baseinfo.find(".header-id").html("ID:" + _data.memberNumber);
@@ -321,7 +322,49 @@
       target.remove();
     }
   }
+  function wxConfig(readyCb) {
+    if (!wx) {
+        console.error('请引入微信js-sdk');
+        return;
+    }
+    Ajax({
+        url: '/app/wechat/wxjsconfig',
+        type: 'get',
+        data: {
+            "url":  encodeURIComponent(window.location.href.split('#')[0])
+        },
+        dataType: 'json',
+        cbOk: function(data, textStatus, jqXHR) {
+            console.log(data)
+            if (data.code === 0) {
+                var _data = data.data;
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: _data.appId, // 必填，公众号的唯一标识
+                    timestamp: _data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: _data.nonceStr, // 必填，生成签名的随机串
+                    signature: _data.signature,// 必填，签名，见附录1
+                    jsApiList: [
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        // 'updateAppMessageShareData',
+                        // 'updateTimelineShareData'
+                    ] // 必填，需要使用的JS接口列表。
+                });
 
+                wx.ready(function() {
+                    console.log('ready')
+                    readyCb && readyCb();
+                });
+            }
+            
+        },
+
+        cbErr: function(e, xhr, type) {
+            // Util.toast('信息查询失败，请稍后再试');
+        }
+    });
+  }
   var Util = {
     token: TOKEN,
     baseInfo: BASE_INFO,
@@ -338,7 +381,8 @@
     popup: popup,
     baseListConfig: LISTCONFIG,
     auth: auth,
-    getUserInfo: getUserInfo
+    getUserInfo: getUserInfo,
+    wxConfig: wxConfig
   };
   global.Util = Util;
 })(window);
