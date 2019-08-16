@@ -12,8 +12,8 @@
       bindEvent();
     } else {
       Util.auth(code, function(token) {
-        Util.getUserInfo(function() {
-          initBaseInfo(baseInfo);
+        Util.getUserInfo(function(data) {
+          initBaseInfo(data);
         });
         bindEvent();
       });
@@ -259,7 +259,7 @@
     // location.href = "./invite.html";
     Util.Ajax({
       url: Util.openAPI + "/app/group/inviteUser",
-      type: "get",
+      type: "post",
       data: {},
       dataType: "json",
       cbOk: function(data, textStatus, jqXHR) {
