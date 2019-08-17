@@ -43,17 +43,17 @@
         </header>
         <div class="popup-wrapper" style="display: block;">
           <div class="masker"></div>
-          <i class="btn-join active"></i>
+          <i class="btn-join active" id="btn_join"></i>
 
           <div class="popup-content invite-bg">
             <i class="icon-close"></i>
             <section class="invite-send-wrapper">
-              <img src="../images/bg_avator.png" class="inivatee-avator" />
-              <p class="s-first-row"><span>亲： </span><span>ohayo</span></p>
+              <img src="../images/bg_avator.png" class="inivatee-avator" id="inivatee_avator"/>
+              <p class="s-first-row"><span>亲： </span><span id="name">ohayo</span></p>
               <p>邀请您加入</p>
               <p class="s-last-row">群管理组</p>
             </section>
-            <p class="i-success">加入成功</p>
+            <p class="i-success" id="join_msg">加入成功</p>
           </div>
         </div>
       </div>
@@ -66,6 +66,7 @@
     charset="utf-8"
   ></script>
   <!-- endbuild -->
-  <!-- <script src="../js/util.js" type="text/javascript" charset="utf-8"></script> -->
-  <script src="../js/invite.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/invite.js" type="text/javascript" charset="utf-8"></script>
 </html>
