@@ -16,7 +16,7 @@
         btntext: "", //按钮,默认""
         btnClick: null
       },
-      clearEmptyId: null, //相当于同时设置了clearId和empty.warpId; 简化写法;默认null; 注意vue中不能配置此项
+      // clearEmptyId: null, //相当于同时设置了clearId和empty.warpId; 简化写法;默认null; 注意vue中不能配置此项
       //   toTop: {
       //     //配置回到顶部按钮
       //     src: "../res/img/mescroll-totop.png" //默认滚动到1000px显示,可配置offset修改

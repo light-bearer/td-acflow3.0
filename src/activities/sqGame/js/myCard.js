@@ -21,7 +21,8 @@
     var sendConfig = $.extend(
       true,
       {
-        up: { callback: getSendList }
+        up: { callback: getSendList },
+        clearEmptyId: 'sendList'
       },
       Util.baseListConfig
     );
@@ -29,7 +30,8 @@
       true,
       {
         up: {
-          callback: getReceiveList
+          callback: getReceiveList,
+          clearEmptyId: 'receiveList'
         }
       },
       Util.baseListConfig

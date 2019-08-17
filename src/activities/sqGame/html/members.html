@@ -15,6 +15,9 @@
     <!-- build:css ../css/common.css -->
     <link rel="stylesheet" href="../css/common.css" />
     <!-- endbuild -->
+    <!-- build:css ../css/mescroll.min.css -->
+    <link rel="stylesheet" href="../../../lib/mescroll/mescroll.min.css" />
+    <!-- endbuild -->
     <!-- build:js ../js/lib/adapt.js -->
     <script
       src="../../../lib/adapt.js"
@@ -27,34 +30,44 @@
   <body>
     <div class="content mc-content">
       <header class="common-header members-header">
-          <i class="icon-back" id="back"></i>
-          <input class="m-search-input" placeholder="请输入玩家ID或姓名">
-          <div class="btn-search"></div>
+        <i class="icon-back" id="back"></i>
+        <input class="m-search-input" placeholder="请输入玩家ID或姓名" />
+        <div class="btn-search"></div>
       </header>
       <div class="mc-btn-wrapper members-top-wrapper">
-          <p class="members-txt">群组成员 （<span>0</span>人）</p>
+        <p class="members-txt">群组成员 （<span>0</span>人）</p>
       </div>
-      
-      <ul class="mc-list members-list">
-          <li class="mc-item">
-              <div class="mc-avator-wrapper">
-                  <img src="../images/bg_avator.png">
+
+      <div id="membersScroll" class="mescroll list-scroll">
+        <ul class="mc-list members-list">
+          <!-- <li class="mc-item">
+            <div class="mc-avator-wrapper">
+              <img src="../images/bg_avator.png" />
+              <i class="mark-shield"></i>
+              <i class="mark-green"></i>
+            </div>
+            <div class="mc-item-det">
+              <p class="member-name member-txt">ohayo</p>
+              <p class="member-id member-txt">ID:34783578</p>
+            </div>
+            <div class="member-btn-wrapper">
+              <div class="btn-member active">
+                <div class="bg-bubble" data-state="2">
+                  <i class="btn-reject member-opt" data-type="reject"></i>
+                  <i class="btn-agree member-opt" data-type="agree"></i>
+                  <i class="btn-manager member-opt" data-type="manager"></i>
+                  <i class="btn-shield member-opt" data-type="shield"></i>
+                  <i class="btn-reset-shield member-opt" data-type="reset"></i>
+                  <i class="btn-out member-opt" data-type="out"></i>
+                </div>
               </div>
-              <div class="mc-item-det">
-                  <p class="member-name member-txt">ohayo</p>
-                  <p class="member-id member-txt">ID:34783578</p>
-              </div>
-              <div class="member-btn-wrapper">
-                  <div class="btn-member active">
-                      <div class="bg-bubble">
-                          <i class="btn-reject"></i>
-                          <i class="btn-aggree"></i>
-                      </div>
-                  </div>
-              </div>
-          </li>
-      </ul>
+            </div>
+          </li> -->
+        </ul>
+      </div>
     </div>
+
+    <!-- <div class="toast" style="display: block;"><span>11111</span></div> -->
   </body>
   <!-- build:js ../js/lib/fastclick-jquery.js-->
   <script
@@ -63,6 +76,17 @@
     charset="utf-8"
   ></script>
   <!-- endbuild -->
-  <!-- <script src="../js/util.js" type="text/javascript" charset="utf-8"></script> -->
-  <script src="../js/members.js" type="text/javascript" charset="utf-8"></script>
+  <!-- build:js ../js/lib/mescroll/mescroll.min.js-->
+  <script
+    src="../../../lib/mescroll/mescroll.min.js"
+    type="text/javascript"
+    charset="utf-8"
+  ></script>
+  <!-- endbuild -->
+  <script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+  <script
+    src="../js/members.js"
+    type="text/javascript"
+    charset="utf-8"
+  ></script>
 </html>
