@@ -51,11 +51,14 @@
                 item.state +
                 '"><div class="bg-bubble" data-state="' +
                 item.state +
-                '" data-group="' +
+                '" data-isgroup="' +
                 item.isGroup +
+                '" data-groupid="' +
+                item.groupId +
                 '">' +
-                '<i class="btn-reject"></i><i class="btn-agree"></i><i class="btn-manager"></i><i class="btn-shield"></i>' +
-                '<i class="btn-reset-shield"></i><i class="btn-out"></i></div></div></div></li>';
+                '<i class="btn-reject member-opt" data-type="reject"></i><i class="btn-agree member-opt" data-type="agree"></i>' +
+                '<i class="btn-manager member-opt" data-type="manager"></i><i class="btn-shield member-opt" data-type="shield"></i>' +
+                '<i class="btn-reset-shield member-opt" data-type="reset"></i><i class="btn-out member-opt" data-type="out"></i></div></div></div></li>';
             });
           membersScroll.endBySize(rows.length, data.data.total);
           if (page.num === 1) {
@@ -79,7 +82,7 @@
     history.back();
   });
 
-  $(".members-list").on("click", ".btn-member", function() {
+  $(".members-list").on("click", ".btn-member", function(e) {
     var $target = $(this);
     var state = $target.attr("data-state");
     // -1、拒绝加入；不返回数据，没操作
@@ -99,6 +102,59 @@
 
   $(".members-list").on("click", ".member-opt", function(e) {
     var $target = $(this),
-      type = $target.attr("data-type");
+      $parent = $target.parent(),
+      type = $target.attr("data-type"),
+      isGroup = $parent.attr("data-isgroup"),
+      state = $parent.attr("data-state"),
+      groupId = $parent.attr("data-groupid");
+
+    switch (type) {
+      case "reject" || "out":
+        //拒绝或者踢出
+        state = -1;
+        break;
+      case "agree":
+        //同意
+        state = 1;
+        break;
+      case "manager":
+        if (+isGroup === "1") {
+        } else {
+          isGroup = 1;
+        }
+        //设为管理
+        break;
+      case "shield":
+        state = 2;
+        //屏蔽
+        break;
+      case "reset":
+        //取消屏蔽
+        break;
+      // case "out":
+      //   //踢出
+      //   break;
+    }
+    Util.Ajax({
+      url: Util.openAPI + "/app/groupUser/action",
+      type: "post",
+      data: {
+        id: groupId,
+        state: state,
+        isGroup: isGroup
+      },
+      dataType: "json",
+      cbOk: function(data, textStatus, jqXHR) {
+        // console.log(data);
+        if (data.code === 0) {
+          $(".btn-search").trigger("click");
+        } else {
+          Util.toast(data.msg);
+        }
+      },
+      cbErr: function(e, xhr, type) {
+        Util.toast("状态修改失败，请稍后重试");
+      }
+    });
   });
 })();

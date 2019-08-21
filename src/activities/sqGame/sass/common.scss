@@ -159,3 +159,22 @@ input {
   justify-content: center;
   align-items: center;
 }
+
+.sp-toast {
+  background-image: url("../images/popup_bg_top.png"), url("../images/popup_bg_bottom.png");
+  background-size: pxToRem(663px) pxToRem(73px), pxToRem(663px) pxToRem(67px);
+  background-position: top, bottom;
+  background-color: rgba(195, 132, 87, .8);
+  background-repeat: no-repeat;
+  border-radius: pxToRem(20px);
+  min-height: pxToRem(200px);
+  width: pxToRem(663px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    background: none;
+    color: rgba(255, 255, 255, .8);
+  }
+}

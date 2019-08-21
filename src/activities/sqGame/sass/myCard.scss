@@ -2,6 +2,7 @@
 @import "variables";
 @import "../../../sass/func";
 
+
 .mc-content {
   // background-image: url("../images/mycard/bg_mycard.png");
   // background-size: 100% 100%;
@@ -151,13 +152,13 @@
       }
     }
 
-    .mc-avator-wrapper[data-state=1] {
+    .mc-avator-wrapper[data-state="1"] {
       .mark-green {
         display: block;
       }
     }
 
-    .mc-avator-wrapper[data-state=2] {
+    .mc-avator-wrapper[data-state="2"] {
 
       .mark-green,
       .mark-shield {

@@ -30,8 +30,8 @@
 
   /**
    * 微信授权
-   * @param {string} code 
-   * @param {func} cb 
+   * @param {string} code
+   * @param {func} cb
    */
   function auth(code, cb) {
     // 若code 不为空，说明授权成功， 获取用户信息
@@ -47,7 +47,9 @@
           console.log(data);
           if (data.code === 0) {
             // window.sessionStorage['TOKEN'] = data.data.token
+            // Util.setSession([Util.token], 1234);
             Util.setSession(TOKEN, 1234);
+
             cb && cb(data.data.token);
           } else {
             Util.toast("授权失败，请重新尝试");
@@ -67,7 +69,7 @@
 
   /**
    * 获取用户信息
-   * @param {*} cb 
+   * @param {*} cb
    */
   function getUserInfo(cb) {
     Util.Ajax({
@@ -81,8 +83,10 @@
           // console.log(data.data)
           // 设置个人信息
           var _data = data.data;
+          // Util.setSession([Util.baseInfo], _data);
           Util.setSession(BASE_INFO, _data);
-          cb && cb(_data)
+          cb && cb(_data);
+
           // var $baseinfo = $("#base_info");
           // $baseinfo.find(".header-title").html(_data.nickName);
           // $baseinfo.find(".header-id").html("ID:" + _data.memberNumber);
@@ -184,6 +188,21 @@
    */
   function toast(msg, duration) {
     var _toast = $("<div/>").addClass("toast"),
+      _msg = $("<span/>").html(msg);
+    _toast.append(_msg);
+    $("body").append(_toast);
+    setTimeout(function() {
+      _toast.remove();
+    }, duration || 1500);
+  }
+  /**
+   * @func
+   * @desc spToast - 冒泡提示
+   * @param {string} msg - 提示信息，必填
+   * @param {string} [duration] - 停留时间，选填， 默认1500ms
+   */
+  function spToast(msg, duration) {
+    var _toast = $("<div/>").addClass("toast sp-toast"),
       _msg = $("<span/>").html(msg);
     _toast.append(_msg);
     $("body").append(_toast);
@@ -324,47 +343,47 @@
   }
   function wxConfig(readyCb) {
     if (!wx) {
-        console.error('请引入微信js-sdk');
-        return;
+      console.error("请引入微信js-sdk");
+      return;
     }
     Ajax({
-        url: '/app/wechat/wxjsconfig',
-        type: 'get',
-        data: {
-            "url":  encodeURIComponent(window.location.href.split('#')[0])
-        },
-        dataType: 'json',
-        cbOk: function(data, textStatus, jqXHR) {
-            console.log(data)
-            if (data.code === 0) {
-                var _data = data.data;
-                wx.config({
-                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                    appId: _data.appId, // 必填，公众号的唯一标识
-                    timestamp: _data.timestamp, // 必填，生成签名的时间戳
-                    nonceStr: _data.nonceStr, // 必填，生成签名的随机串
-                    signature: _data.signature,// 必填，签名，见附录1
-                    jsApiList: [
-                        'onMenuShareTimeline',
-                        'onMenuShareAppMessage',
-                        // 'updateAppMessageShareData',
-                        // 'updateTimelineShareData'
-                    ] // 必填，需要使用的JS接口列表。
-                });
+      url: "/app/wechat/wxjsconfig",
+      type: "get",
+      data: {
+        url: encodeURIComponent(window.location.href.split("#")[0])
+      },
+      dataType: "json",
+      cbOk: function(data, textStatus, jqXHR) {
+        console.log(data);
+        if (data.code === 0) {
+          var _data = data.data;
+          wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: _data.appId, // 必填，公众号的唯一标识
+            timestamp: _data.timestamp, // 必填，生成签名的时间戳
+            nonceStr: _data.nonceStr, // 必填，生成签名的随机串
+            signature: _data.signature, // 必填，签名，见附录1
+            jsApiList: [
+              "onMenuShareTimeline",
+              "onMenuShareAppMessage"
+              // 'updateAppMessageShareData',
+              // 'updateTimelineShareData'
+            ] // 必填，需要使用的JS接口列表。
+          });
 
-                wx.ready(function() {
-                    console.log('ready')
-                    readyCb && readyCb();
-                });
-            }
-            
-        },
-
-        cbErr: function(e, xhr, type) {
-            // Util.toast('信息查询失败，请稍后再试');
+          wx.ready(function() {
+            console.log("ready");
+            readyCb && readyCb();
+          });
         }
+      },
+
+      cbErr: function(e, xhr, type) {
+        // Util.toast('信息查询失败，请稍后再试');
+      }
     });
   }
+
   var Util = {
     token: TOKEN,
     baseInfo: BASE_INFO,
@@ -375,6 +394,7 @@
     setSession: setSession,
     getSession: getSession,
     toast: toast,
+    spToast: spToast,
     showLoader: showLoader,
     hideLoader: hideLoader,
     Ajax: Ajax,
