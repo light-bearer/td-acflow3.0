@@ -45,7 +45,7 @@
                 '<div class="mc-item-det"><p class="member-name member-txt">' +
                 item.userNickName +
                 '</p><p class="member-id member-txt">ID:' +
-                item.userId +
+                item.memberNumber +
                 "</p> </div>" +
                 '<div class="member-btn-wrapper"><div class="btn-member" data-state="' +
                 item.state +
@@ -113,7 +113,7 @@
         //拒绝或者踢出
         state = -1;
         break;
-      case "agree":
+      case "agree" || "reset":
         //同意
         state = 1;
         break;
@@ -128,9 +128,9 @@
         state = 2;
         //屏蔽
         break;
-      case "reset":
-        //取消屏蔽
-        break;
+      // case "reset":
+      //   //取消屏蔽
+      //   break;
       // case "out":
       //   //踢出
       //   break;
