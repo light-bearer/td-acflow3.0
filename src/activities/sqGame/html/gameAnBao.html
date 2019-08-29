@@ -9,11 +9,11 @@
     />
     <meta name="format-detection" content="telephone=no" />
     <title>暗宝</title>
-    <!-- build:css ../css/gameAnbao.css -->
-    <link rel="stylesheet" href="../css/gameAnbao.css" />
-    <!-- endbuild -->
     <!-- build:css ../css/common.css -->
     <link rel="stylesheet" href="../css/common.css" />
+    <!-- endbuild -->
+    <!-- build:css ../css/gameAnbao.css -->
+    <link rel="stylesheet" href="../css/gameAnbao.css" />
     <!-- endbuild -->
     <!-- build:js ../js/lib/adapt.js -->
     <script
@@ -41,8 +41,59 @@
           ><span>下注上限100</span>
         </p>
       </section>
+      <!-- item中的 data-value 表示： -->
+      <!-- zh-粘虎； zr-粘入；zl-粘龙；zc-粘出；j-角； ca-串；h-虎；r-入；cu-出；l-龙-->
       <div class="an-game-content">
-
+        <div class="an-game__bottom">
+            <div class="row slim">
+              <div class="item" data-type="none"></div>
+              <div class="item" data-type="code" data-value="zh"></div>
+              <div class="item" data-type="code" data-value="zr"></div>
+              <div class="item" data-type="code" data-value="zl"></div>
+              <div class="item" data-type="none"></div>
+            </div>
+            <div class="row">
+              <div class="item slim" data-type="code" data-value="zc"></div>
+              <div class="item" data-type="code" data-value="j"></div>
+              <div class="item" data-type="code" data-value="ca"></div>
+              <div class="item" data-type="code" data-value="j"></div>
+              <div class="item slim" data-type="code" data-value="zc"></div>
+            </div>
+            <div class="row">
+              <div class="item slim" data-type="code" data-value="zl"></div>
+              <div class="item" data-type="code" data-value="ca"></div>
+              <div class="item" data-type="none"></div>
+              <div class="item" data-type="code" data-value="ca"></div>
+              <div class="item slim" data-type="code" data-value="zh"></div>
+            </div>
+            <div class="row">
+                <div class="item slim" data-type="code" data-value="zr"></div>
+                <div class="item" data-type="code" data-value="j"></div>
+                <div class="item" data-type="code" data-value="ca"></div>
+                <div class="item" data-type="code" data-value="j"></div>
+                <div class="item slim" data-type="code" data-value="zr"></div>
+            </div>
+            <div class="row slim">
+              <div class="item" data-type="none"></div>
+              <div class="item" data-type="code" data-value="zh"></div>
+              <div class="item" data-type="code" data-value="zc"></div>
+              <div class="item" data-type="code" data-value="zl"></div>
+              <div class="item" data-type="none"></div>
+            </div>
+        </div>
+        <div class="an-game__middle">
+          <div class="rotate">
+              <div class="row">
+                  <div class="item" data-type="code" data-value="h"></div>
+                  <div class="item" data-type="code" data-value="cu"></div>
+              </div>
+             <div class="row">
+                <div class="item" data-type="code" data-value="r"></div>
+                <div class="item" data-type="code" data-value="l"></div>
+             </div>
+          </div>
+        </div>
+        <div class="an-game__top"></div>
       </div>
     </div>
   </body>
