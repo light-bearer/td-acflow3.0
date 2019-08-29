@@ -129,12 +129,15 @@
 
     //打开个人中心
     $(".main-user").on("click", function() {
-      // console.info("user----");
       //   $(".main-item-list").hide();
       //   $(".main-user-center").show();
       if (!Util.getParam("pageType")) {
         var _url = window.location.href;
-        window.location.href = _url + "&pageType=userCenter";
+        if (_url.indexOf("?") > -1) {
+          window.location.href = _url + "&pageType=userCenter";
+        } else {
+          window.location.href = _url + "?pageType=userCenter";
+        }
       }
     });
     //   $(".main-user").trigger("click");
@@ -169,6 +172,9 @@
       var type = $(e.currentTarget).attr("data-type");
       console.info("kkkk--", type);
       $(".create-room-popup").show();
+    });
+    $(".btn-cr").on("click", function(e) {
+      location.href = "./gameAnbao.html";
     });
     //关闭弹窗
     $(".masker ,.icon-close").on("click", function() {
