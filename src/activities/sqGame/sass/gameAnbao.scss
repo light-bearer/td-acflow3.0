@@ -38,6 +38,9 @@
   @include background("../images/anbao/icon_txt.png", 444px, 73px);
   height: percent(73);
   transform: translate(-50%, 0);
+  &.small {
+    width: pxToRem(319px);
+  }
 }
 .ab-room {
   position: absolute;
@@ -48,8 +51,18 @@
   font-size: pxToRem(27px);
   margin-top: pxToRem(8px);
   line-height: pxToRem(28px);
-  > p:last-child {
+  &>p:last-of-type {
     font-size: pxToRem(25px);
+  }
+  &.more {
+    top: percent(25);
+    left: pxToRem(100px);
+    width: pxToRem(450px);
+    margin-top: 0;
+    font-size: pxToRem(21px);
+    &>p:last-of-type {
+      font-size: pxToRem(16px);
+    }
   }
 }
 .center {
@@ -70,6 +83,10 @@
   background-size: 100% 100%, pxToRem(94px) pxToRem(98px);
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
+  z-index: 9;
+  &.lower {
+    top: percent(276);
+  }
   .row {
     font-size: 0;
     .item {
@@ -132,5 +149,145 @@
     @extend .center;
     width: pxToRem(85px);
     height: pxToRem(85px);
+    background-position: center;
+    background-size: 100%;
+    // background-image: url(../images//anbao/pic_game_center.png)
+  }
+}
+
+.gamer-group {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  &.mode16 {
+    .seat {
+      width:  pxToRem(74px);
+      height: percent(110);
+    }
+  }
+  &.mode20 {
+    .seat {
+      width:  pxToRem(74px);
+      height: percent(100);
+    }
+  }
+  &.mode30 {
+    .seat {
+      width:  pxToRem(74px);
+      height: percent(99);
+      &.small {
+        width: pxToRem(50px);
+        height: percent(80);
+      }
+    }
+    
+  }
+  @at-root .seat {
+    position: absolute;
+    width:  pxToRem(78px);
+    height: percent(128);
+    max-height: pxToRem(128px);
+    background: url(../images/anbao/bg_avator.png) no-repeat center;
+    color: #fff;
+    text-align: center;
+    
+    &.current-user {
+      // bottom: percent(68);
+      // left: pxToRem(19px);
+      figure {
+        figcaption {
+          margin-top: -4px;
+        }
+      }
+      .score {
+        margin-top: -5px;
+      }
+    }
+    &.empty {
+      &:after {
+        position: absolute;
+        content: '';
+        background: url(../images/anbao/txt_kw.png) no-repeat center;
+        background-size:  contain;
+        width: pxToRem(57px);
+        height: percent(117, 128);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+    figure {
+      position: relative;
+      width: 100%;
+      height: percent(95, 128);
+      img {
+        padding-top: pxToRem(6px);
+        // width: pxToRem(65px);
+        height: percent(65, 95);
+      }
+      figcaption {
+        font-size: pxToRem(16px);
+        margin-top: -4px;
+      }
+    }
+    .score {
+      font-size: 11px;
+      color: #E2D33B;
+      // padding-top: 3px;
+      // margin-top: -5px;
+    }
+    .member-no {
+      display: block;
+      font-size: 8px;
+    }
+  }
+}
+
+.chip-group {
+  position: absolute;
+  bottom: percent(22);
+  left: pxToRem(131px);
+  height: percent(98);
+  font-size: 0;
+  z-index: 9;
+  @at-root .chip {
+    display: inline-block;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: pxToRem(87px);
+    height: 100%;
+    margin-right: pxToRem(12px);
+    &.active {
+      transform: translate(0, -10%);
+    }
+    &.move {
+      position: absolute;
+      width: pxToRem(44px);
+      height: pxToRem(49px);
+      margin: 0;
+      z-index: 10;
+      &.transition {
+        transition: transform .3s;
+      }
+    }
+  }
+  @at-root .chip10 {
+    background-image: url(../images/anbao/chip10.png);
+  }
+  @at-root .chip20 {
+    background-image: url(../images/anbao/chip20.png);
+  }
+  @at-root .chip30 {
+    background-image: url(../images/anbao/chip30.png);
+  }
+  @at-root .chip50 {
+    background-image: url(../images/anbao/chip50.png);
+  }
+  @at-root .chip100 {
+    background-image: url(../images/anbao/chip100.png);
   }
 }
