@@ -2,6 +2,7 @@
   FastClick.attach(document.body);
   var openId = Util.getParam("openId"), // 登录后返回相关openid
     code = Util.getParam("code"); // 授权code
+  var curGameId = "";
 
   /** 主要初始化 */
   (function() {
@@ -52,8 +53,263 @@
       //防止返回时checkbox状态与群主管理内容显示不一致
       var $checkbox = $(".switch-checkbox");
       triggerManage($checkbox);
+      getGameList();
     }
     init();
+    //获取游戏列表
+    function getGameList() {
+      Util.Ajax({
+        url: Util.openAPI + "/app/game/getGameList",
+        type: "get",
+        dataType: "json",
+        cbOk: function(data, textStatus, jqXHR) {
+          // console.log(data);
+          if (data.code === 0) {
+            var temp = "";
+            data.data &&
+              data.data.forEach(function(item) {
+                temp +=
+                  '<li class="main-item"><img src="' +
+                  item.img +
+                  '"> <div class="item-btn" data-id="' +
+                  item.id +
+                  '">创建房间</div> </li>';
+              });
+            $(".main-item-list").html(temp);
+          } else {
+            Util.toast("获取游戏列表失败");
+          }
+        },
+        cbErr: function(e, xhr, type) {
+          Util.toast("获取游戏列表失败");
+        }
+      });
+    }
+    // $(".main-item-list").on("click", ".main-item", function(e) {
+    //   var type = $(e.currentTarget).attr("data-type");
+    //   console.info("kkkk--", type);
+    //   $(".create-room-popup").show();
+    // });
+    //点击游戏列表中的创建房间按钮
+    $(".main-item-list").on("click", ".item-btn", function(e) {
+      var id = $(this).attr("data-id");
+      getParamsOfGame(id);
+      curGameId = id;
+      $(".create-room-popup").show();
+    });
+    function getParamsOfGame(id) {
+      Util.Ajax({
+        url: Util.openAPI + "/app/game/getParamsOfGame",
+        type: "get",
+        data: {
+          id: id
+        },
+        dataType: "json",
+        cbOk: function(data, textStatus, jqXHR) {
+          // console.log(data);
+          if (data.code === 0) {
+            var data = data.data;
+            var temp = "";
+            if (data.chips) {
+              // temp +=
+              //   '<li class="cr-items"><div class="item-title">筹码：</div><div class="checkbox-list">';
+              // data.chips.forEach(function(item, k) {
+              //   temp +=
+              //     '<input type="radio" id="chips' +
+              //     k +
+              //     '" name="chips"/><label for="chips' +
+              //     k +
+              //     '">' +
+              //     item.chips +
+              //     "</label>";
+              // });
+              // temp += "</div></li>";
+              temp += getTemp(data.chips, "chips", "chips", "筹码：");
+            }
+            if (data.chipLimits) {
+              temp += getTemp(
+                data.chipLimits,
+                "chipLimits",
+                "chipLimit",
+                "上限："
+              );
+            }
+            if (data.gameNumberOfGameList) {
+              temp +=
+                '<li class="cr-items"><div class="item-title">局数：</div><div class="checkbox-list">';
+              data.gameNumberOfGameList.forEach(function(item, k) {
+                if (k === 0) {
+                  temp +=
+                    '<input type="radio" id="gameNumber' +
+                    k +
+                    '" name="gameNumberOfGameList" value="' +
+                    item.numberOfGame +
+                    "," +
+                    item.roomCard +
+                    '" checked/>';
+                } else {
+                  temp +=
+                    '<input type="radio" id="gameNumber' +
+                    k +
+                    '" name="gameNumberOfGameList" value="' +
+                    item.numberOfGame +
+                    "," +
+                    item.roomCard +
+                    '"/>';
+                }
+                temp +=
+                  '<label for="gameNumber' +
+                  k +
+                  '">' +
+                  item.numberOfGame +
+                  "局 x " +
+                  item.roomCard +
+                  "房卡</label>";
+              });
+              temp += "</div></li>";
+            }
+            if (data.peoples) {
+              temp +=
+                '<li class="cr-items"><div class="item-title">人数：</div><div class="checkbox-list">';
+              data.peoples.forEach(function(item, k) {
+                if (k === 0) {
+                  temp +=
+                    '<input type="radio" id="people' +
+                    k +
+                    '" name="peoples" value="' +
+                    item.people +
+                    '" checked/>';
+                } else {
+                  temp +=
+                    '<input type="radio" id="people' +
+                    k +
+                    '" name="peoples" value="' +
+                    item.people +
+                    '"/>';
+                }
+                temp +=
+                  '<label for="people' + k + '">' + item.people + "人</label>";
+              });
+              temp += "</div></li>";
+            }
+            if (data.betTimes) {
+              temp +=
+                '<li class="cr-items"><div class="item-title">下注时间：</div><div class="checkbox-list">';
+              data.betTimes.forEach(function(item, k) {
+                if (k === 0) {
+                  temp +=
+                    '<input type="radio" id="betTime' +
+                    k +
+                    '" name="betTimes" value="' +
+                    item.betTime +
+                    '" checked/>';
+                } else {
+                  temp +=
+                    '<input type="radio" id="betTime' +
+                    k +
+                    '" name="betTimes" value="' +
+                    item.betTime +
+                    '"/>';
+                }
+                temp +=
+                  '<label for="betTime' +
+                  k +
+                  '">' +
+                  item.betTime +
+                  "秒</label>";
+              });
+              temp += "</div></li>";
+            }
+            if (data.oddsOfPlayList) {
+              temp +=
+                '<li class="cr-items"><div class="item-title">赔率：</div></li>';
+              data.oddsOfPlayList.forEach(function(obj, i) {
+                temp +=
+                  '<li class="cr-items"><div class="item-title">' +
+                  obj.name +
+                  '</div><div class="checkbox-list">';
+                obj.gamePlayOddsList.forEach(function(item, k) {
+                  if (k === 0) {
+                    temp +=
+                      '<input type="radio" class="playOdds" id="playOdds' +
+                      i * 10 +
+                      k +
+                      '" name="playOdds' +
+                      item.gamePlayId +
+                      '" value="' +
+                      item.gamePlayId +
+                      "," +
+                      item.odds +
+                      '" checked/>';
+                  } else {
+                    temp +=
+                      '<input type="radio" class="playOdds" id="playOdds' +
+                      i * 10 +
+                      k +
+                      '" name="playOdds' +
+                      item.gamePlayId +
+                      '" value="' +
+                      item.gamePlayId +
+                      "," +
+                      item.odds +
+                      '"/>';
+                  }
+                  temp +=
+                    '<label for="playOdds' +
+                    i * 10 +
+                    k +
+                    '">' +
+                    item.name +
+                    "</label>";
+                });
+                temp += "</div></li>";
+              });
+            }
+
+            $(".cr-content").html(temp);
+          } else {
+            Util.toast(data.msg);
+          }
+        },
+        cbErr: function(e, xhr, type) {
+          Util.toast("获取游戏参数失败");
+        }
+      });
+    }
+    function getTemp(list, datakey, itemKey, text) {
+      var temp =
+        '<li class="cr-items"><div class="item-title">' +
+        text +
+        '</div><div class="checkbox-list">';
+      list.forEach(function(item, k) {
+        if (k === 0) {
+          //默认选中第一项
+          temp +=
+            '<input type="radio" id="' +
+            datakey +
+            k +
+            '" name="' +
+            datakey +
+            '" value="' +
+            item[itemKey] +
+            '" checked/>';
+        } else {
+          temp +=
+            '<input type="radio" id="' +
+            datakey +
+            k +
+            '" name="' +
+            datakey +
+            '" value="' +
+            item[itemKey] +
+            '"/>';
+        }
+        temp +=
+          '<label for="' + datakey + k + '">' + item[itemKey] + "</label>";
+      });
+      temp += "</div></li>";
+      return temp;
+    }
     /**
      * 切换首页及个人中心的显示
      * @param {*} selector  当前显示页面的选择器
@@ -168,13 +424,60 @@
       }
     }
     //创建房间
-    $(".main-item-list").on("click", ".main-item", function(e) {
-      var type = $(e.currentTarget).attr("data-type");
-      console.info("kkkk--", type);
-      $(".create-room-popup").show();
-    });
     $(".btn-cr").on("click", function(e) {
-      location.href = "./gameAnbao.html";
+      var roomParams = {
+        chip: $('input[name="chips"]:checked').val(),
+        chipLimit: $('input[name="chipLimits"]:checked').val(),
+        people: $('input[name="peoples"]:checked').val(),
+        betTime: $('input[name="betTimes"]:checked').val(),
+        gameId: curGameId,
+        playOdds: [],
+        type: $(".btns-wapper")
+          .find(".active")
+          .eq(0)
+          .attr("data-type")
+      };
+      var $playOddsEle = $(".playOdds:checked"),
+        gameNumberRoomCard = $(
+          'input[name="gameNumberOfGameList"]:checked'
+        ).val();
+      if (gameNumberRoomCard) {
+        var arr = gameNumberRoomCard.split(",");
+        roomParams.numberOfGame = arr[0];
+        roomParams.gameNumberRoomCard = arr[1];
+      }
+      if ($playOddsEle) {
+        for (var i = 0, eleLength = $playOddsEle.length; i < eleLength; i++) {
+          // console.info("elem--", $playOddsEle.eq(i));
+          var idOdds = $playOddsEle
+            .eq(i)
+            .val()
+            .split(",");
+          roomParams.playOdds.push({
+            [idOdds[0]]: idOdds[1]
+          });
+        }
+      }
+      // console.info("roomParams---", roomParams);
+      Util.Ajax({
+        url: Util.openAPI + "/app/room/createRoom",
+        type: "post",
+        data: roomParams,
+        dataType: "json",
+        cbOk: function(data, textStatus, jqXHR) {
+          // console.log(data);
+          if (data.code === 0) {
+            Util.setSession("roomParams", data.data);
+            return;
+            location.href = "./gameAnbao.html";
+          } else {
+            Util.toast(data.msg);
+          }
+        },
+        cbErr: function(e, xhr, type) {
+          Util.toast("创建房间失败");
+        }
+      });
     });
     //关闭弹窗
     $(".masker ,.icon-close").on("click", function() {
@@ -257,6 +560,12 @@
           Util.toast("发送房卡失败");
         }
       });
+    });
+    //创建房间时切换庄家
+    $(".btns-wapper").on("click", "i", function(e) {
+      var target = $(this);
+      target.siblings().removeClass("active");
+      target.addClass("active");
     });
   }
 
