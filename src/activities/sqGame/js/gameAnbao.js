@@ -114,10 +114,11 @@
   initSeat(30);
   // 位置
   var $seats = $('.seat');
-
-  // ----- 测试赢钱 -------
+  // 根据庄家的位置，和参与者的位置，初始化金币轨道（每局游戏抢庄结束后都要重新初始化）
   var banker = 29, gamer = [8, 9, 20];
   initTrack(banker, gamer);
+
+  // ----- 测试赢钱 -------
   gamer.forEach(function(g) {
     // 如果赢了就加上earn样式，否则就remove earn样式
     $('#track' + g + '_' + banker ).addClass('earn')
