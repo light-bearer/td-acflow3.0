@@ -108,36 +108,23 @@
   };
   // 当前座位模式
   var CURRENT_MODE = [];
- 
-  // 随机座位
-  var randomSeat = [ 3, 29];
+  // 随机座位（除去当前登录人）
+  var randomSeat = getRandSeats(9);
+  // 初始化座位
   initSeat(30);
-  // bets(0, 10, 'item1');
-  // bets(0, 10, 'item2');
-  // bets(0, 10, 'item3');
-  // bets(0, 10, 'item5');
-  // bets(0, 10, 'item6');
-  // bets(0, 10, 'item7');
-  // bets(0, 10, 'item8');
-  // bets(0, 10, 'item9');
-  // bets(0, 10, 'item10');
-  // bets(0, 10, 'item11');
-  // bets(0, 10, 'item13');
-  // bets(0, 10, 'item14');
-  // bets(0, 10, 'item15');
-  // bets(0, 10, 'item16');
-  // bets(0, 10, 'item17');
-  // bets(0, 10, 'item18');
-  // bets(0, 10, 'item19');
-  // bets(0, 10, 'item21');
-  // bets(0, 10, 'item22');
-  // bets(0, 10, 'item23');
+  // 位置
+  var $seats = $('.seat');
 
+  // ----- 测试赢钱 -------
+  var banker = 29, gamer = [8, 9, 20];
+  initTrack(banker, gamer);
+  gamer.forEach(function(g) {
+    // 如果赢了就加上earn样式，否则就remove earn样式
+    $('#track' + g + '_' + banker ).addClass('earn')
+  });
+  $('.money-track-group').show();
+  // ------ 测试赢钱 end ------
 
-  // bets(18, 10, 'item25');
-  // bets(18, 20, 'item26');
-  // bets(18, 30, 'item27');
-  // bets(18, 50, 'item28');
   // 点击下注盘
   $('.an-game-content').on('click', '.item', function(e) {
     var $target = $(e.currentTarget),
@@ -150,7 +137,11 @@
       // 当前筹码
       var chip = $('.chip.active').attr('data-value');
       // 当前登录人下注
-      bets(0, chip, id);
+      if (chip) {
+        bets(0, chip, {x: e.clientX - 10, y: e.clientY - 12});
+      } else {
+        Util.toast('请选择筹码');
+      }
     }
    
   })
@@ -164,8 +155,8 @@
 
   /**
    * @desc 获取宽度或者高度百分比
-   * @param [Number]{num} 数值
-   * @param [String]{type} w-宽度；h-高度
+   * @param {number} num 数值
+   * @param {string} type: w-宽度；h-高度
    */
   function getPercent(num, type) {
     var _num = type === 'w' ? 750 : 1206;
@@ -175,7 +166,7 @@
 
   /** 
    * 座位初始化
-   * @param [String] {totalCount} 总人数
+   * @param {string} totalCount 总人数
    */
   function initSeat(totalCount) {
     // 如果人多，样式修改
@@ -216,11 +207,70 @@
        
       }
     }
-    $('.gamer-group').addClass('mode' + totalCount).html(_temp);
+    $('.gamer-group').addClass('mode' + totalCount).append(_temp);
+  }
+  /**
+   * 随机选取座位
+   * @param {number} count - 选取的座位数 
+   */
+  function getRandSeats(count) {
+    var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+              10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+              20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
+    var randomSeats = arr.sort(function() {
+      return Math.random() - 0.5;
+    }).slice(0, count);
+    return randomSeats;
+  }
+  /**
+   * 
+   * @param {number} sin - 正弦值 
+   */
+  function getSinDeg(sin) {
+    var result = Math.asin(sin) / (Math.PI / 180);
+    // result = Math.round(result);
+    return result.toFixed(2);
+  }
+  /**
+   * 赢钱和输钱（输钱顺放动画，赢钱倒放动画）
+   * @param {number} seatStart - 开始座位下标，从0开始
+   * @param {number} seatEnd - 结束座位下标，从0开始
+   */
+  function createTrack(seatStart, seatEnd) {
+    var start = $($seats[seatStart]).offset(),
+        end = $($seats[seatEnd]).offset()
+    var trackHeight = Math.sqrt(Math.pow((start.left - end.left), 2) + Math.pow((start.top - end.top), 2));
+    var deg = getSinDeg((end.top - start.top)/trackHeight);
+    
+    deg = start.left - end.left > 0 ? 90 - deg : deg - 90;
+    var coins = '<i class="coins"></i><i class="coins1"></i><i class="coins2"></i>';
+    var $track = $('<div/>').addClass('money-track')
+      .attr('id', 'track' + seatStart + '_' + seatEnd)  
+      .css({
+      height: trackHeight + 'px',
+      top: start.top + 10 + 'px',
+      left: start.left + 2 + 'px',
+      '-webkit-transform': 'rotate(' + deg + 'deg)',
+      '-ms-transform': 'rotate(' + deg + 'deg)',
+      'transform': 'rotate(' + deg + 'deg)',
+    }).html(coins);
+    $('.money-track-group').append($track);
+  }
+  /**
+   * 
+   * @param {number} banker - 庄家的座位号
+   * @param {array} gamers - 游戏者的座位号数组
+   */
+  function initTrack(banker, gamers) {
+    // 清空轨道
+    $('.money-track-group').html('');
+    gamers.forEach(function(g) {
+      createTrack(g, banker);
+    });
   }
   /** 
    * 根据座位，获取下注吗的起始位置
-   * @param [Number]{seatIndex} 座位号，从0开始
+   * @param {string}seatIndex 座位号，从0开始
    */
   function getStartPos(seatIndex) {
     var seat = CURRENT_MODE[seatIndex];
@@ -234,7 +284,7 @@
   }
   /** 
    * 根据下注id，获取下注吗的最终位置
-   * @param [Number]{targetId} 目标id
+   * @param {string}targetId 目标id
    */
   function getEndPos(targetId) {
     var $target = $('#' + targetId);
@@ -265,20 +315,22 @@
   }
   /**
    * 下注
-   * @param [Number]{seatIndex} 座位号，从0开始
-   * @param [Number]{chip} 筹码值 可选10, 20, 30, 50, 100
-   * @param [String]{targetUd} 下注目标id
+   * @param {number} seatIndex 座位号，从0开始
+   * @param {number} chip 筹码值 可选10, 20, 30, 50, 100
+   * @param {object} endPos, 结束坐标
+   * @param {number} endPos.x, 结束坐标 x
+   * @param {number} endPos.y, 结束坐标 y
    */
-  function bets(seatIndex, chip, targetId) {
+  function bets(seatIndex, chip, endPos) {
       // 动画时间
       var dura = 300;
       // 起始坐标
       var start = getStartPos(seatIndex);
       // 结束坐标
-      var end = getEndPos(targetId);
+      // var end = getEndPos(targetId);
+      var end = [endPos.x, endPos.y];
       // 初始化下注码
       // if ($chip.length <= 0) {
-        // var chipNode = '<div id="chip_move'+ seatIndex +'" style="top:'+ start[1] +'px; left:' + start[0] + 'px" class="chip move"></div>';
         var $chip = $('<div/>')
           // .attr('id', 'chip_move' + seatIndex)
           .addClass('chip')
@@ -299,16 +351,8 @@
         })
       }, 0);
 
-      setTimeout(function(e) {
-        $chip.remove();
-      }, 300);
-  }
-
-  /**
-   * 下注结束后，显示筹码
-   * 
-   */
-  function showChipResult() {
-    
+      // setTimeout(function(e) {
+      //   $chip.remove();
+      // }, 300);
   }
 })();

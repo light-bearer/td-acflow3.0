@@ -84,6 +84,11 @@
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
   z-index: 9;
+  &.fact {
+    background: transparent;
+    transform: translate(0, 0, 9);
+    z-index: 99;
+  }
   &.lower {
     top: percent(276);
   }
@@ -99,6 +104,7 @@
     right: 0;
     bottom: 0;
     left: 0;
+    z-index: 10;
     .row {
       // height: percent(126, 515);
       height: pxToRem(126px);
@@ -125,6 +131,7 @@
     width: pxToRem(225px);
     height: pxToRem(225px);
     overflow: hidden;
+    z-index: 11;
       .rotate {
       position: absolute;
       top: 50%;
@@ -151,9 +158,11 @@
     height: pxToRem(85px);
     background-position: center;
     background-size: 100%;
+    z-index: 12;
     // background-image: url(../images//anbao/pic_game_center.png)
   }
 }
+
 
 .gamer-group {
   position: absolute;
@@ -183,7 +192,6 @@
         height: percent(80);
       }
     }
-    
   }
   @at-root .seat {
     position: absolute;
@@ -193,7 +201,7 @@
     background: url(../images/anbao/bg_avator.png) no-repeat center;
     color: #fff;
     text-align: center;
-    
+    z-index: 200;
     &.current-user {
       // bottom: percent(68);
       // left: pxToRem(19px);
@@ -269,7 +277,7 @@
       width: pxToRem(44px);
       height: pxToRem(49px);
       margin: 0;
-      z-index: 10;
+      z-index: 9;
       &.transition {
         transition: transform .3s;
       }
@@ -291,3 +299,95 @@
     background-image: url(../images/anbao/chip100.png);
   }
 }
+
+.money-track-group {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  display: none;
+  @at-root .money-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: pxToRem(62px);
+    // height: percent(300);
+    transform-origin: top;
+    &.earn {
+      .coins {
+        animation-name: earn;
+      }
+    }
+    .coins {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      background: url(../images/anbao/coins.png) no-repeat center;
+      background-size: contain;
+      width: pxToRem(62px);
+      height: pxToRem(69px);
+      animation-duration: .38s;
+      animation-fill-mode: forwards; 
+      animation-name: lose;  
+    }
+    .coins1 {
+      @extend .coins;
+      animation-delay: .15s;
+    }
+    .coins3 {
+      @extend .coins;
+      animation-delay: .3s;
+    }
+  }
+}
+.animated {
+  animation-duration: 0.6s;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes lose {
+  from {
+    top: 0;
+    visibility: visible;
+  }
+  to {
+    top: 100%;
+    visibility: hidden;
+  }
+}
+
+@keyframes lose {
+  from {
+    top: 0;
+    visibility: visible;
+  }
+  to {
+    top: 100%;
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes earn {
+  from {
+    top: 100%;
+    visibility: visible;
+  }
+  to {
+    top: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes earn {
+  from {
+    top: 100%;
+    visibility: visible;
+  }
+  to {
+    top: 0;
+    visibility: hidden;
+  }
+}
+
