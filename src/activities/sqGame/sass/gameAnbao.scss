@@ -260,7 +260,8 @@
   left: pxToRem(131px);
   height: percent(98);
   font-size: 0;
-  z-index: 9;
+//   z-index: 9;
+  z-index: 100;
   @at-root .chip {
     display: inline-block;
     background-position: center;
@@ -306,7 +307,8 @@
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 100;
+//   z-index: 100;
+  z-index: 98;
   display: none;
   @at-root .money-track {
     position: absolute;

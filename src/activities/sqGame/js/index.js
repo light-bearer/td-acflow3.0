@@ -26,6 +26,7 @@
     $baseinfo.find(".header-title").html(_data.nickName);
     $baseinfo.find(".header-id").html("ID:" + _data.memberNumber);
     $baseinfo.find(".header-num").html(_data.roomCount);
+    if (_data.img) $baseinfo.find(".main-avator").src = _data.img;
 
     if (_data.sign) {
       $("#sign").html(_data.sign);
@@ -425,13 +426,15 @@
     }
     //创建房间
     $(".btn-cr").on("click", function(e) {
+      // location.href = "./gameAnbao.html";
+      // return;
       var roomParams = {
         chip: $('input[name="chips"]:checked').val(),
         chipLimit: $('input[name="chipLimits"]:checked').val(),
         people: $('input[name="peoples"]:checked').val(),
         betTime: $('input[name="betTimes"]:checked').val(),
         gameId: curGameId,
-        playOdds: [],
+        playOdds: "",
         type: $(".btns-wapper")
           .find(".active")
           .eq(0)
@@ -444,19 +447,29 @@
       if (gameNumberRoomCard) {
         var arr = gameNumberRoomCard.split(",");
         roomParams.numberOfGame = arr[0];
-        roomParams.gameNumberRoomCard = arr[1];
+        roomParams.roomCard = arr[1];
       }
       if ($playOddsEle) {
+        var playOdds = [];
+        // playOdds = {};
         for (var i = 0, eleLength = $playOddsEle.length; i < eleLength; i++) {
           // console.info("elem--", $playOddsEle.eq(i));
           var idOdds = $playOddsEle
             .eq(i)
             .val()
             .split(",");
-          roomParams.playOdds.push({
-            [idOdds[0]]: idOdds[1]
-          });
+
+          playOdds.push(
+            JSON.stringify({
+              gamePlayId: parseInt(idOdds[0]),
+              odds: parseFloat(idOdds[1])
+            })
+          );
+          // playOdds[idOdds[0]] = idOdds[1];
         }
+        // roomParams.playOdds = playOdds;
+        // roomParams.playOdds = JSON.stringify(playOdds);
+        roomParams.playOdds = "[" + playOdds.join(",") + "]";
       }
       // console.info("roomParams---", roomParams);
       Util.Ajax({
@@ -468,7 +481,6 @@
           // console.log(data);
           if (data.code === 0) {
             Util.setSession("roomParams", data.data);
-            return;
             location.href = "./gameAnbao.html";
           } else {
             Util.toast(data.msg);

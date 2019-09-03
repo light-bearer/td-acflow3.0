@@ -2,6 +2,7 @@
 
 (function(global) {
   var openAPI = "http://119.23.201.149:8081"; // dev
+  // var openAPI = "http://www.carfriend99.net"; //pro
 
   var TOKEN = "TOKEN";
   var BASE_INFO = "BASE_INFO";
@@ -48,7 +49,9 @@
           if (data.code === 0) {
             // window.sessionStorage['TOKEN'] = data.data.token
             // Util.setSession([Util.token], 1234);
-            Util.setSession(TOKEN, 1234);
+
+            // Util.setSession(TOKEN, 1234);
+            Util.setSession(TOKEN, data.data.token);
 
             cb && cb(data.data.token);
           } else {
@@ -99,7 +102,7 @@
           //   $(".popup-edit-sign").show();
           // }
         } else {
-          Util.toast("获取个人信息失败，请重新登录");
+          Util.toast(data.msg);
         }
       },
       cbErr: function(e, xhr, type) {
@@ -261,7 +264,10 @@
         if (loader) {
           showLoader();
         }
-        xhr.setRequestHeader("token", window.sessionStorage[TOKEN]);
+        // console.info('token---', window.sessionStorage[TOKEN], Util.getSession(TOKEN))
+        xhr.setRequestHeader("token", Util.getSession(TOKEN));
+        // xhr.setRequestHeader("token", window.sessionStorage[TOKEN]);
+
         config.beforeSend && config.beforeSend(xhr, settings);
       },
       success: function(data, textStatus, jqXHR) {
