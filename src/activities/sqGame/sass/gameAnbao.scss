@@ -51,7 +51,7 @@
   font-size: pxToRem(27px);
   margin-top: pxToRem(8px);
   line-height: pxToRem(28px);
-  &>p:last-of-type {
+  & > p:last-of-type {
     font-size: pxToRem(25px);
   }
   &.more {
@@ -60,7 +60,7 @@
     width: pxToRem(450px);
     margin-top: 0;
     font-size: pxToRem(21px);
-    &>p:last-of-type {
+    & > p:last-of-type {
       font-size: pxToRem(16px);
     }
   }
@@ -79,7 +79,8 @@
   top: percent(245);
   left: 50%;
   transform: translate(-50%, 0);
-  background-image: url("../images/anbao/pic_game.png"), url('../images/anbao/pic_game_center.png');
+  background-image: url("../images/anbao/pic_game.png"),
+    url("../images/anbao/pic_game_center.png");
   background-size: 100% 100%, pxToRem(94px) pxToRem(98px);
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
@@ -112,7 +113,7 @@
         // height: percent(68, 515);
         height: pxToRem(68px);
       }
-      
+
       .item {
         height: 100%;
         width: pxToRem(122px);
@@ -126,13 +127,18 @@
       }
     }
   }
+  @at-root .an-game__cover {
+     @include background('../images/anbao/icon_cover.png', 114px, 123px);
+     @extend .center;
+     z-index: 13;
+  }
   @at-root .an-game__middle {
     @extend .center;
     width: pxToRem(225px);
     height: pxToRem(225px);
     overflow: hidden;
     z-index: 11;
-      .rotate {
+    .rotate {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -163,7 +169,6 @@
   }
 }
 
-
 .gamer-group {
   position: absolute;
   top: 0;
@@ -173,19 +178,19 @@
   z-index: 3;
   &.mode16 {
     .seat {
-      width:  pxToRem(74px);
+      width: pxToRem(74px);
       height: percent(110);
     }
   }
   &.mode20 {
     .seat {
-      width:  pxToRem(74px);
+      width: pxToRem(74px);
       height: percent(100);
     }
   }
   &.mode30 {
     .seat {
-      width:  pxToRem(74px);
+      width: pxToRem(74px);
       height: percent(99);
       &.small {
         width: pxToRem(50px);
@@ -195,7 +200,7 @@
   }
   @at-root .seat {
     position: absolute;
-    width:  pxToRem(78px);
+    width: pxToRem(78px);
     height: percent(128);
     max-height: pxToRem(128px);
     background: url(../images/anbao/bg_avator.png) no-repeat center;
@@ -217,9 +222,9 @@
     &.empty {
       &:after {
         position: absolute;
-        content: '';
+        content: "";
         background: url(../images/anbao/txt_kw.png) no-repeat center;
-        background-size:  contain;
+        background-size: contain;
         width: pxToRem(57px);
         height: percent(117, 128);
         top: 50%;
@@ -231,6 +236,17 @@
       position: relative;
       width: 100%;
       height: percent(95, 128);
+      &.ready {
+        &::before {
+          content: "";
+          @include background("../images/anbao/txt_ready.png", 54px, 30px);
+          position: absolute;
+          top: pxToRem(9px);
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+
       img {
         padding-top: pxToRem(6px);
         // width: pxToRem(65px);
@@ -243,7 +259,7 @@
     }
     .score {
       font-size: 11px;
-      color: #E2D33B;
+      color: #e2d33b;
       // padding-top: 3px;
       // margin-top: -5px;
     }
@@ -260,7 +276,8 @@
   left: pxToRem(131px);
   height: percent(98);
   font-size: 0;
-//   z-index: 9;
+  display: none;
+  //   z-index: 9;
   z-index: 100;
   @at-root .chip {
     display: inline-block;
@@ -280,7 +297,7 @@
       margin: 0;
       z-index: 9;
       &.transition {
-        transition: transform .3s;
+        transition: transform 0.3s;
       }
     }
   }
@@ -307,7 +324,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-//   z-index: 100;
+  //   z-index: 100;
   z-index: 98;
   display: none;
   @at-root .money-track {
@@ -331,17 +348,17 @@
       background-size: contain;
       width: pxToRem(62px);
       height: pxToRem(69px);
-      animation-duration: .38s;
-      animation-fill-mode: forwards; 
-      animation-name: lose;  
+      animation-duration: 0.38s;
+      animation-fill-mode: forwards;
+      animation-name: lose;
     }
     .coins1 {
       @extend .coins;
-      animation-delay: .15s;
+      animation-delay: 0.15s;
     }
     .coins3 {
       @extend .coins;
-      animation-delay: .3s;
+      animation-delay: 0.3s;
     }
   }
 }
@@ -392,4 +409,92 @@
     visibility: hidden;
   }
 }
+.game-btns {
+  width: 100%;
+  position: absolute;
+  z-index: 100;
+  bottom: percent(68);
+  text-align: center;
+  > div {
+    margin: auto;
+  }
+  .game-btn-count {
+    @include background("../images/anbao/btn_yellow_big.png", 204px, 72px);
+    line-height: pxToRem(72px);
+    color: #9a651c;
+    font-size: pxToRem(32px);
+    margin-bottom: pxToRem(20px);
+  }
+  .game-btn-action {
+    @include background("../images/anbao/btn_yellow_small.png", 160px, 75px);
+    line-height: pxToRem(75px);
+    color: #fff;
+    font-size: pxToRem(40px);
+    // -webkit-text-stroke: pxToRem(3px) #c37135;
+    text-shadow: pxToRem(3px) pxToRem(3px) pxToRem(3px) #c37135;
+    font-weight: bold;
+  }
+}
 
+.game-results {
+  width: 100%;
+  position: absolute;
+  top: percent(786);
+  text-align: center;
+  .pseudo {
+    position: absolute;
+    background-repeat: no-repeat;
+    top: 50%;
+    content: "";
+    background-size: contain;
+  }
+  .result-wrapper {
+    @include background("../images/anbao/bg_black.png", 393px, 72px);
+    position: relative;
+    margin: auto;
+
+    &::before {
+      @extend .pseudo;
+      left: pxToRem(-10px);
+      transform: translate(-100%, -50%);
+    }
+    &::after {
+      @extend .pseudo;
+      right: pxToRem(-10px);
+      transform: translate(100%, -50%);
+    }
+  }
+  .result-wrapper:first-child {
+    margin-bottom: pxToRem(7px);
+    &::before {
+      background-image: url("../images/anbao/num_one.png");
+      width: pxToRem(13px);
+      height: pxToRem(28px);
+    }
+    &::after {
+      background-image: url("../images/anbao/num_six.png");
+      width: pxToRem(21px);
+      height: pxToRem(29px);
+    }
+  }
+  .result-wrapper:last-child {
+    &::before {
+      background-image: url("../images/anbao/num_seven.png");
+      width: pxToRem(19px);
+      height: pxToRem(26px);
+    }
+    &::after {
+      background-image: url("../images/anbao/num_tw.png");
+      width: pxToRem(36px);
+      height: pxToRem(27px);
+    }
+  }
+}
+.game-msg {
+    @include background('../images/anbao/icon_msg.png', 69px, 70px);
+    position: absolute;
+    z-index: 100;
+    bottom: percent(30);
+    // bottom: pxToRem(47px);
+    right: pxToRem(24px);
+}

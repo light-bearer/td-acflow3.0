@@ -1,0 +1,41 @@
+@charset "UTF-8";
+@import "variables";
+@import "../../../sass/func";
+@import "components";
+.jr-wrapper {
+    @include background('../images/join/join_bg.png', 720px, 810px);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: pxToRem(26px);
+    >* {
+        margin: auto;
+    }
+    .join-close {
+        right: 0;
+        transform: translate(30%, -40%);
+    }
+    .jr-room {
+        @include background('../images/join/join_title_bg.png', 597px, 91px);
+        text-align: center;
+        line-height: pxToRem(91px);
+        color: #fff;
+        font-size: pxToRem(45px);
+    }
+    @at-root .jr-room-info {
+        @include background('../images/join/join_content_bg.png', 628px, 545px);
+        margin-top: pxToRem(10px);
+        overflow-y: auto;
+        padding: pxToRem(56px) pxToRem(46px);
+        color: #fff;
+        font-size: pxToRem(34px);
+        >p {
+            margin-bottom: pxToRem(20px);
+        }
+    }
+    .jr-btn-join {
+        @include background('../images/join/join_btn.png', 274px, 87px);
+        margin-top: pxToRem(20px);
+    }
+}

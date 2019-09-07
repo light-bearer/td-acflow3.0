@@ -1,5 +1,7 @@
 (function() {
   FastClick.attach(document.body);
+    var roomId = Util.getParam('id'),
+    numberOfGame = 0;
    // 当前窗口宽度
    var WIN_WIDTH = $(window).width();
    // 当前窗口高度
@@ -106,6 +108,121 @@
       {top: getPercent(958, 'h'), left: getPercent(116, 'w'), right: 'initial', class: 'small'},
     ]
   };
+  //页面初始化
+  (function() {
+    getRoomDetail(false);
+    getUserOfRoom(0);
+
+    var antiPlug = new AntiPlug();
+    antiPlug.show();
+    //防外挂
+    // var baseInfo = Util.getSession(Util.baseInfo);
+    // if (baseInfo.sign) {
+    //   $(".popup-edit-sign").show();
+    // } else {
+    //   showUserInfo(baseInfo);
+    // }
+  })();
+
+//   function showUserInfo(info) {
+//     // var info = Util.getSession(Util.baseInfo);
+//     //   console.info(info)
+//     if (!info) return;
+//     var $fwgInfo = $("#fwgInfo");
+//     $fwgInfo.find("#fwgAvator").src = info.img;
+//     $fwgInfo.find("#fwgName").html(info.nickName);
+//     $fwgInfo.find("#fwgIdfwgId").html("ID:" + info.memberNumber);
+//     $fwgInfo.find("#fwgLevel").html(info.level + "级");
+//     $fwgInfo.find(".sign-txt").html(info.sign);
+//     $(".popup-info").show();
+//   }
+
+//   // 修改签名按钮事件
+//   $(".es-btn").on("click", function() {
+//     var type = $(this).attr("data-type");
+//     var signValue = $("#signInput").val();
+
+//     if (type === "show") {
+//       if (!signValue) return;
+//       $(".sign-sumbit-wrapper").show();
+//       return;
+//     }
+//     if (type === "cancle") {
+//       $(".popup-edit-sign").hide();
+//       $("#signInput").val("");
+//       $(".sign-sumbit-wrapper").hide();
+//       return;
+//     }
+//     if (type === "submit") {
+//         Util.updateSign(signValue);
+//     }
+//   });
+//    //关闭弹窗
+//    $(".masker").on("click", function() {
+//     // $(".create-room-popup").hide();
+//     $(".popup-wrapper").hide();
+//   });
+  /**
+   * 获取房间的详细信息
+   * @param {Boolean} useResult 是否需要开奖结果
+   */
+  function getRoomDetail(useResult) {
+    Util.Ajax({
+        url: Util.openAPI + "/app/room/get",
+        type: "get",
+        dataType: "json",
+        data: {
+            id: roomId,
+            useResult: useResult
+        },
+        cbOk: function(data, textStatus, jqXHR) {
+          // console.log(data);
+          if (data.code === 0) {
+            var data = data.data,
+            $roomMsg = $('.ab-room');
+            $roomMsg.find('#roomNumber').html(data.roomNumber);
+            $roomMsg.find('#number').html(data.numberOfOpen + '/' + data.numberOfGame);
+            $roomMsg.find('#type').html(data.type);
+            $roomMsg.find('#odds').html(data.oddsString);
+            $roomMsg.find('#chipLimit').html(data.chipLimit);
+            numberOfGame += data.numberOfOpen;
+          } else {
+            Util.toast(data.msg);
+          }
+        },
+        cbErr: function(e, xhr, type) {
+          Util.toast("获取房间信息失败");
+        }
+      });
+  }
+  /**
+   * 获取当前房间的状态以及人员信息
+   * @param {int}numberOfGame 当前局数
+   */
+  function getUserOfRoom(numberOfGame) {
+    Util.Ajax({
+        url: Util.openAPI + "/app/roomUser/getUserOfRoom",
+        type: "get",
+        dataType: "json",
+        data: {
+            id: roomId,
+            numberOfGame: numberOfGame
+        },
+        cbOk: function(data, textStatus, jqXHR) {
+          // console.log(data);
+          if (data.code === 0) {
+           
+          } else {
+            Util.toast(data.msg);
+          }
+        },
+        cbErr: function(e, xhr, type) {
+          Util.toast("获取房间状态信息失败");
+        }
+      });
+  }
+
+
   // 当前座位模式
   var CURRENT_MODE = [];
   // 随机座位（除去当前登录人）

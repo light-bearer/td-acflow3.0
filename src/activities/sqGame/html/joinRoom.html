@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <title>房卡礼盒</title>
+    <!-- build:css ../css/joinRoom.css -->
+    <link rel="stylesheet" href="../css/joinRoom.css" />
+    <!-- endbuild -->
+    <!-- build:css ../css/common.css -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <!-- endbuild -->
+    <!-- build:js ../js/lib/adapt.js -->
+    <script
+      src="../../../lib/adapt.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <!-- endbuild -->
+  </head>
+
+  <body>
+    <div class="content bg-black">
+      <div class="jr-wrapper">
+          <i class="icon-close join-close"></i>
+          <p class="jr-room">房号：<span id="roomNumber"></span></p>
+          <section class="jr-room-info">
+              <p>模式：<span id="type"></span></p>
+              <p>限注：<span id="limit"></span></p>
+              <p>规则：</p>
+              <p>局数：<span id="numberOfGame"></span></p>
+          </section>
+          <div class="jr-btn-join"></div>
+      </div>
+    </div>
+  </body>
+  <!-- build:js ../js/lib/fastclick-jquery.js-->
+  <script
+    src="../../../lib/fastclick-jquery-fix-1.8.3.js"
+    type="text/javascript"
+    charset="utf-8"
+  ></script>
+  <!-- endbuild -->
+  <script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script src="../js/joinRoom.js" type="text/javascript" charset="utf-8"></script>
+</html>

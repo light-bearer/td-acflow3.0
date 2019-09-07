@@ -518,158 +518,158 @@
   }
 }
 
-//防外挂
-.info-content {
-  @include background("../images/fwg/info_bg.png", 672px, 433px);
-  padding: pxToRem(56px) pxToRem(20px) 0 pxToRem(30px);
-  top: 40% !important;
+// //防外挂
+// .info-content {
+//   @include background("../images/fwg/info_bg.png", 672px, 433px);
+//   padding: pxToRem(56px) pxToRem(20px) 0 pxToRem(30px);
+//   top: 40% !important;
 
-  .close-popup-info {
-    right: 0;
-    top: pxToRem(60px);
-  }
+//   .close-popup-info {
+//     right: 0;
+//     top: pxToRem(60px);
+//   }
 
-  .icon-info-txt {
-    @include background("../images/fwg/info_txt.png", 217px, 61px);
-    margin: 0 auto pxToRem(50px) auto;
-  }
+//   .icon-info-txt {
+//     @include background("../images/fwg/info_txt.png", 217px, 61px);
+//     margin: 0 auto pxToRem(50px) auto;
+//   }
 
-  @at-root.info-det-wrapper {
-    width: 100%;
-    padding-bottom: pxToRem(6px);
-    background-image: url("../images/fwg/info_border.png");
-    background-size: pxToRem(436px) pxToRem(3px);
-    background-repeat: no-repeat;
-    background-position: bottom;
-    display: flex;
+//   @at-root.info-det-wrapper {
+//     width: 100%;
+//     padding-bottom: pxToRem(6px);
+//     background-image: url("../images/fwg/info_border.png");
+//     background-size: pxToRem(436px) pxToRem(3px);
+//     background-repeat: no-repeat;
+//     background-position: bottom;
+//     display: flex;
 
-    .info-avator-wrapper {
-      width: pxToRem(120px);
-      height: pxToRem(120px);
-      margin-right: pxToRem(20px);
+//     .info-avator-wrapper {
+//       width: pxToRem(120px);
+//       height: pxToRem(120px);
+//       margin-right: pxToRem(20px);
 
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
+//       img {
+//         width: 100%;
+//         height: 100%;
+//       }
+//     }
 
-    .info-det {
-      flex: 1;
-      font-size: pxToRem(29px);
-      color: #fff;
+//     .info-det {
+//       flex: 1;
+//       font-size: pxToRem(29px);
+//       color: #fff;
 
-      .info-first-row {
-        padding: pxToRem(10px) 0 pxToRem(18px) 0;
-      }
+//       .info-first-row {
+//         padding: pxToRem(10px) 0 pxToRem(18px) 0;
+//       }
 
-      > p {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
+//       > p {
+//         display: flex;
+//         justify-content: space-between;
+//         align-items: center;
+//       }
 
-      .progress-bg {
-        @include inline-background(
-          "../images/fwg/progress_bg.png",
-          421px,
-          28px
-        );
-      }
+//       .progress-bg {
+//         @include inline-background(
+//           "../images/fwg/progress_bg.png",
+//           421px,
+//           28px
+//         );
+//       }
 
-      .info-progress {
-        background-image: url("../images/fwg/icon_progress.png");
-        background-repeat: no-repeat;
-        background-position: left;
-        height: 100%;
-        display: inline-block;
-        background-size: 100% 100%;
-      }
-    }
-  }
+//       .info-progress {
+//         background-image: url("../images/fwg/icon_progress.png");
+//         background-repeat: no-repeat;
+//         background-position: left;
+//         height: 100%;
+//         display: inline-block;
+//         background-size: 100% 100%;
+//       }
+//     }
+//   }
 
-  .sign-wrapper {
-    margin: pxToRem(25px) 0 pxToRem(20px) 0;
-    font-size: pxToRem(40px);
-    color: #fff;
+//   .sign-wrapper {
+//     margin: pxToRem(25px) 0 pxToRem(20px) 0;
+//     font-size: pxToRem(40px);
+//     color: #fff;
 
-    .sign-txt {
-      color: #f1b953;
-      font-size: pxToRem(45px);
-    }
-  }
+//     .sign-txt {
+//       color: #f1b953;
+//       font-size: pxToRem(45px);
+//     }
+//   }
 
-  .info-remark {
-    font-size: pxToRem(30px);
-    color: #fff;
-    text-align: center;
-  }
-}
+//   .info-remark {
+//     font-size: pxToRem(30px);
+//     color: #fff;
+//     text-align: center;
+//   }
+// }
 
-.edit-sign-content {
-  padding: pxToRem(40px);
-  width: pxToRem(639px);
-  min-height: pxToRem(370px);
-  background-color: rgba(77, 71, 103, 0.9);
-  background-image: url("../images/fwg/sign_bg_top.png"),
-    url("../images/fwg/sign_bg_bottom.png");
-  background-size: pxToRem(639px) pxToRem(99px), pxToRem(639px) pxToRem(76px);
-  background-repeat: no-repeat, no-repeat;
-  background-position: top, bottom;
-  border-radius: pxToRem(30px);
-  top: 40% !important;
-  font-size: pxToRem(26px);
-  color: #fff;
+// .edit-sign-content {
+//   padding: pxToRem(40px);
+//   width: pxToRem(639px);
+//   min-height: pxToRem(370px);
+//   background-color: rgba(77, 71, 103, 0.9);
+//   background-image: url("../images/fwg/sign_bg_top.png"),
+//     url("../images/fwg/sign_bg_bottom.png");
+//   background-size: pxToRem(639px) pxToRem(99px), pxToRem(639px) pxToRem(76px);
+//   background-repeat: no-repeat, no-repeat;
+//   background-position: top, bottom;
+//   border-radius: pxToRem(30px);
+//   top: 40% !important;
+//   font-size: pxToRem(26px);
+//   color: #fff;
 
-  .es-txt {
-    margin-top: pxToRem(20px);
-  }
+//   .es-txt {
+//     margin-top: pxToRem(20px);
+//   }
 
-  .es-txt2 {
-    font-size: pxToRem(40px);
-    color: #f7c356;
-    margin: pxToRem(70px) 0 pxToRem(60px) 0;
-  }
+//   .es-txt2 {
+//     font-size: pxToRem(40px);
+//     color: #f7c356;
+//     margin: pxToRem(70px) 0 pxToRem(60px) 0;
+//   }
 
-  .es-input {
-    @include background("../images/fwg/sign_input.png", 580px, 63px);
-    background-size: 100% 100%;
-    padding: pxToRem(14px);
-    line-height: pxToRem(63px);
-    font-size: pxToRem(35px);
-    color: #d4cdcd;
-  }
+//   .es-input {
+//     @include background("../images/fwg/sign_input.png", 580px, 63px);
+//     background-size: 100% 100%;
+//     padding: pxToRem(14px);
+//     line-height: pxToRem(63px);
+//     font-size: pxToRem(35px);
+//     color: #d4cdcd;
+//   }
 
-  .es-btn-submit {
-    @include background("../images/fwg/sign_btn_submit.png", 274px, 87px);
-  }
+//   .es-btn-submit {
+//     @include background("../images/fwg/sign_btn_submit.png", 274px, 87px);
+//   }
 
-  .es-btn-cancle {
-    @include background("../images/fwg/sign_btn_cancle.png", 265px, 88px);
-  }
+//   .es-btn-cancle {
+//     @include background("../images/fwg/sign_btn_cancle.png", 265px, 88px);
+//   }
 
-  .es-btns {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: pxToRem(100px);
+//   .es-btns {
+//     width: 100%;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     margin-top: pxToRem(100px);
 
-    > div:nth-child(2) {
-      margin-left: pxToRem(24px);
-    }
-  }
+//     > div:nth-child(2) {
+//       margin-left: pxToRem(24px);
+//     }
+//   }
 
-  .es-btn-input {
-    margin: pxToRem(20px) auto 0 auto;
-  }
-}
-.sign-sumbit-wrapper {
-  display: none;
-  &.active {
-    display: block;
-  }
-}
+//   .es-btn-input {
+//     margin: pxToRem(20px) auto 0 auto;
+//   }
+// }
+// .sign-sumbit-wrapper {
+//   display: none;
+//   &.active {
+//     display: block;
+//   }
+// }
 
 @keyframes wordsLoop {
   0% {
