@@ -1,0 +1,226 @@
+@charset "UTF-8";
+@import "variables";
+@import "../../../sass/func";
+
+.mc-content {
+    padding-top: pxToRem(243px);
+    .club-header {
+        background-image: url("../images/mycard/bg_btns.png") !important;
+        height: pxToRem(121px) !important;
+        background-size: 100% 100% !important;
+        padding-left: pxToRem(100px);
+        .icon-title {
+            display: block;
+            background: url("../images/club/title.png") no-repeat center;
+            background-size: contain;
+            width: pxToRem(146px);
+            height: pxToRem(54px);
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+    .mc-btn-wrapper {
+        background-image: url("../images/mycard/bg_btns.png");
+        width: 100%;
+        height: pxToRem(124px);
+        background-size: 100%;
+        position: absolute;
+        left: 0;
+        top: pxToRem(119px);
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding-left: pxToRem(64px);
+        font-size: pxToRem(48px);
+        color: #fff;
+        font {
+            color: #CABEB5;
+        }
+       .icon-fresh {
+           background: url("../images/club/refresh.png") no-repeat center;
+           background-size: contain;
+           width: pxToRem(65px);
+           height: pxToRem(72px);
+
+           position: absolute;
+           right: pxToRem(30px);
+       } 
+    }
+    
+    .club-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: pxToRem(266px);
+        .btn-groups {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: pxToRem(71px);
+            padding-top: pxToRem(2px);
+            overflow: auto;
+            box-shadow: 0 0 20px 0px rgba(255, 255, 255, .6) inset;
+            font-size: 0;
+            .btn {
+                display: inline-block;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                vertical-align: center;
+                margin-right: pxToRem(44px);
+                height: pxToRem(69px);
+            }
+            .gametype {
+                background-image: url("../images/club/btn_gametype.png");
+                width: pxToRem(100px);
+            }
+            .create {
+                background-image: url("../images/club/btn_create.png");
+                width: pxToRem(60px);
+            }
+            .score {
+                background-image: url("../images/club/btn_score.png");
+                width: pxToRem(57px);
+            }
+            .dismiss {
+                background-image: url("../images/club/btn_dismiss.png");
+                width: pxToRem(79px);
+            }
+            .member {
+                background-image: url("../images/club/btn_member.png");
+                width: pxToRem(67px);
+            }
+            .found {
+                background-image: url("../images/club/btn_found.png");
+                width: pxToRem(70px);
+            }
+            .detail {
+                background-image: url("../images/club/btn_detail.png");
+                width: pxToRem(52px);
+                margin-right: -5px;
+            }
+        }
+        .room-groups {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: pxToRem(185px);
+            font-size: 0;
+            padding: pxToRem(25px) 0 0 pxToRem(8px);
+            .room {
+                display: inline-block;
+                background: url("../images/club/bg_room.png") no-repeat center;
+                background-size: contain;
+                width: pxToRem(118px);
+                height: pxToRem(159px);
+                vertical-align: middle;
+                margin-right: pxToRem(18px);
+                color: #fff;
+                font-size: pxToRem(17px);
+                text-align: center;
+
+                position: relative;
+                &:after {
+                    content: '';
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    width: pxToRem(98px);
+                    height: pxToRem(98px);
+                    position: absolute;
+                    top: -1px;
+                    left: -1px;
+                }
+                &.normal {
+                    &:after {
+                        background-image: url("../images/club/label_pt.png");
+                    }
+                }
+                &.game {
+                    &:after {
+                        background-image: url("../images/club/label_bs.png");
+                    }
+                }
+                &.active {
+                    &:before {
+                        content: '';
+                        background: url("../images/club/border2.png") no-repeat center;
+                        background-size: contain;
+                        width: pxToRem(118px);
+                        height: pxToRem(185px);
+
+                        position: absolute;
+                        bottom: pxToRem(2px);
+                        left: 50%;
+                        transform: translate(-50%, 0);
+                    }
+                }
+            }
+
+            .my-info {
+                &:before {
+                    content: '';
+                    width: pxToRem(118px);
+                    height: pxToRem(161px);
+                    background: url("../images/club/border1.png") no-repeat center;
+                    background-size: contain;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+                .grade {
+                    font-size: pxToRem(20px);
+                    padding-top: pxToRem(10px);
+                }
+            }
+
+           .icon-roomcard {
+               background: url("../images/club/roomcard.png") no-repeat center;
+               background-size: contain;
+               width: pxToRem(120px);
+               height: pxToRem(123px);
+               position: absolute;
+               bottom: pxToRem(12px);
+               left: pxToRem(-8px);
+           }
+           .icon-cup {
+               @extend .icon-roomcard;
+                background: url("../images/club/cup.png") no-repeat center;
+                background-size: contain;
+                width: pxToRem(131px);
+                height: pxToRem(126px);
+            }
+            .add {
+                position: absolute;
+                right: pxToRem(20px);
+                bottom: 0;
+                &:after {
+                    content: '';
+                    background: url("../images/club/add.png") no-repeat center;
+                    background-size: contain;
+                    width: pxToRem(83px);
+                    height: pxToRem(83px);
+
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+        }
+        .info-avator-wrapper {
+            width: pxToRem(90px);
+            height: pxToRem(90px);
+            margin: pxToRem(6px) auto 0;
+        }
+    }
+}
+
+// icon

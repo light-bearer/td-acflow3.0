@@ -53,6 +53,20 @@ a {
   background-image: url("../images/mycard/bg_mycard.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
+
+  .common-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    //   text-align: center;
+    .icon-back {
+      @include background("../images/mycard/icon_back.png", 78px, 78px);
+      position: absolute;
+      left: pxToRem(17px);
+      top: pxToRem(20px);
+    }
+  }
 }
 
 .main-header {
@@ -199,7 +213,7 @@ input {
     margin: 0 auto pxToRem(50px) auto;
   }
 
-  @at-root.info-det-wrapper {
+  @at-root .info-det-wrapper {
     width: 100%;
     padding-bottom: pxToRem(6px);
     background-image: url("../images/fwg/info_border.png");
@@ -208,7 +222,7 @@ input {
     background-position: bottom;
     display: flex;
 
-    .info-avator-wrapper {
+    @at-root .info-avator-wrapper {
       width: pxToRem(120px);
       height: pxToRem(120px);
       margin-right: pxToRem(20px);
