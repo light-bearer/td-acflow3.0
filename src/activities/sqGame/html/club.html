@@ -32,13 +32,13 @@
 
         <div class="club-footer">
             <div class="btn-groups">
-                <div class="btn gametype"></div>
-                <div class="btn create"></div>
-                <div class="btn score"></div>
-                <div class="btn dismiss"></div>
-                <div class="btn member"></div>
-                <div class="btn found"></div>
-                <div class="btn detail"></div>
+                <div class="btn gametype" data-type="gametype"></div>
+                <div class="btn create" data-type="create"></div>
+                <div class="btn score" data-type="score"></div>
+                <div class="btn dismiss" data-type="dismiss"></div>
+                <div class="btn member" data-type="member"></div>
+                <div class="btn found" data-type="found"></div>
+                <div class="btn detail" data-type="detail"></div>
             </div>
             <div class="room-groups">
                 <div class="room my-info">
@@ -60,11 +60,44 @@
         </div>
     </div>
 
+    <!-- 创建房间弹窗 -->
+    <div class="create-room-popup popup-wrapper">
+        <div class="masker"></div>
+        <div class="cr-wrapper popup-content">
+            <div class="game-list-wrapper">
+                <i class="icon-select" id="game_select"></i>
+                <div class="game-list hidden">
+                    <div class="game-list-scroll">
+                        <!-- <div class="game-list-item active">葫芦鱼二骰</div>
+                        <div class="game-list-item">葫芦鱼二骰</div>
+                        <div class="game-list-item">葫芦鱼二骰</div>
+                        <div class="game-list-item">葫芦鱼二骰</div>
+                        <div class="game-list-item">葫芦鱼二骰</div>
+                        <div class="game-list-item">葫芦鱼二骰</div>
+                        <div class="game-list-item">葫芦鱼二骰</div>
+                        <div class="game-list-item">葫芦鱼二骰</div> -->
+                    </div>
+                </div>
+                <i class="icon-select hide hidden" id="game_hide"></i>
+            </div>
+            <i class="icon-close close-popup"></i>
+            <div class="btns-wapper">
+            <i class="btn-zyqzh active" data-type="自由抢庄"></i>
+            <i class="btn-gdzhj" data-type="固定庄家"></i>
+            <i class="btn-kfdzh" data-type="开房当庄"></i>
+            </div>
+            <ul class="cr-content">
+            <!-- temp -->
+            </ul>
+            <p class="cr-bottom-txt">创建房间，无人参与，半小时后返还房卡</p>
+            <div class="btn-cr"></div>
+        </div>
+    </div>
 </body>
 <!-- build:js ../js/lib/fastclick-jquery.js-->
 <script src="../../../lib/fastclick-jquery-fix-1.8.3.js" type="text/javascript" charset="utf-8"></script>
 <!-- endbuild -->
 <script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
-<!-- <script src="../js/members.js" type="text/javascript" charset="utf-8"></script> -->
+<script src="../js/club.js" type="text/javascript" charset="utf-8"></script>
 
 </html>

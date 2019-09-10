@@ -221,6 +221,58 @@
             margin: pxToRem(6px) auto 0;
         }
     }
+
+    @at-root .create-room-popup {
+        .game-list-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            .icon-select {
+                display: block;
+                background: url("../images/club/select.png") no-repeat center;
+                background-size: contain;
+                width: pxToRem(64px); 
+                height: pxToRem(64px);
+                &.hide {
+                    transform: scale(-1, -1);
+                }
+            }
+            .game-list {
+                position: relative;
+                background: url("../images/club/bg_room.png") no-repeat center;
+                background-size: 100% 100%;
+                width: pxToRem(218px);
+                height: pxToRem(320px);
+                font-size: pxToRem(32px);
+                color: #fff;
+                font-weight: bold;
+                text-shadow: 0 1px rgba(195,132,87,1), 1px 0 rgba(195,132,87,1), -1px 0 rgba(195,132,87,1), 0 -1px rgba(195,132,87,1);
+                box-sizing: border-box;
+                .game-list-scroll {
+                    position: absolute;
+                    top: pxToRem(20px);
+                    bottom: pxToRem(25px);
+                    right: pxToRem(18px);
+                    left: pxToRem(18px);
+                    box-sizing: border-box;
+                    overflow: auto;
+                }
+                .game-list-item {
+                    margin-bottom: pxToRem(20px);
+                    height: pxToRem(46px);
+                    line-height: pxToRem(46px);
+                    &.active {
+                        background: url("../images/club/select_active.png") no-repeat center;
+                        background-size: 100% 100%;
+                    }
+                }
+            }
+
+        }
+    }
 }
 
+.hidden {
+    display: none !important;
+}
 // icon
