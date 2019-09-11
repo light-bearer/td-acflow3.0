@@ -4,6 +4,7 @@
 
 .mc-content {
     padding-top: pxToRem(243px);
+    padding-bottom: pxToRem(266px);
     .club-header {
         background-image: url("../images/mycard/bg_btns.png") !important;
         height: pxToRem(121px) !important;
@@ -49,7 +50,53 @@
            right: pxToRem(30px);
        } 
     }
-    
+    .content-main {
+        .room {
+            position: relative;
+            width: pxToRem(710px);
+            height: pxToRem(232px);
+            background-color: rgba(0, 0, 0, .35);
+            border: pxToRem(4px) solid #8F7269;
+            border-radius: 5px;
+            margin:  0 auto pxToRem(24px);
+            color: #B1A7A7;
+            font-size: pxToRem(28px);
+            padding: 0 pxToRem(12px);
+            .top {
+                width: 100%;
+                height: pxToRem(95px);
+                background: url("../images/club/split.png") no-repeat bottom;
+                background-size: pxToRem(621px) pxToRem(3px);
+                display: flex;
+                align-items: center;
+                .info-avator-wrapper {
+                    width: pxToRem(75px);
+                    height: pxToRem(75px);
+                    margin-right: pxToRem(18px);
+                }
+                .room-name {
+                    flex: 1;
+                }
+                .room-count {
+                    width: pxToRem(100px);
+                }
+            }
+            .bottom {
+                padding: 0 pxToRem(20px);
+                .icon-txt {
+                    width: pxToRem(33px);
+                    height: pxToRem(33px);
+                    border-radius: pxToRem(60px);
+                    background-color: #fff;
+                    color: #602FD3;
+                    font-size: pxToRem(33px);
+                }
+            }
+            .row {
+                display: flex;
+            }
+        }
+    }
     .club-footer {
         position: absolute;
         bottom: 0;
@@ -269,9 +316,68 @@
             }
 
         }
+        .btn-save {
+            background:url("../images//club/btn_save.png") no-repeat center;
+            background-size: contain;
+            width: pxToRem(274px);
+            height: pxToRem(87px);
+            margin: pxToRem(30px) auto 0;
+        }
     }
 }
 
+.popup-create-club {
+    .content-bg.content-create-club {
+        width: pxToRem(664px);
+        height: pxToRem(470px);
+        background-size: 100% 100%;
+        .icon-close {
+            top: 0;
+            right: 0;
+            transform: translate(30%, -20%);
+        }
+        .txt-create-club {
+            display: block;
+            background: url("../images/club/txt_create_club.png") no-repeat center;
+            background-size: contain;
+            width: pxToRem(273px);
+            height: pxToRem(60px);
+            margin: pxToRem(74px) auto pxToRem(69px);
+        }
+        .input-wrapper {
+            text-align: center;
+        }
+        .common-input {
+            width: pxToRem(298px);
+            height: pxToRem(70px); 
+            color: #E1E1E1;
+        }
+        .btn-confirm-yellow {
+            margin: pxToRem(82px) auto 0;
+        }
+    }
+}
+.popup-create-success {
+    .content-bg.content-create-success{
+        width: pxToRem(664px);
+        height: pxToRem(343px);
+        background-size: 100% 100%;
+        .msg {
+            width: pxToRem(280px);
+            height: pxToRem(60px);
+            line-height: pxToRem(60px);
+            color: #fefefe;
+            font-size: pxToRem(32px);
+            text-align: center;
+            margin: pxToRem(60px) auto pxToRem(90px) ;
+            background-color: #976A43;
+            border-radius: 5px;
+        }
+    }
+    .btn-confirm-blue {
+        margin: 0 auto;
+    }
+}
 .hidden {
     display: none !important;
 }

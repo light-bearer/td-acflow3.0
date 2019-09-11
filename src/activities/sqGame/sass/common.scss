@@ -165,6 +165,13 @@ input {
   border: 0;
 }
 
+.common-input {
+  background: url(../images/input_bg.png) no-repeat center;
+  background-size: 100% 100%;
+  width: 6.4rem;
+  height: 2.048rem;
+  text-align: center;
+}
 .common-header {
   // @include background('../images/mycard/bg_header.png', 750px, 119px);
   width: 100%;
@@ -501,4 +508,18 @@ input {
     //   48px
     // );
   }
+}
+
+// btns
+.btn-confirm-yellow {
+  background: url("../images/user/btn_submit.png") no-repeat center;
+  background-size: contain;
+  width: pxToRem(232px);
+  height: pxToRem(72px);
+}
+.btn-confirm-blue {
+  background: url("../images/fwg/sign_btn_submit.png") no-repeat center;
+  background-size: contain;
+  width: pxToRem(274px);
+  height: pxToRem(87px);
 }
