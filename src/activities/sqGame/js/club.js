@@ -3,6 +3,9 @@
     var openId = Util.getParam("openId"), // 登录后返回相关openid
     code = Util.getParam("code"); // 授权code
 
+    var groups = [],
+        currentGroup = '';
+
   /** 主要初始化 */
     var baseInfo = Util.getSession(Util.baseInfo),
       token = Util.getSession(Util.token);
@@ -62,7 +65,31 @@
         });
     });
 
-    
+    // 创建或者加入俱乐部
+    $('.room-groups').on('click', '#add', function(e) {
+        $('.create-join-club').show();
+    })
+    // 点击群组
+    $('.room-groups').on('click', '.room.my-info', function(e) {
+        handleSelectGroup(e);
+    })
+    // 弹窗创建俱乐部
+    $('.create-join-club').on('click', '.btn-create-club', function(e) {
+        // $('.popup-create-club').show();
+        $('.create-join-club').hide();
+        inputDialog({
+            title: '../images/club/txt_create_club.png',
+            placeholder: '输入俱乐部名字',
+            cb: function(inputValue) {
+                console.log(inputValue)
+                createGroup(inputValue);
+            }
+        })
+    })
+    // // 创建俱乐部
+    // $('.popup-create-club').on('click', '#create_group', function(e) {
+    //     createGroup();
+    // })
 
     $('.popup-wrapper').on("click", '.masker, .icon-close, .to-close', function() {
         $(".popup-wrapper").hide();
@@ -71,69 +98,7 @@
     $(".btn-save").on("click", function(e) {
         // location.href = "./gameAnbao.html";
         // return;
-        var roomParams = {
-          chip: $('input[name="chips"]:checked').val(),
-          chipLimit: $('input[name="chipLimits"]:checked').val(),
-          people: $('input[name="peoples"]:checked').val(),
-          betTime: $('input[name="betTimes"]:checked').val(),
-          gameId: $('.game-list-item.active').attr('data-id'),
-          playOdds: "",
-          type: $(".btns-wapper")
-            .find(".active")
-            .eq(0)
-            .attr("data-type")
-        };
-        var $playOddsEle = $(".playOdds:checked"),
-          gameNumberRoomCard = $(
-            'input[name="gameNumberOfGameList"]:checked'
-          ).val();
-        if (gameNumberRoomCard) {
-          var arr = gameNumberRoomCard.split(",");
-          roomParams.numberOfGame = arr[0];
-          roomParams.roomCard = arr[1];
-        }
-        if ($playOddsEle) {
-          var playOdds = [];
-          // playOdds = {};
-          for (var i = 0, eleLength = $playOddsEle.length; i < eleLength; i++) {
-            // console.info("elem--", $playOddsEle.eq(i));
-            var idOdds = $playOddsEle
-              .eq(i)
-              .val()
-              .split(",");
-  
-            playOdds.push(
-              JSON.stringify({
-                gamePlayId: parseInt(idOdds[0]),
-                odds: parseFloat(idOdds[1])
-              })
-            );
-            // playOdds[idOdds[0]] = idOdds[1];
-          }
-          // roomParams.playOdds = playOdds;
-          // roomParams.playOdds = JSON.stringify(playOdds);
-          roomParams.playOdds = "[" + playOdds.join(",") + "]";
-        }
-        // console.info("roomParams---", roomParams);
-        Util.Ajax({
-          url: Util.openAPI + "/app/room/createRoom",
-          type: "post",
-          data: roomParams,
-          dataType: "json",
-          cbOk: function(data, textStatus, jqXHR) {
-            // console.log(data);
-            if (data.code === 0) {
-              // Util.setSession("roomParams", data.data);
-              var id = data.data.id;
-              location.href = "./gameAnbao.html?id=" + id;
-            } else {
-              Util.toast(data.msg);
-            }
-          },
-          cbErr: function(e, xhr, type) {
-            Util.toast("创建房间失败");
-          }
-        });
+        createGameType();
       });
 
       // 1、进来第一步，调群组列表接口group/getListOfUser
@@ -145,15 +110,31 @@
             cbOk: function(data, textStatus, jqXHR) {
             // console.log(data);
             if (data.code === 0) {
-                var _rooms = data.data;
+                groups = data.data;
+                currentGroup = 0;
                 // 编译地步房间模板
-                var roomTemp = '<div class="room my-info" id="creator"> '
+                var groupTemp = '';
+                groups.forEach(function(group, index) {
+                    groupTemp += '<div class="room my-info '+ (index === 0 ? 'active' : '') +'" id="creator" data-index="'+ index + '"> '
                     + '<div class="info-avator-wrapper">'
-                    + '<img src="'+ _rooms[0].createUserImg +'" alt="" id="creator_img">'
+                    + '<img src="'+ group.createUserImg +'" alt="" id="creator_img">'
                     + '</div>'
-                    + '<p id="creator_name">' + _rooms[0].createUserNickName +'</p>'
-                    + '<p class="grade" id="level">' + _rooms[0].level +'</p>'
-                    + '</div>'
+                    + '<p id="creator_name">' + group.createUserNickName +'</p>'
+                    + '<p class="grade" id="level">' + group.level +'</p>'
+                    + '</div>';
+                })
+
+                groupTemp += '<div class="room normal active" data-value="0">'
+                           + ' <i class="icon-roomcard"></i>'
+                           + '</div>'
+                           + '<div class="room game" data-value="1">'
+                           + '<i class="icon-cup"></i>'
+                           + '</div>';
+                $('#room_scroll_wrapper').html(groupTemp);
+
+                // 展示当前俱乐部名称和id
+                $('#group_name').text(groups[currentGroup].name);
+                $('#group_num').html(groups[currentGroup].groupNumber);
 
             } else {
                 Util.toast("获取群组列表失败");
@@ -163,6 +144,110 @@
             Util.toast("获取群组列表失败");
             }
         });
+    }
+
+    // 2、创建俱乐部
+    function createGroup(name) {
+        name = name.trim();
+        if (!name) {
+            Util.toast('俱乐部名称不能为空!');
+            return;
+        }
+        Util.Ajax({
+            url: Util.openAPI + "/app/group/create",
+            type: "post",
+            dataType: "json",
+            data: {
+                name: name
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+            // console.log(data);
+            if (data.code === 0) {
+                $('.popup-create-club').hide();
+
+                Util.popup({
+                    type: 'alert',
+                    content: '创建' + name + '群成功',
+                    positiveCb: function() {
+                        getListOfUser();
+                    }
+                })
+
+            } else {
+                Util.toast("创建俱乐部失败");
+            }
+            },
+            cbErr: function(e, xhr, type) {
+            Util.toast("创建俱乐部失败");
+            }
+        });
+    }
+
+    // 创建游戏类型
+    function createGameType() {
+        var roomParams = {
+            chip: $('input[name="chips"]:checked').val(),
+            chipLimit: $('input[name="chipLimits"]:checked').val(),
+            people: $('input[name="peoples"]:checked').val(),
+            betTime: $('input[name="betTimes"]:checked').val(),
+            gameId: $('.game-list-item.active').attr('data-id'),
+            playOdds: "",
+            type: $(".btns-wapper")
+              .find(".active")
+              .eq(0)
+              .attr("data-type")
+          };
+          var $playOddsEle = $(".playOdds:checked"),
+            gameNumberRoomCard = $(
+              'input[name="gameNumberOfGameList"]:checked'
+            ).val();
+          if (gameNumberRoomCard) {
+            var arr = gameNumberRoomCard.split(",");
+            roomParams.numberOfGame = arr[0];
+            roomParams.roomCard = arr[1];
+          }
+          if ($playOddsEle) {
+            var playOdds = [];
+            // playOdds = {};
+            for (var i = 0, eleLength = $playOddsEle.length; i < eleLength; i++) {
+              // console.info("elem--", $playOddsEle.eq(i));
+              var idOdds = $playOddsEle
+                .eq(i)
+                .val()
+                .split(",");
+    
+              playOdds.push(
+                JSON.stringify({
+                  gamePlayId: parseInt(idOdds[0]),
+                  odds: parseFloat(idOdds[1])
+                })
+              );
+              // playOdds[idOdds[0]] = idOdds[1];
+            }
+            // roomParams.playOdds = playOdds;
+            // roomParams.playOdds = JSON.stringify(playOdds);
+            roomParams.playOdds = "[" + playOdds.join(",") + "]";
+          }
+          // console.info("roomParams---", roomParams);
+          Util.Ajax({
+            url: Util.openAPI + "/app/room/createRoom",
+            type: "post",
+            data: roomParams,
+            dataType: "json",
+            cbOk: function(data, textStatus, jqXHR) {
+              // console.log(data);
+              if (data.code === 0) {
+                // Util.setSession("roomParams", data.data);
+                var id = data.data.id;
+                location.href = "./gameAnbao.html?id=" + id;
+              } else {
+                Util.toast(data.msg);
+              }
+            },
+            cbErr: function(e, xhr, type) {
+              Util.toast("创建房间失败");
+            }
+          });
     }
     // 游戏类型
     function eventGametype() {
@@ -202,5 +287,65 @@
 
     function eventScore() {
         window.location.href = './record.html';
+    }
+    // 选择群组
+    function handleSelectGroup(e) {
+        var $target = $(e.currentTarget),
+            index = $target.attr('data-index');
+        $('.my-info').removeClass('active');
+        $target.addClass('active');
+        currentGroup = index;
+        $('#group_name').html(groups[currentGroup].name);
+        $('#group_num').html(groups[currentGroup].groupNumber);
+    }
+
+    /**
+   * @func
+   * @desc 带输入框弹窗
+   * @param {options} options - 配置参数
+   * @param {string} options.title - titleUrl，标题图片路径
+   * @param {string} options.placeholder - 输入框提示语
+   * @param {function} options.cb - 确定回调
+   */
+    function inputDialog(options) {
+        var _options = {
+            title: '',
+            placeholder: '',
+            cb: function () {},
+          };
+          _options = $.extend(_options, options || {});
+          var popup_wrapper = $('<div/>')
+              .addClass('popup-wrapper')
+              .addClass('popup-input-dialog'),
+            masker = $('<div/>').addClass('masker'),
+            popup_content = $('<div/>').addClass('popup-content').addClass('content-bg'),
+            icon_close = $('<i/>').addClass('icon-close'),
+            title = $('<i/>').addClass('icon-title').css({
+                'backgroundImage': 'url("'+ _options.title + '")'
+            }),
+            inputwrapper = $('<div/>').addClass('input-wrapper'),
+            input = $('<input/>').addClass('common-input').attr('placeholder', _options.placeholder),
+
+            btn = $('<div/>').addClass('btn-confirm-yellow');
+            
+            inputwrapper.append(input);
+
+            popup_content.append(icon_close).append(title).append(inputwrapper).append(btn);
+            popup_wrapper.append(masker).append(popup_content);
+          
+          $("body").append(popup_wrapper); // 事件绑定
+          masker.bind("click", function(e) {
+            hide(popup_wrapper);
+          });
+          icon_close.bind("click", function(e) {
+            hide(popup_wrapper);
+          });
+          btn.on('click', function(e) {
+            _options.cb && _options.cb(input.val());
+            hide(popup_wrapper);
+          });
+          function hide(target) {
+            target.remove();
+          }
     }
 })();

@@ -287,59 +287,48 @@
    * @func
    * @desc popup 对话框
    * @param {options} options - 配置参数
-   * @param {string} [options.title] - 对话框标题，选填
+   * @param {string} options.type - 对话框类型，'alert - 只有确认按钮； confirm - 取消和确认按钮
    * @param {string} options.content - 对话框提示信息，必填
-   * @param {object[]} options.btns - 参数btns为一个对象数组，必填
-   * @param {string} btns.name - 参数btns数组中一项的name属性，表示按钮名称
-   * @param {string} btns.cb - 参数btns数组中一项的cb，表示对应按钮的回调函数
+   * @param {function} options.negativeCb - 取消按钮回调
+   * @param {function} options.positiveCb - 确认按钮回调
    */
   function popup(options) {
     var _options = {
-      title: "",
+      type: 'alert',
       content: "",
-      btns: [
-        {
-          name: "",
-          cb: function() {}
-        },
-        {
-          name: "",
-          cb: function() {}
-        }
-      ]
+      negativeCb: function () {},
+      positiveCb: function() {},
     };
     _options = $.extend(_options, options || {});
-    var dialog_component = $("<div/>")
-        .addClass("popup")
-        .addClass("component-dialog"),
+    var popup_wrapper = $("<div/>")
+        .addClass("popup-wrapper")
+        .addClass("popup-message"),
       masker = $("<div/>").addClass("masker"),
-      dialog_wrapper = $("<div/>").addClass("pop-wrapper"),
-      dialog_title = _options.title
-        ? $("<div/>")
-            .addClass("pop-title")
-            .html(_options.title)
-        : "",
-      dialog_content = $("<div/>")
-        .addClass("pop-content")
+      popup_content = $("<div/>").addClass("popup-content"),
+      msg  = $("<div/>")
+        .addClass("msg")
         .html(_options.content),
-      btns = $("<div/>").addClass("btns"),
-      _btn_temp = "";
-    dialog_wrapper.append(dialog_title).append(dialog_content);
-    for (var i = 0; i < _options.btns.length; i++) {
-      _btn_temp += "<button>" + _options.btns[i].name + "</button>";
-    }
-    btns.html(_btn_temp);
-    dialog_wrapper.append(btns);
-    dialog_component.append(masker).append(dialog_wrapper);
-    $("body").append(dialog_component); // 事件绑定
+      btns = $("<div/>").addClass("btn-group"),
+      negativeBtn = $("<div/>").addClass("btn-msg-negative");
+      positiveBtn = $("<div/>").addClass("btn-msg-positive");
+      if (_options.type === 'confirm') {
+        btns.append(negativeBtn);
+      }
+      btns.append(positiveBtn);
+      popup_content.append(msg).append(btns);
+      popup_wrapper.append(masker).append(popup_content);
+    
+    $("body").append(popup_wrapper); // 事件绑定
     masker.bind("click", function(e) {
-      hide(dialog_component);
+      hide(popup_wrapper);
     });
-    btns.on("click", "button", function(e) {
-      var $target = $(e.currentTarget);
-      var cb = _options.btns[$target.index()].cb;
-      cb && cb.call(this, arguments);
-      hide(dialog_component);
+    negativeBtn.on('click', function(e) {
+      _options.negativeCb && _options.negativeCb.call(this, arguments);
+      hide(popup_wrapper);
+    });
+    positiveBtn.on('click', function(e) {
+      _options.positiveCb && _options.positiveCb.call(this, arguments);
+      hide(popup_wrapper);
     });
     function hide(target) {
       target.remove();

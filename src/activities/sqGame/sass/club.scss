@@ -189,7 +189,7 @@
                 margin-right: -5px;
             }
         }
-        .room-groups {
+        @at-root .room-groups {
             position: absolute;
             bottom: 0;
             left: 0;
@@ -255,17 +255,19 @@
             }
 
             .my-info {
-                &:before {
-                    content: '';
-                    width: pxToRem(118px);
-                    height: pxToRem(161px);
-                    background: url("../images/club/border1.png") no-repeat center;
-                    background-size: contain;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                }
+                &.active {
+                    &:before {
+                        content: '';
+                        width: pxToRem(118px);
+                        height: pxToRem(161px);
+                        background: url("../images/club/border1.png") no-repeat center;
+                        background-size: contain;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                } 
                 .grade {
                     font-size: pxToRem(20px);
                     padding-top: pxToRem(10px);
@@ -304,6 +306,7 @@
                     left: 50%;
                     transform: translate(-50%, -50%);
                 }
+
             }
         }
         .info-avator-wrapper {
@@ -370,8 +373,9 @@
     }
 }
 
-.popup-create-club {
-    .content-bg.content-create-club {
+.popup-input-dialog {
+    display: block;
+    .popup-content {
         width: pxToRem(664px);
         height: pxToRem(470px);
         background-size: 100% 100%;
@@ -380,14 +384,17 @@
             right: 0;
             transform: translate(30%, -20%);
         }
-        .txt-create-club {
+        .icon-title {
             display: block;
-            background: url("../images/club/txt_create_club.png") no-repeat center;
+            background-repeat: no-repeat;
+            background-position: center;
             background-size: contain;
-            width: pxToRem(273px);
             height: pxToRem(60px);
             margin: pxToRem(74px) auto pxToRem(69px);
         }
+        // .txt-create-club {
+        //     background-image: url("../images/club/txt_create_club.png");
+        // }
         .input-wrapper {
             text-align: center;
         }
@@ -401,25 +408,33 @@
         }
     }
 }
-.popup-create-success {
-    .content-bg.content-create-success{
-        width: pxToRem(664px);
-        height: pxToRem(343px);
-        background-size: 100% 100%;
-        .msg {
-            width: pxToRem(280px);
-            height: pxToRem(60px);
-            line-height: pxToRem(60px);
-            color: #fefefe;
-            font-size: pxToRem(32px);
-            text-align: center;
-            margin: pxToRem(60px) auto pxToRem(90px) ;
-            background-color: #976A43;
-            border-radius: 5px;
-        }
+
+
+.create-join-club {
+    .masker {
+        background-color: transparent !important;
     }
-    .btn-confirm-blue {
-        margin: 0 auto;
+    .btns-group {
+        width: pxToRem(210px);
+        height: pxToRem(164px);
+        position: absolute;
+        bottom: pxToRem(102px);
+        right: pxToRem(29px);
+        left: unset;
+        top: unset;
+        transform: none;
+    }
+    .btn-create-club {
+        background: url("../images/club//btn_create_club.png") no-repeat center;
+        background-size: contain;
+        width: pxToRem(180px);
+        height: pxToRem(57px);
+        margin-bottom: pxToRem(8px);
+    }
+    .btn-join-club {
+        @extend .btn-create-club;
+        background: url("../images/club//btn_join_club.png") no-repeat center;
+        background-size: contain;
     }
 }
 .hidden {

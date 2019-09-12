@@ -510,6 +510,40 @@ input {
   }
 }
 
+.popup-message {
+  display: block;
+  .popup-content{
+      width: pxToRem(583px);
+      min-height: pxToRem(343px);
+      background: url("../images/bg_message.png") no-repeat center;
+      background-size: 100% 100%;
+      padding: pxToRem(82px) pxToRem(24px) pxToRem(30px);
+      .msg {
+          width: pxToRem(401px);
+          // height: pxToRem(60px);
+          line-height: pxToRem(60px);
+          color: #fefefe;
+          font-size: pxToRem(32px);
+          text-align: center;
+          margin: 0 auto ;
+          background-color: #7e4824a4;
+          border-radius: 5px;
+      }
+  }
+  .btn-group {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: pxToRem(96px);
+    display: flex;
+    justify-content: center;
+    div {
+      flex: 1;
+    }
+  }
+}
+
 // btns
 .btn-confirm-yellow {
   background: url("../images/user/btn_submit.png") no-repeat center;
@@ -522,4 +556,17 @@ input {
   background-size: contain;
   width: pxToRem(274px);
   height: pxToRem(87px);
+}
+
+.btn-msg-negative {
+  background: url("../images/btn_msg_negative.png") no-repeat center;
+  background-size: contain;
+  width: pxToRem(217px);
+  height: pxToRem(66px);
+}
+.btn-msg-positive {
+  background: url("../images/btn_msg_positive.png") no-repeat center;
+  background-size: contain;
+  width: pxToRem(217px);
+  height: pxToRem(66px);
 }
