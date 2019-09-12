@@ -1,0 +1,145 @@
+@charset "UTF-8";
+@import "variables";
+@import "../../../sass/func";
+// .animated {
+//   animation-duration: 1s;
+//   animation-fill-mode: both;
+// }
+$duration: 1s;
+
+@-webkit-keyframes robanimate {
+  0% {
+    opacity: 0;
+  }
+
+  60%,
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes robanimate {
+  0% {
+    opacity: 0;
+  }
+
+  60%,
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.robanimate {
+  // animation-name: robanimate;
+  animation: robanimate 2s linear both;
+}
+
+@-webkit-keyframes fadeIn {
+
+  0%,
+  80% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+
+  0%,
+  80% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes slideOutRight {
+  from {
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+  }
+
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(100%, -50%, 0);
+    transform: translate3d(100%, -50%, 0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+  }
+
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(100%, -50%, 0);
+    transform: translate3d(100%, -50%, 0);
+  }
+}
+
+.slideOutRight {
+  animation: slideOutRight 0.5s linear both;
+}
+
+@-webkit-keyframes resultAnit {
+  from {
+    background-image: url('../images/anbao/game_result_right.png');
+    background-position: right;
+  }
+
+  to {
+    background: none;
+    background-position: right;
+  }
+}
+
+@keyframes resultAnit {
+  from {
+    background-image: url('../images/anbao/game_result_right.png');
+    background-position: right;
+  }
+
+  to {
+    background: none;
+    background-position: right;
+  }
+}
+
+@-webkit-keyframes resultAnit2 {
+  from {
+    background-image: url('../images/anbao/game_result_top.png');
+    background-position: top;
+  }
+
+  to {
+    background: none;
+    background-position: top;
+  }
+}
+
+@keyframes resultAnit2 {
+  from {
+    background-image: url('../images/anbao/game_result_top.png');
+    background-position: top;
+  }
+
+  to {
+    background: none;
+    background-position: top;
+  }
+}

@@ -43,26 +43,26 @@
       <div class="an-game-content"></div>
       <!-- zh-粘虎； zr-粘入；zl-粘龙；zc-粘出；j-角； ca-串；h-虎；r-入；cu-出；l-龙-->
       <div class="an-game-content fact">
-        <div class="an-game__bottom">
+        <div class="an-game__bottom chu">
           <div class="row slim">
             <div id="item0" class="item" data-type="none"></div>
             <div
               id="item_zh01"
               class="item"
               data-type="code"
-              data-value="zh"
+              data-value="24"
             ></div>
             <div
               id="item_zr02"
               class="item"
               data-type="code"
-              data-value="zr"
+              data-value="13"
             ></div>
             <div
               id="item_zl03"
               class="item"
               data-type="code"
-              data-value="zl"
+              data-value="14"
             ></div>
             <div id="item4" class="item" data-type="none"></div>
           </div>
@@ -71,31 +71,31 @@
               id="item_zc10"
               class="item slim"
               data-type="code"
-              data-value="zc"
+              data-value="23"
             ></div>
             <div
               id="item_j11"
               class="item"
               data-type="code"
-              data-value="j"
+              data-value="12"
             ></div>
             <div
               id="item_ca12"
               class="item"
               data-type="code"
-              data-value="ca"
+              data-value="5"
             ></div>
             <div
               id="item_j13"
               class="item"
               data-type="code"
-              data-value="j"
+              data-value="5"
             ></div>
             <div
               id="item_zc14"
               class="item slim"
               data-type="code"
-              data-value="zc"
+              data-value="15"
             ></div>
           </div>
           <div class="row">
@@ -103,26 +103,26 @@
               id="item_zl20"
               class="item slim"
               data-type="code"
-              data-value="zl"
+              data-value="22"
             ></div>
             <div
               id="item_ca21"
               class="item"
               data-type="code"
-              data-value="ca"
+              data-value="11"
             ></div>
             <div id="item12" class="item" data-type="none"></div>
             <div
               id="item_ca22"
               class="item"
               data-type="code"
-              data-value="ca"
+              data-value="7"
             ></div>
             <div
               id="item_zh23"
               class="item slim"
               data-type="code"
-              data-value="zh"
+              data-value="16"
             ></div>
           </div>
           <div class="row">
@@ -130,31 +130,31 @@
               id="item_zr30"
               class="item slim"
               data-type="code"
-              data-value="zr"
+              data-value="21"
             ></div>
             <div
               id="item_j31"
               class="item"
               data-type="code"
-              data-value="j"
+              data-value="10"
             ></div>
             <div
               id="item_ca32"
               class="item"
               data-type="code"
-              data-value="ca"
+              data-value="9"
             ></div>
             <div
               id="item_j33"
               class="item"
               data-type="code"
-              data-value="j"
+              data-value="8"
             ></div>
             <div
               id="item_zr34"
               class="item slim"
               data-type="code"
-              data-value="zr"
+              data-value="17"
             ></div>
           </div>
           <div class="row slim">
@@ -163,19 +163,19 @@
               id="item_zh41"
               class="item"
               data-type="code"
-              data-value="zh"
+              data-value="20"
             ></div>
             <div
               id="item_zc42"
               class="item"
               data-type="code"
-              data-value="zc"
+              data-value="19"
             ></div>
             <div
               id="item_zl43"
               class="item"
               data-type="code"
-              data-value="zl"
+              data-value="18"
             ></div>
             <div id="item24" class="item" data-type="none"></div>
           </div>
@@ -187,13 +187,13 @@
                 id="item25"
                 class="item"
                 data-type="code"
-                data-value="h"
+                data-value="4"
               ></div>
               <div
                 id="item26"
                 class="item"
                 data-type="code"
-                data-value="cu"
+                data-value="1"
               ></div>
             </div>
             <div class="row">
@@ -201,17 +201,34 @@
                 id="item27"
                 class="item"
                 data-type="code"
-                data-value="r"
+                data-value="3"
               ></div>
               <div
                 id="item28"
                 class="item"
                 data-type="code"
-                data-value="l"
+                data-value="2"
               ></div>
             </div>
           </div>
         </div>
+        <div
+          class="an-game__top"
+          style="background-image: url(../images/anbao/pic_game_center.png)"
+        ></div>
+        <div class="an-game__cover"></div>
+      </div>
+      <div class="game-banker-content">
+        <ul class="gb-rotate">
+          <li class="gb-row">
+            <div class="gb-item" data-type="hu"></div>
+            <div class="gb-item" data-type="chu"></div>
+          </li>
+          <li class="gb-row">
+            <div class="gb-item" data-type="ru"></div>
+            <div class="gb-item" data-type="long"></div>
+          </li>
+        </ul>
         <div
           class="an-game__top"
           style="background-image: url(../images/anbao/pic_game_center.png)"
@@ -241,8 +258,60 @@
       </div>
       <!-- 底部按钮组 -->
       <div class="game-btns">
+        <!-- 准备 -->
         <div class="game-btn-count">0</div>
-        <div class="game-btn-action">准备</div>
+        <div
+          class="game-btn-action game-btn-yellow-small game-btn-ready"
+          data-type="ready"
+        >
+          准备
+        </div>
+        <!-- 抢庄中 -->
+        <div class="game-count-down"></div>
+        <div class="flex-btns">
+          <div
+            class="game-btn-rob game-btn-action game-btn-yellow-small"
+            data-type="rob"
+          >
+            抢庄
+          </div>
+          <div
+            class="game-btn-blue game-btn-norob game-btn-action"
+            data-type="norob"
+          >
+            不抢
+          </div>
+        </div>
+
+        <!-- 定宝中 -->
+        <div class="game-btn-purple game-btn-action game-btn-db" data-type="db">
+          确定
+        </div>
+        <!-- 下注中 -->
+        <div class="flex-btns" id="betBtnWrapper">
+          <div
+            class="game-btn-blue game-btn-action game-btn-stop"
+            data-type="stop"
+          >
+            停止下注
+          </div>
+          <div class="game-btn-yellow-big game-btn-action game-btn-chips">
+            0
+          </div>
+          <div
+            class="game-btn-yellow-big game-btn-action game-btn-statis"
+            data-type="betStatis"
+          >
+            下注统计
+          </div>
+        </div>
+        <!-- 开奖中 -->
+        <div
+          class="game-btn-yellow-small game-btn-action game-btn-kb"
+          data-type="kb"
+        >
+          开宝
+        </div>
       </div>
       <div class="game-msg"></div>
 
@@ -307,7 +376,16 @@
   ></script>
   <!-- endbuild -->
   <script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/antiPlug.js" type="text/javascript" charset="utf-8"></script>
+  <script
+    src="../js/gameApi.js"
+    type="text/javascript"
+    charset="utf-8"
+  ></script>
+  <script
+    src="../js/antiPlug.js"
+    type="text/javascript"
+    charset="utf-8"
+  ></script>
 
   <script
     src="../js/gameAnbao.js"
