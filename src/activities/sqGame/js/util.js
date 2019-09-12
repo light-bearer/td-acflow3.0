@@ -391,6 +391,215 @@
     });
   }
 
+  /**
+   * 根据游戏id，获取游戏配置
+   * @param {string} id 游戏id
+   * @param {function} cb 回调函数
+   */
+  function getParamsOfGame(id, cb) {
+    Ajax({
+      url: Util.openAPI + "/app/game/getParamsOfGame",
+      type: "get",
+      data: {
+        id: id
+      },
+      dataType: "json",
+      cbOk: function(data, textStatus, jqXHR) {
+        // console.log(data);
+        if (data.code === 0) {
+          var data = data.data;
+          var temp = "";
+          if (data.chips) {
+           
+            temp += getTemp(data.chips, "chips", "chips", "筹码：");
+          }
+          if (data.chipLimits) {
+            temp += getTemp(
+              data.chipLimits,
+              "chipLimits",
+              "chipLimit",
+              "上限："
+            );
+          }
+          if (data.gameNumberOfGameList) {
+            temp +=
+              '<li class="cr-items"><div class="item-title">局数：</div><div class="checkbox-list">';
+            data.gameNumberOfGameList.forEach(function(item, k) {
+              if (k === 0) {
+                temp +=
+                  '<input type="radio" id="gameNumber' +
+                  k +
+                  '" name="gameNumberOfGameList" value="' +
+                  item.numberOfGame +
+                  "," +
+                  item.roomCard +
+                  '" checked/>';
+              } else {
+                temp +=
+                  '<input type="radio" id="gameNumber' +
+                  k +
+                  '" name="gameNumberOfGameList" value="' +
+                  item.numberOfGame +
+                  "," +
+                  item.roomCard +
+                  '"/>';
+              }
+              temp +=
+                '<label for="gameNumber' +
+                k +
+                '">' +
+                item.numberOfGame +
+                "局 x " +
+                item.roomCard +
+                "房卡</label>";
+            });
+            temp += "</div></li>";
+          }
+          if (data.peoples) {
+            temp +=
+              '<li class="cr-items"><div class="item-title">人数：</div><div class="checkbox-list">';
+            data.peoples.forEach(function(item, k) {
+              if (k === 0) {
+                temp +=
+                  '<input type="radio" id="people' +
+                  k +
+                  '" name="peoples" value="' +
+                  item.people +
+                  '" checked/>';
+              } else {
+                temp +=
+                  '<input type="radio" id="people' +
+                  k +
+                  '" name="peoples" value="' +
+                  item.people +
+                  '"/>';
+              }
+              temp +=
+                '<label for="people' + k + '">' + item.people + "人</label>";
+            });
+            temp += "</div></li>";
+          }
+          if (data.betTimes) {
+            temp +=
+              '<li class="cr-items"><div class="item-title">下注时间：</div><div class="checkbox-list">';
+            data.betTimes.forEach(function(item, k) {
+              if (k === 0) {
+                temp +=
+                  '<input type="radio" id="betTime' +
+                  k +
+                  '" name="betTimes" value="' +
+                  item.betTime +
+                  '" checked/>';
+              } else {
+                temp +=
+                  '<input type="radio" id="betTime' +
+                  k +
+                  '" name="betTimes" value="' +
+                  item.betTime +
+                  '"/>';
+              }
+              temp +=
+                '<label for="betTime' +
+                k +
+                '">' +
+                item.betTime +
+                "秒</label>";
+            });
+            temp += "</div></li>";
+          }
+          if (data.oddsOfPlayList) {
+            temp +=
+              '<li class="cr-items"><div class="item-title">赔率：</div></li>';
+            data.oddsOfPlayList.forEach(function(obj, i) {
+              temp +=
+                '<li class="cr-items"><div class="item-title">' +
+                obj.name +
+                '</div><div class="checkbox-list">';
+              obj.gamePlayOddsList.forEach(function(item, k) {
+                if (k === 0) {
+                  temp +=
+                    '<input type="radio" class="playOdds" id="playOdds' +
+                    i * 10 +
+                    k +
+                    '" name="playOdds' +
+                    item.gamePlayId +
+                    '" value="' +
+                    item.gamePlayId +
+                    "," +
+                    item.odds +
+                    '" checked/>';
+                } else {
+                  temp +=
+                    '<input type="radio" class="playOdds" id="playOdds' +
+                    i * 10 +
+                    k +
+                    '" name="playOdds' +
+                    item.gamePlayId +
+                    '" value="' +
+                    item.gamePlayId +
+                    "," +
+                    item.odds +
+                    '"/>';
+                }
+                temp +=
+                  '<label for="playOdds' +
+                  i * 10 +
+                  k +
+                  '">' +
+                  item.name +
+                  "</label>";
+              });
+              temp += "</div></li>";
+            });
+          }
+
+          // $(".cr-content").html(temp);
+          cb && cb(temp);
+        } else {
+          toast(data.msg);
+        }
+      },
+      cbErr: function(e, xhr, type) {
+        toast("获取游戏参数失败");
+      }
+    });
+  }
+
+  function getTemp(list, datakey, itemKey, text) {
+    var temp =
+      '<li class="cr-items"><div class="item-title">' +
+      text +
+      '</div><div class="checkbox-list">';
+    list.forEach(function(item, k) {
+      if (k === 0) {
+        //默认选中第一项
+        temp +=
+          '<input type="radio" id="' +
+          datakey +
+          k +
+          '" name="' +
+          datakey +
+          '" value="' +
+          item[itemKey] +
+          '" checked/>';
+      } else {
+        temp +=
+          '<input type="radio" id="' +
+          datakey +
+          k +
+          '" name="' +
+          datakey +
+          '" value="' +
+          item[itemKey] +
+          '"/>';
+      }
+      temp +=
+        '<label for="' + datakey + k + '">' + item[itemKey] + "</label>";
+    });
+    temp += "</div></li>";
+    return temp;
+  }
+    
   var Util = {
     token: TOKEN,
     baseInfo: BASE_INFO,
@@ -409,7 +618,8 @@
     baseListConfig: LISTCONFIG,
     auth: auth,
     getUserInfo: getUserInfo,
-    wxConfig: wxConfig
+    wxConfig: wxConfig,
+    getParamsOfGame: getParamsOfGame
   };
   global.Util = Util;
 })(window);

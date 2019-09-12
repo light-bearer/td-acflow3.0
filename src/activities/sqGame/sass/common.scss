@@ -53,6 +53,20 @@ a {
   background-image: url("../images/mycard/bg_mycard.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
+
+  .common-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    //   text-align: center;
+    .icon-back {
+      @include background("../images/mycard/icon_back.png", 78px, 78px);
+      position: absolute;
+      left: pxToRem(17px);
+      top: pxToRem(20px);
+    }
+  }
 }
 
 .main-header {
@@ -151,6 +165,13 @@ input {
   border: 0;
 }
 
+.common-input {
+  background: url(../images/input_bg.png) no-repeat center;
+  background-size: 100% 100%;
+  width: 6.4rem;
+  height: 2.048rem;
+  text-align: center;
+}
 .common-header {
   // @include background('../images/mycard/bg_header.png', 750px, 119px);
   width: 100%;
@@ -199,7 +220,7 @@ input {
     margin: 0 auto pxToRem(50px) auto;
   }
 
-  @at-root.info-det-wrapper {
+  @at-root .info-det-wrapper {
     width: 100%;
     padding-bottom: pxToRem(6px);
     background-image: url("../images/fwg/info_border.png");
@@ -208,7 +229,7 @@ input {
     background-position: bottom;
     display: flex;
 
-    .info-avator-wrapper {
+    @at-root .info-avator-wrapper {
       width: pxToRem(120px);
       height: pxToRem(120px);
       margin-right: pxToRem(20px);
@@ -338,4 +359,167 @@ input {
   &.active {
     display: block;
   }
+}
+
+
+// 房间配置
+.cr-wrapper {
+  @include background("../images/createroom/create_bg.png", 723px, 945px);
+  // position: absolute;
+  // top: 50%;
+  // left: 50%;
+  // transform: translate(-50%, -50%);
+  // z-index: 99999;
+  padding-top: pxToRem(60px);
+  text-align: center;
+
+  .icon-close {
+    // @include background("../images/createroom/btn_close.png", 84px, 84px);
+    // position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(30%, -30%);
+  }
+
+  .btns-wapper {
+    text-align: center;
+    font-size: 0;
+
+    .btn-zyqzh {
+      @include inline-background(
+        "../images/createroom/btn_zyqzh2.png",
+        195px,
+        78px
+      );
+
+      &.active {
+        background-image: url("../images/createroom/btn_zyqzh.png");
+      }
+    }
+
+    .btn-gdzhj {
+      @include inline-background(
+        "../images/createroom/btn_gdzhj2.png",
+        192px,
+        78px
+      );
+
+      &.active {
+        background-image: url("../images/createroom/btn_gdzhj.png");
+      }
+    }
+
+    .btn-kfdzh {
+      @include inline-background(
+        "../images/createroom/btn_kfdzh2.png",
+        195px,
+        78px
+      );
+
+      &.active {
+        background-image: url("../images/createroom/btn_kfdzh.png");
+      }
+    }
+  }
+
+  .cr-bottom-txt {
+    font-family: "STYuanti-SC-Bold";
+    font-weight: bold;
+    color: #fff;
+    font-size: pxToRem(35px);
+    display: block;
+    margin: pxToRem(20px) auto;
+  }
+
+  .btn-cr {
+    @include background("../images/createroom/btn_create.png", 280px, 85px);
+    margin: auto;
+  }
+}
+
+.cr-content {
+  width: pxToRem(656px);
+  height: pxToRem(584px);
+  margin: auto;
+  margin-top: pxToRem(26px);
+  overflow-y: auto;
+  padding-bottom: pxToRem(20px);
+
+  .cr-items {
+    width: 100%;
+    color: #fff;
+    font-size: pxToRem(30px);
+    // line-height: pxToRem(60px);
+    display: flex;
+
+    & > div {
+      display: inline-block;
+      line-height: pxToRem(48px);
+    }
+
+    .item-title {
+      width: pxToRem(140px);
+      text-align: center;
+    }
+
+    .checkbox-list {
+      word-break: break-all;
+      word-wrap: break-word;
+      text-align: justify;
+      flex: 1;
+    }
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    display: none;
+  }
+
+  label {
+    margin-right: pxToRem(10px);
+  }
+
+  input[type="radio"] + label:before {
+    content: "";
+    vertical-align: middle;
+    margin-right: pxToRem(10px);
+    width: pxToRem(45px);
+    height: pxToRem(48px);
+    background-image: url("../images/createroom/icon_checkbox.png");
+    background-repeat: no-repeat;
+    background-size: pxToRem(43px) pxToRem(43px);
+    background-position: center;
+    display: inline-block;
+
+    // @include inline-background(
+    //   "../images/createroom/icon_checkbox.png",
+    //   43px,
+    //   43px
+    // );
+  }
+
+  input[type="radio"]:checked + label:before {
+    background-image: url("../images/createroom/icon_checkbox_checked.png");
+    background-repeat: no-repeat;
+    background-size: pxToRem(45px) pxToRem(48px);
+    // @include inline-background(
+    //   "../images/createroom/icon_checkbox_checked.png",
+    //   45px,
+    //   48px
+    // );
+  }
+}
+
+// btns
+.btn-confirm-yellow {
+  background: url("../images/user/btn_submit.png") no-repeat center;
+  background-size: contain;
+  width: pxToRem(232px);
+  height: pxToRem(72px);
+}
+.btn-confirm-blue {
+  background: url("../images/fwg/sign_btn_submit.png") no-repeat center;
+  background-size: contain;
+  width: pxToRem(274px);
+  height: pxToRem(87px);
 }
