@@ -145,8 +145,16 @@
             cbOk: function(data, textStatus, jqXHR) {
             // console.log(data);
             if (data.code === 0) {
-                console.log(data.data)
-                // 下面
+                var _rooms = data.data;
+                // 编译地步房间模板
+                var roomTemp = '<div class="room my-info" id="creator"> '
+                    + '<div class="info-avator-wrapper">'
+                    + '<img src="'+ _rooms[0].createUserImg +'" alt="" id="creator_img">'
+                    + '</div>'
+                    + '<p id="creator_name">' + _rooms[0].createUserNickName +'</p>'
+                    + '<p class="grade" id="level">' + _rooms[0].level +'</p>'
+                    + '</div>'
+
             } else {
                 Util.toast("获取群组列表失败");
             }

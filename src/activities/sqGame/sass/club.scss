@@ -69,6 +69,7 @@
                 background-size: pxToRem(621px) pxToRem(3px);
                 display: flex;
                 align-items: center;
+                margin-bottom: pxToRem(8px);
                 .info-avator-wrapper {
                     width: pxToRem(75px);
                     height: pxToRem(75px);
@@ -84,16 +85,36 @@
             .bottom {
                 padding: 0 pxToRem(20px);
                 .icon-txt {
+                    display: inline-block;
                     width: pxToRem(33px);
                     height: pxToRem(33px);
+                    line-height: pxToRem(33px);
                     border-radius: pxToRem(60px);
                     background-color: #fff;
                     color: #602FD3;
-                    font-size: pxToRem(33px);
+                    font-size: pxToRem(28px);
+                    text-align: center;
+                    font-weight: 400;
+                    margin-right: pxToRem(20px);
                 }
             }
             .row {
                 display: flex;
+                line-height: pxToRem(33px);
+                margin-bottom: pxToRem(14px);
+                .col {
+                    min-width: pxToRem(168px);
+                }
+            }
+            .btn-join {
+                background: url("../images/club/btn_join.png") no-repeat center;
+                background-size: contain;
+                width: pxToRem(157px);
+                height: pxToRem(72px);
+
+                position: absolute;
+                right: pxToRem(57px);
+                bottom: pxToRem(34px);
             }
         }
     }
@@ -113,12 +134,16 @@
             overflow: auto;
             box-shadow: 0 0 20px 0px rgba(255, 255, 255, .6) inset;
             font-size: 0;
+            white-space:nowrap; 
+            // display: flex;
+            // align-items: center;
             .btn {
                 display: inline-block;
                 background-size: contain;
                 background-repeat: no-repeat;
                 background-position: center;
                 vertical-align: center;
+
                 margin-right: pxToRem(44px);
                 height: pxToRem(69px);
             }
@@ -146,6 +171,18 @@
                 background-image: url("../images/club/btn_found.png");
                 width: pxToRem(70px);
             }
+            .cfdf {
+                background-image: url("../images/club/btn_cfdf.png");
+                width: pxToRem(99px);
+            }
+            .jfph {
+                background-image: url("../images/club/btn_jfph.png");
+                width: pxToRem(100px);
+            }
+            .sf {
+                background-image: url("../images/club/btn_sf.png");
+                width: pxToRem(69px);
+            }
             .detail {
                 background-image: url("../images/club/btn_detail.png");
                 width: pxToRem(52px);
@@ -157,9 +194,15 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: pxToRem(185px);
+            height: pxToRem(190px);
             font-size: 0;
-            padding: pxToRem(25px) 0 0 pxToRem(8px);
+            .scroll-wrapper {
+                width: pxToRem(580px);
+                height: 100%;
+                white-space:nowrap; 
+                overflow: auto;
+                padding: pxToRem(25px) 0 0 pxToRem(8px);
+            }
             .room {
                 display: inline-block;
                 background: url("../images/club/bg_room.png") no-repeat center;
@@ -168,6 +211,7 @@
                 height: pxToRem(159px);
                 vertical-align: middle;
                 margin-right: pxToRem(18px);
+                margin-top: pxToRem(2px);
                 color: #fff;
                 font-size: pxToRem(17px);
                 text-align: center;
@@ -247,7 +291,7 @@
             .add {
                 position: absolute;
                 right: pxToRem(20px);
-                bottom: 0;
+                bottom: pxToRem(2px);
                 &:after {
                     content: '';
                     background: url("../images/club/add.png") no-repeat center;
