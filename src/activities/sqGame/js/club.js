@@ -5,6 +5,8 @@
 
     var groups = [],
         currentGroup = '';
+    
+    var GETTING_MEMBERS = false; // 正在获取成员数据
 
   /** 主要初始化 */
     var baseInfo = Util.getSession(Util.baseInfo),
@@ -27,11 +29,18 @@
                 eventGametype();
                 break;
             case 'create':
-                eventCreate();
+                eventCreate()
                 break;
             case 'score':
                 eventScore();
                 break;
+            case 'dismiss':
+                eventDismiss();
+                break;
+            case 'member':
+                eventMember();
+                break;
+                
         }
     });
 
@@ -85,21 +94,34 @@
                 createGroup(inputValue);
             }
         })
+    });
+    // 弹窗加入俱乐部
+    $('.create-join-club').on('click', '.btn-join-club', function(e) {
+        // $('.popup-create-club').show();
+        $('.create-join-club').hide();
+        inputDialog({
+            title: '../images/club/txt_join_club.png',
+            placeholder: '输入加入俱乐部ID',
+            cb: function(inputValue) {
+                console.log(inputValue)
+                joinGroup(inputValue);
+            }
+        })
     })
-    // // 创建俱乐部
-    // $('.popup-create-club').on('click', '#create_group', function(e) {
-    //     createGroup();
-    // })
 
     $('.popup-wrapper').on("click", '.masker, .icon-close, .to-close', function() {
         $(".popup-wrapper").hide();
     });
 
     $(".btn-save").on("click", function(e) {
-        // location.href = "./gameAnbao.html";
-        // return;
         createGameType();
       });
+
+    // 成员滚动加载更多
+    $('.member-list').scroll(function(e) {
+        // console.log('scroll');
+        handleScroll(e);
+    });
 
       // 1、进来第一步，调群组列表接口group/getListOfUser
     function getListOfUser() {
@@ -182,7 +204,42 @@
             }
         });
     }
+    // 加入俱乐部
+    function joinGroup(groupId) {
+        groupId = groupId.trim();
+        if (!groupId) {
+            Util.toast('俱乐部名称不能为空!');
+            return;
+        }
+        Util.Ajax({
+            url: Util.openAPI + "/app/groupUser/joinGroup",
+            type: "post",
+            dataType: "json",
+            data: {
+                id: groupId
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+            // console.log(data);
+            if (data.code === 0) {
+                $('.popup-create-club').hide();
 
+                Util.popup({
+                    type: 'alert',
+                    content: data.msg,
+                    positiveCb: function() {
+                        getListOfUser();
+                    }
+                })
+
+            } else {
+                Util.toast("创建俱乐部失败");
+            }
+            },
+            cbErr: function(e, xhr, type) {
+            Util.toast("创建俱乐部失败");
+            }
+        });
+    }
     // 创建游戏类型
     function createGameType() {
         var roomParams = {
@@ -288,6 +345,13 @@
     function eventScore() {
         window.location.href = './record.html';
     }
+    // 成员
+    function eventMember() {
+        getGroupUserList(currentGroup);
+        $('.popup-members').show();
+    }
+
+
     // 选择群组
     function handleSelectGroup(e) {
         var $target = $(e.currentTarget),
@@ -299,6 +363,46 @@
         $('#group_num').html(groups[currentGroup].groupNumber);
     }
 
+    function getGroupUserList() {
+        if(GETTING_MEMBERS) {
+            return;
+        }
+        GETTING_MEMBERS = true;
+        $('.list-loading').show();
+        Util.Ajax({
+            url: Util.openAPI + "/app/groupUser/getGroupUserList",
+            type: "get",
+            data: {},
+            dataType: "json",
+            cbOk: function(data, textStatus, jqXHR) {
+              // console.log(data);
+              if (data.code === 0) {
+                console.log(data)
+              } else {
+                Util.toast(data.msg);
+              }
+              GETTING_MEMBERS = false;
+            $('.list-loading').hide();
+            },
+            cbErr: function(e, xhr, type) {
+              Util.toast("获取成员数据失败！");
+              GETTING_MEMBERS = false;
+              $('.list-loading').hide();
+            }
+        });
+    }
+
+    // 滚动加载更多成员
+    function handleScroll(e) {
+        var $target = $(e.currentTarget);
+        var pageH = $target.find('.list-scroll').height();
+        var scrollT = $target.scrollTop(); //滚动条top
+        var winH = $target.height();
+            var aa = (pageH - winH - scrollT) / winH;
+            if (aa < 0.02) {//0.02是个参数
+                getGroupUserList();
+            }
+    }
     /**
    * @func
    * @desc 带输入框弹窗

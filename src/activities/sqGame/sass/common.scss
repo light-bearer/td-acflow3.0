@@ -526,8 +526,10 @@ input {
           font-size: pxToRem(32px);
           text-align: center;
           margin: 0 auto ;
-          background-color: #7e4824a4;
+          background-color: rgba(55, 33, 33, .65);
           border-radius: 5px;
+          box-shadow: 0 0 3px 0 #290b0b inset;
+          padding: 0 pxToRem(12px);
       }
   }
   .btn-group {

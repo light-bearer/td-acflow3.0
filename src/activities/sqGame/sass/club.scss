@@ -437,6 +437,91 @@
         background-size: contain;
     }
 }
+
+// 群成员
+.popup-members {
+    .popup-content {
+        width: pxToRem(728px);
+        height: percent(950);
+        background: url("../images/club/m_bg_pop.png") no-repeat center;
+        background-size: 100% 100%;
+        .txt-member {
+            position: absolute;
+            display: block;
+            background: url("../images/club/m_title.png") no-repeat center;
+            background-size: contain;
+            width: pxToRem(151px);
+            height: percent(52, 950);
+            top: percent(44, 950);
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+        @at-root .member-list {
+            position: absolute;
+            width: pxToRem(677px);
+            left: pxToRem(24px);
+            right: pxToRem(30px);
+            top: percent(116, 950);
+            bottom: percent(20, 950);
+            background-color: rgba(55, 33, 33, .58);
+            box-shadow: 0 0 3px 0 #290b0b inset;
+            border-radius: 5px;
+            overflow: auto;
+            @at-root .member-item {
+                width: pxToRem(674px);
+                height: pxToRem(158px);
+                background: url("../images/club/m_bg_item.png") no-repeat center;
+                background-size: 100% 100%;
+                margin: 0 auto;
+                display: flex;
+                position: relative;
+                &.owner {
+                    &:after {
+                        content: '';
+                        background: url("../images/club/m_label_owner.png") no-repeat center;
+                        background-size: contain; 
+                        width: pxToRem(98px);
+                        height: pxToRem(98px);
+                        position: absolute;
+                        top: pxToRem(-2px);
+                        left: pxToRem(-2px);
+                    }
+                }
+                .info-avator-wrapper {
+                    margin: pxToRem(22px) pxToRem(23px) pxToRem(14px) pxToRem(37px);
+                }
+                .member-info {
+                    p {
+                        color: rgba(107, 78, 113, 1);
+                        font-size: pxToRem(34px);
+                        height: pxToRem(79px);
+                        line-height: pxToRem(79px);
+                    }
+                }
+                .btn-remove {
+                    background: url("../images/club/m_btn_remove.png") no-repeat center;
+                    background-size: contain;
+                    width: pxToRem(160px);
+                    height: pxToRem(75px);
+
+                    position: absolute;
+                    top: 50%;
+                    right: pxToRem(13px);
+                    transform: translate(0, -50%);
+                }
+            }
+            .list-loading {
+                display: none;
+                position: relative;
+                height: pxToRem(80px);
+            }
+        }
+    }
+    .icon-close {
+        top: pxToRem(-45px);
+        right: pxToRem(-18px);
+    }
+}
 .hidden {
     display: none !important;
 }
