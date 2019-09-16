@@ -8,11 +8,11 @@
         content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no" />
     <meta name="format-detection" content="telephone=no" />
     <title>俱乐部</title>
-    <!-- build:css ../css/club.css -->
-    <link rel="stylesheet" href="../css/club.css" />
-    <!-- endbuild -->
     <!-- build:css ../css/common.css -->
     <link rel="stylesheet" href="../css/common.css" />
+    <!-- endbuild -->
+    <!-- build:css ../css/club.css -->
+    <link rel="stylesheet" href="../css/club.css" />
     <!-- endbuild -->
     <!-- build:js ../js/lib/adapt.js -->
     <script src="../../../lib/adapt.js" type="text/javascript" charset="utf-8"></script>
@@ -26,7 +26,7 @@
             <i class="icon-title"></i>
         </header>
         <div class="mc-btn-wrapper members-top-wrapper">
-           <span>一起玩吧 <font>(ID:73847)</font></span>
+           <p><span id="group_name">一起玩吧</span> <font>(ID:<span id="group_num"></span>)</font></p>
            <i class="icon-fresh"></i>
         </div>
         <div class="content-main">
@@ -49,6 +49,8 @@
                 </div>
                 <div class="btn-join"></div>
             </div>
+
+            
         </div>
         <div class="club-footer">
             <div class="btn-groups">
@@ -58,28 +60,45 @@
                 <div class="btn dismiss" data-type="dismiss"></div>
                 <div class="btn member" data-type="member"></div>
                 <div class="btn found" data-type="found"></div>
+                <div class="btn cfdf" data-type="cfdf"></div>
+                <div class="btn jfph" data-type="jfph"></div>
+                <div class="btn sf" data-type="sf"></div>
                 <div class="btn detail" data-type="detail"></div>
             </div>
             <div class="room-groups">
-                <div class="room my-info" id="creator">
-                    <div class="info-avator-wrapper">
-                        <img src="" alt="" id="creator_img">
+                <div class="scroll-wrapper" id="room_scroll_wrapper">
+                    <!-- <div class="room my-info" id="creator">
+                        <div class="info-avator-wrapper">
+                            <img src="" alt="" id="creator_img">
+                        </div>
+                        <p id="creator_name">一起玩吧</p>
+                        <p class="grade" id="level">1</p>
                     </div>
-                    <p id="creator_name">一起玩吧</p>
-                    <p class="grade" id="level">1</p>
+                    <div class="room normal active">
+                        <i class="icon-roomcard"></i>
+                    </div>
+                    <div class="room game">
+                        <i class="icon-cup"></i>
+                    </div> -->
+                        
                 </div>
-                <div class="room normal active">
-                    <i class="icon-roomcard"></i>
-                </div>
-                <div class="room game">
-                    <i class="icon-cup"></i>
-                </div>
-                <div class="room add">
+                <div class="room add" id="add">
+                    <!-- <div class="btns-group" id="add_btns">
+                        <div class="btn-create-club"></div>
+                        <div class="btn-join-club"></div>
+                    </div> -->
                 </div>
             </div>
         </div>
     </div>
-
+    <!-- 创建或者加入俱乐部 -->
+    <div class="popup-wrapper create-join-club">
+        <div class="masker"></div>
+        <div class="popup-content btns-group" id="add_btns">
+            <div class="btn-create-club"></div>
+            <div class="btn-join-club"></div>
+        </div>
+    </div>
     <!-- 创建房间弹窗 -->
     <div class="create-room-popup popup-wrapper">
         <div class="masker"></div>
@@ -113,28 +132,61 @@
             <div class="btn-save"></div>
         </div>
     </div>
-    <!-- 创建俱乐部 -->
-    <div class="popup-wrapper popup-create-club">
+    <!-- 群成员 -->
+    <div class="popup-wrapper popup-members">
         <div class="masker"></div>
-        <div class="popup-content content-bg content-create-club">
-            <i class="icon-close close-create-club"></i>
-            <i class="txt-create-club"></i>
-            <div class="input-wrapper">
-                <input class="common-input" placeholder="输入俱乐部名字">
+        <div class="popup-content">
+            <i class="icon-close"></i>
+            <i class="icon-title txt-member"></i>
+            <div class="member-list popup-content-main">
+                <div class="list-scroll">
+                    <div class="member-item owner">
+                        <div class="info-avator-wrapper">
+                            <img src=""/>
+                        </div>
+                        <div class="member-info">
+                            <p>ohayo</p>
+                            <p>ID:34723847</p>
+                        </div>
+                    </div>
+                    <div class="member-item">
+                        <div class="info-avator-wrapper">
+                            <img src=""/>
+                        </div>
+                        <div class="member-info">
+                            <p>ohayo</p>
+                            <p>ID:34723847</p>
+                        </div>
+                        <div class="btn-remove"></div>
+                    </div>
+                </div>
+                <div class="list-loading"><svg class="spinner show" viewBox="0 0 44 44"><circle class="path" fill="none" stroke-width="4" stroke-linecap="round" cx="22" cy="22" r="20"></circle> </svg></div>
             </div>
-            <div class="btn-confirm-yellow"></div>
         </div>
     </div>
-    <!-- 创建俱乐部成功提示 -->
-    <div class="popup-wrapper popup-create-success">
+    <!-- 俱乐部基金 -->
+    <div class="popup-wrapper popup-found">
         <div class="masker"></div>
-        <div class="popup-content content-bg content-create-success">
-            <div class="msg">
-                创建乐友群成功
+        <div class="popup-content">
+            <i class="icon-close"></i>
+            <i class="icon-title txt-club-found"></i>
+            <div class="popup-content-main">
+               <div class="row1">
+                   1.管理员开启设置后，俱乐部中所有开房均由基金买单，无需开房人支付。
+                   <span class="status">已经开启</span>
+               </div>
+               <div class="row2">
+                   <span>当前俱乐部基金</span>
+                   <span class="display-wrapper">0</span>
+               </div>
             </div>
-            <div class="btn-confirm-blue to-close"></div>
+            <div class="btn-group">
+                <div class="btn-found-recharge"></div>
+                <div class="btn-found-detail"></div>
+            </div>
         </div>
     </div>
+    <!-- 账单明细 -->
 </body>
 <!-- build:js ../js/lib/fastclick-jquery.js-->
 <script src="../../../lib/fastclick-jquery-fix-1.8.3.js" type="text/javascript" charset="utf-8"></script>
