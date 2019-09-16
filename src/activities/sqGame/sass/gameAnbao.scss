@@ -207,28 +207,67 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 10;
+    z-index: 13;
     background-repeat: no-repeat;
+    &::before {
+      content: '';
+      background-repeat: no-repeat;
+      background-size: contain;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: breath 1.5s linear both 2 1s;
+      // transform-origin: 0 0;
+      
+    }
+    &.long {
+      &::before {
+        background-image: url('../images/anbao/result/gold_long.png');
+        width: pxToRem(282px);
+        height: pxToRem(338px);
+      }
+    }
 
     &.long,
     &.hu {
       background-image: url('../images/anbao/game_result_right.png');
       background-size: pxToRem(428px) pxToRem(515px);
       background-position: right;
-      animation: resultAnit 1s ease-in both 6;
+      animation: resultAnit 1s ease-in both 3;
     }
 
     &.hu {
       transform: rotateY(180deg);
+      &::before {
+        background-image: url('../images/anbao/result/gold_hu.png');
+        width: pxToRem(307px);
+        height: pxToRem(351px);
+      }
     }
-    &.chu, &.ru {
+
+    &.chu,
+    &.ru {
       background-image: url('../images/anbao/game_result_top.png');
       background-size: pxToRem(484px) pxToRem(449px);
       background-position: top;
-      animation: resultAnit2 1s ease-in both 6;
+      animation: resultAnit2 1s ease-in both 3;
     }
+    &.chu {
+      &::before {
+         background-image: url('../images/anbao/result/gold_chu.png');
+         width: pxToRem(232px);
+         height: pxToRem(344px);
+      }
+    }
+
     &.ru {
       transform: rotateX(180deg);
+      &::before {
+         background-image: url('../images/anbao/result/gold_ru.png');
+         width: pxToRem(327px);
+         height: pxToRem(202px);
+      }
     }
 
     .row {
@@ -768,6 +807,10 @@
 }
 
 .game-btns[data-state="6"] {
+  .game-btn-chips {
+    display: block;
+  }
+
   &.banker {
     bottom: 0;
 
@@ -775,6 +818,10 @@
     .game-btn-statis,
     .game-btn-kb {
       display: block;
+    }
+
+    .game-btn-chips {
+      display: none;
     }
   }
 
@@ -851,4 +898,77 @@
   bottom: percent(30);
   // bottom: pxToRem(47px);
   right: pxToRem(24px);
+}
+.msg-popup {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  display: none;
+  .msg-masker {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 10000;
+  }
+  .msg-list {
+    width: pxToRem(480px);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .6);
+    border-top-left-radius: pxToRem(10px);
+    z-index: 10010;
+    >li {
+      width: 100%;
+      height: pxToRem(90px);
+      line-height: pxToRem(90px);
+      color: rgba(209, 200, 200, 1);
+      font-size: pxToRem(26px);
+
+    }
+  }
+}
+.tj-content {
+  // background-color: rgba(0, 0, 0, .85);
+  // border: pxToRem(7px) solid rgba(255, 255, 255, .53);
+  // width: pxToRem(510px);
+  // height: percent(762);
+  padding: pxToRem(44px) pxToRem(15px) pxToRem(44px) pxToRem(18px);
+  // border-radius: pxToRem(25px);
+  // box-shadow: 0 0 3px #000;
+  @include background('../images/anbao/analysis_bg.png', 511px, 762px);
+  .icon-close {
+    top: 0;
+    right: 0;
+    transform: translate(30%, -30%);
+  }
+  .tj-title {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size:pxToRem(40px);
+    margin-bottom: pxToRem(24px);
+  }
+  @at-root .tj-list {
+    >li {
+      @include background('../images/anbao/analysis_item_bg.png', 478px, 84px);
+      display: flex;
+      padding: 0 pxToRem(40px);
+      justify-content: space-around;
+      align-items: center;
+      font-size: pxToRem(26px);
+      margin-bottom: pxToRem(14px);
+      span:first-child {
+        color: rgba(174, 164, 189, 1);
+      }
+      span:last-child {
+        color: rgba(239, 191, 45, 1);
+      }
+    }
+  }
 }

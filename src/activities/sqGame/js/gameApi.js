@@ -462,6 +462,42 @@
     ]
   };
   /**
+   * 下注统计弹窗
+   */
+  var statisPopup = (function() {
+    var _popup;
+    return function(data) {
+      var title = data.title,
+        list = data.gameBetList,
+        itemTemp = getStatisItemTemp(list);
+
+      if (!_popup) {
+        _popup = $("<div/>").addClass("popup-wrapper");
+        var _tjContent = $("<div/>").addClass("tj-content popup-content"),
+          _title = $("<h2/>")
+            .addClass("tj-title")
+            .html(title),
+          _cloaseIcon = $("<i/>").addClass("icon-close"),
+          _list = $("<ul/>").addClass("tj-list");
+        _list.html(itemTemp);
+        _tjContent
+          .append(_cloaseIcon)
+          .append(_title)
+          .append(_list);
+        _popup.append(_tjContent);
+
+        $("body").append(_popup);
+        _cloaseIcon.on("click", function() {
+          _popup.hide();
+        });
+      } else {
+        $(".tj-title").html(title);
+        $(".tj-list").heml(itemTemp);
+      }
+      return _popup;
+    };
+  })();
+  /**
    * 定完庄后，调用接口修改房间状态；
    * @param {*} roomId
    * @param {*} cb
@@ -550,7 +586,9 @@
       cbOk: function(data, textStatus, jqXHR) {
         // console.log(data);
         if (data.code === 0) {
-          cb && cb(data);
+          // cb && cb(data);
+          var popup = statisPopup(data.data);
+          popup.show();
         } else {
           Util.toast(data.msg);
         }
@@ -652,6 +690,40 @@
     });
   }
 
+  function getStatisItemTemp(list) {
+    var temp = "";
+    list &&
+      list.forEach(function(item) {
+        temp +=
+          "<li><span>" +
+          item.resultName +
+          "</span><span>" +
+          item.winMoney +
+          "</span></li>";
+      });
+    return temp;
+  }
+  // function showStatResultOfBet(params, cb) {
+  //   Util.Ajax({
+  //     url: Util.openAPI + "/app/gameBet/getStatResultOfBet",
+  //     type: "get",
+  //     dataType: "json",
+  //     data: params,
+  //     cbOk: function(data, textStatus, jqXHR) {
+  //       // console.log(data);
+  //       if (data.code === 0) {
+  //         var popup = statisPopup(data.data);
+  //         popup.show();
+  //       } else {
+  //         Util.toast(data.msg);
+  //       }
+  //     },
+  //     cbErr: function(e, xhr, type) {
+  //       Util.toast("获取下注统计失败，请稍后重试");
+  //     }
+  //   });
+  // }
+
   var GameApi = {
     SEAT_MODE: SEAT_MODE,
     updateState: updateState,
@@ -662,6 +734,7 @@
     getUserOfRoom: getUserOfRoom,
     stopBet: stopBet,
     open: open
+    // showStatResultOfBet
   };
   global.GameApi = GameApi;
 })(window);

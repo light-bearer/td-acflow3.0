@@ -47,11 +47,10 @@
         cbOk: function(data, textStatus, jqXHR) {
           console.log(data);
           if (data.code === 0) {
-            window.sessionStorage['TOKEN'] = data.data.token
             // Util.setSession([Util.token], 1234);
 
             // Util.setSession(TOKEN, "c060689f35c0423ca050691c23806db5");
-            // Util.setSession(TOKEN, "9417832d2b944869918f58eb76239dbb");
+            Util.setSession(TOKEN, "9417832d2b944869918f58eb76239dbb");
             // Util.setSession(TOKEN, data.data.token);
 
             cb && cb(data.data.token);

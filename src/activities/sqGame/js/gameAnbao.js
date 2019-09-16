@@ -3,7 +3,7 @@
   var roomId = Util.getParam("id"),
     numberOfGame = 0,
     gameResultId, //开奖结果ID，用于下注
-    invertal = null,
+    hasShowResult = false, //是否已显示游戏结果
     baseInfo = Util.getSession("BASE_INFO");
   // var roomData; //房间数据
   // 当前座位模式
@@ -120,7 +120,7 @@
       return;
     }
     var state = roomData.state;
-    $(".game-btns").attr("data-state", state);
+    state != 1 && $(".game-btns").attr("data-state", state);
     var userInfo = Util.getSession(Util.baseInfo),
       isBanker = userInfo.id == gamersData.userIdOfRob;
     switch (state) {
@@ -177,11 +177,55 @@
         } else {
           $(".game-btns").removeClass("banker");
         }
+        var gameBetList = gamersData.gameBetList;
+        setTimeout(function() {
+          initBetData(gameBetList);
+        }, 0);
+        break;
+      case 10:
+        //游戏已完成
+        location.href="./gameOver.html";
         break;
       default:
         //准备中
+        var gameResultDtoList = roomData.gameResultDtoList;
+        if (
+          !hasShowResult &&
+          gameResultDtoList &&
+          gameResultDtoList.length > 0
+        ) {
+          //显示上一局游戏结果
+          var result = gameResultDtoList[gameResultDtoList.length - 1],
+            className = getResultClass(result.resultCode);
+          $(".an-game__bottom").attr("class", "an-game__bottom  " + className);
+          $(".an-game__cover")
+            .removeClass("slideOutRight")
+            .addClass("slideOutRight");
+          hasShowResult = true;
+          setTimeout(function() {
+            $(".game-btns").attr("data-state", state)
+          }, 4000);
+        }
         break;
     }
+  }
+  function getResultClass(code) {
+    var className = "";
+    switch (code) {
+      case "龙":
+        className = "long";
+        break;
+      case "虎":
+        className = "hu";
+        break;
+      case "出":
+        className = "chu";
+        break;
+      case "入":
+        className = "ru";
+        break;
+    }
+    return className;
   }
 
   function initBetData(gameBetList) {
@@ -836,4 +880,16 @@
     //   $chip.remove();
     // }, 300);
   }
+
+  $(".game-msg").on("click", function() {
+    $(".msg-popup").show();
+  });
+  $(".msg-masker").on("click", function() {
+    $(".msg-popup").hide();
+  });
+  $(".msg-list").on("click", "li", function() {
+    var _target = $(this),
+      type = _target.attr("data-type");
+    $(".msg-masker").trigger("click");
+  });
 })();
