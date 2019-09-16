@@ -40,6 +40,9 @@
             case 'member':
                 eventMember();
                 break;
+            case 'found':
+                eventFound();
+                break;
                 
         }
     });
@@ -122,6 +125,19 @@
         // console.log('scroll');
         handleScroll(e);
     });
+
+    // 充值基金
+    $('.popup-found').on('click', '.btn-found-recharge', function(e) {
+        inputDialog({
+            title: '../images/club/txt_score_change.png',
+            placeholder: '请输入数字',
+            width: '70%',
+            cb: function(inputValue) {
+                console.log(inputValue)
+                // joinGroup(inputValue);
+            }
+        })
+    })
 
       // 1、进来第一步，调群组列表接口group/getListOfUser
     function getListOfUser() {
@@ -351,6 +367,10 @@
         $('.popup-members').show();
     }
 
+    // 俱乐部基金
+    function eventFound() {
+        $('.popup-found').show();
+    }
 
     // 选择群组
     function handleSelectGroup(e) {
@@ -434,6 +454,11 @@
             
             inputwrapper.append(input);
 
+            if (_options.width) {
+                popup_content.css({
+                    width: _options.width
+                });
+            }
             popup_content.append(icon_close).append(title).append(inputwrapper).append(btn);
             popup_wrapper.append(masker).append(popup_content);
           
