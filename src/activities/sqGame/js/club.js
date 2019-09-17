@@ -361,6 +361,10 @@
     function eventScore() {
         window.location.href = './record.html';
     }
+    // 解散
+    function eventDismiss() {
+        $('.popup-dismiss').show();
+    }
     // 成员
     function eventMember() {
         getGroupUserList(currentGroup);

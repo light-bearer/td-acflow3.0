@@ -436,7 +436,48 @@ input {
     margin: auto;
   }
 }
+.checkbox-radio-wrapper {
+  input[type="checkbox"],
+  input[type="radio"] {
+    display: none;
+  }
 
+  label {
+    margin-right: pxToRem(10px);
+  }
+
+  input[type="radio"] + label:before,
+  input[type="checkbox"] + label:before  {
+    content: "";
+    vertical-align: middle;
+    margin-right: pxToRem(10px);
+    width: pxToRem(45px);
+    height: pxToRem(48px);
+    background-image: url("../images/createroom/icon_checkbox.png");
+    background-repeat: no-repeat;
+    background-size: pxToRem(43px) pxToRem(43px);
+    background-position: center;
+    display: inline-block;
+
+    // @include inline-background(
+    //   "../images/createroom/icon_checkbox.png",
+    //   43px,
+    //   43px
+    // );
+  }
+
+  input[type="radio"]:checked + label:before,
+  input[type="checkbox"]:checked + label:before {
+    background-image: url("../images/createroom/icon_checkbox_checked.png");
+    background-repeat: no-repeat;
+    background-size: pxToRem(45px) pxToRem(48px);
+    // @include inline-background(
+    //   "../images/createroom/icon_checkbox_checked.png",
+    //   45px,
+    //   48px
+    // );
+  }
+}
 .cr-content {
   width: pxToRem(656px);
   height: pxToRem(584px);
@@ -444,6 +485,7 @@ input {
   margin-top: pxToRem(26px);
   overflow-y: auto;
   padding-bottom: pxToRem(20px);
+  @extend .checkbox-radio-wrapper;
 
   .cr-items {
     width: 100%;
@@ -470,44 +512,7 @@ input {
     }
   }
 
-  input[type="checkbox"],
-  input[type="radio"] {
-    display: none;
-  }
-
-  label {
-    margin-right: pxToRem(10px);
-  }
-
-  input[type="radio"] + label:before {
-    content: "";
-    vertical-align: middle;
-    margin-right: pxToRem(10px);
-    width: pxToRem(45px);
-    height: pxToRem(48px);
-    background-image: url("../images/createroom/icon_checkbox.png");
-    background-repeat: no-repeat;
-    background-size: pxToRem(43px) pxToRem(43px);
-    background-position: center;
-    display: inline-block;
-
-    // @include inline-background(
-    //   "../images/createroom/icon_checkbox.png",
-    //   43px,
-    //   43px
-    // );
-  }
-
-  input[type="radio"]:checked + label:before {
-    background-image: url("../images/createroom/icon_checkbox_checked.png");
-    background-repeat: no-repeat;
-    background-size: pxToRem(45px) pxToRem(48px);
-    // @include inline-background(
-    //   "../images/createroom/icon_checkbox_checked.png",
-    //   45px,
-    //   48px
-    // );
-  }
+  
 }
 
 .popup-message {

@@ -437,6 +437,79 @@
         background-size: contain;
     }
 }
+// 解散
+.popup-dismiss {
+    .popup-content {
+        background: url("../images/club/bg_dismiss.png") no-repeat center;
+        background-size: contain;
+        width: pxToRem(672px);
+        height: pxToRem(563px);
+        .icon-close {
+            top: pxToRem(26px);
+            right: pxToRem(11px);
+        }
+        .input-wrapper {
+            background:rgba(71,42,26,1);
+            // box-shadow:0px pxToRem(3px) pxToRem(5px) 0px rgba(51,33,22,0.92);
+            border-radius: pxToRem(10px);
+            width: pxToRem(250px);
+            height: pxToRem(64px);
+
+            position: absolute;
+            top: pxToRem(119px);
+            left: pxToRem(207px);
+            input {
+                background: transparent;
+                color: #fff;
+                font-size: pxToRem(28px);
+                width: 100%;
+                padding: 0 pxToRem(16px);
+            }
+        }
+        
+        .checkbox-radio-wrapper {
+            position: absolute;
+            bottom: pxToRem(272px);
+            left: pxToRem(37px);
+
+        }
+        .checkbox2 {
+            left: pxToRem(364px);
+        }
+        .checkbox3 {
+            bottom: pxToRem(157px);
+        }
+        .checkbox4 {
+            left: pxToRem(364px);
+            bottom: pxToRem(157px);
+        }
+        
+        
+    }
+    .btn-dismiss-save {
+        background: url("../images/club/btn_dismiss_save.png") no-repeat center;
+        background-size: contain;
+        width: pxToRem(178px);
+        height: pxToRem(75px);
+        
+        position: absolute;
+        top: pxToRem(113px);
+        right: pxToRem(16px);
+    }
+    .btn-dismiss {
+        width: pxToRem(280px);
+        height: pxToRem(86px);
+        
+        position: absolute;
+        bottom: pxToRem(34px);
+        left: pxToRem(34px); 
+    }
+    .btn-confirm {
+        @extend .btn-dismiss;
+        left: unset;
+        right: pxToRem(34px);
+    }
+}
 // 后面多个弹窗公用部分
 .popup-multi {
     .icon-close {
