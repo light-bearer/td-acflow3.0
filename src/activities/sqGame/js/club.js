@@ -119,7 +119,20 @@
     $(".btn-save").on("click", function(e) {
         createGameType();
       });
+    // 解散
+    $('.popup-dismiss').on('click', '.btn-dismiss', function() {
+        Util.popup({
+            type: 'confirm',
+            content: '确定要解散当前群吗？',
+            negativeCb: function() {
 
+            },
+            positiveCb: function() {
+                // todo dismiss
+                console.log('dismiss')
+            }
+        })
+    })
     // 成员滚动加载更多
     $('.member-list').scroll(function(e) {
         // console.log('scroll');
