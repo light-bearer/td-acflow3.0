@@ -2,973 +2,901 @@
 @import "variables";
 @import "animation";
 @import "../../../sass/func";
-
 .main-content {
-  overflow: hidden;
-  position: relative;
-  background-size: 100% 100%;
+    overflow: hidden;
+    position: relative;
+    background-size: 100% 100%;
 }
 
 .ab-top-wrapper {
-  position: absolute;
-  top: percent(15);
-  right: pxToRem(24px);
-  height: percent(72);
-  width: 100%;
-  text-align: right;
-
-  .ab-top-item {
-    width: pxToRem(69px);
-    height: 100%;
-    background-size: contain;
-    background-repeat: no-repeat;
-    display: inline-block;
-  }
-
-  .icon-voice {
-    background-image: url("../images/anbao/icon_voice.png");
-  }
-
-  .icon-gz {
-    background-image: url("../images/anbao/txt_gz.png");
-  }
-
-  .icon-dt {
-    background-image: url("../images/anbao/txt_dt.png");
-  }
+    position: absolute;
+    top: percent(15);
+    right: pxToRem(24px);
+    height: percent(72);
+    width: 100%;
+    text-align: right;
+    .ab-top-item {
+        width: pxToRem(69px);
+        height: 100%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        display: inline-block;
+    }
+    .icon-voice {
+        background-image: url("../images/anbao/icon_voice.png");
+    }
+    .icon-gz {
+        background-image: url("../images/anbao/txt_gz.png");
+    }
+    .icon-dt {
+        background-image: url("../images/anbao/txt_dt.png");
+    }
 }
 
 .ab-txt {
-  position: absolute;
-  top: percent(92);
-  left: 50%;
-  @include background("../images/anbao/icon_txt.png", 444px, 73px);
-  height: percent(73);
-  transform: translate(-50%, 0);
-
-  &.small {
-    width: pxToRem(319px);
-  }
+    position: absolute;
+    top: percent(92);
+    left: 50%;
+    @include background("../images/anbao/icon_txt.png",
+    444px,
+    73px);
+    height: percent(73);
+    transform: translate(-50%, 0);
+    &.small {
+        width: pxToRem(319px);
+    }
 }
 
 .ab-room {
-  position: absolute;
-  top: percent(172);
-  width: 100%;
-  text-align: center;
-  color: #fff;
-  font-size: pxToRem(27px);
-  margin-top: pxToRem(8px);
-  line-height: pxToRem(28px);
-
-  &>p:last-of-type {
-    font-size: pxToRem(25px);
-  }
-
-  &.more {
-    top: percent(25);
-    left: pxToRem(100px);
-    width: pxToRem(450px);
-    margin-top: 0;
-    font-size: pxToRem(21px);
-
-    &>p:last-of-type {
-      font-size: pxToRem(16px);
-    }
-  }
-}
-
-.center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.banker-selected-top {
-  @include background("../images/anbao/banker_result_top.png", 490px, 251px);
-  left: 50%;
-}
-
-.banker-selected-left {
-  @include background("../images/anbao/banker_result_left.png", 246px, 498px);
-  top: 50%;
-}
-
-.game-banker-content {
-  position: absolute;
-  @include background("../images/anbao/pic_game_banker.png", 501px, 519px);
-  top: percent(245);
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 100;
-  display: none;
-  overflow: hidden;
-
-  &::before {
-    content: "";
     position: absolute;
-  }
-
-  &.hu {
-    &::before {
-      @extend .banker-selected-left;
-      left: pxToRem(6px);
-      transform: translate(0, -50%);
-    }
-  }
-
-  &.long {
-    &::before {
-      @extend .banker-selected-left;
-      right: pxToRem(6px);
-      transform: translate(0, -50%) rotateY(180deg);
-    }
-  }
-
-  &.chu {
-    &::before {
-      @extend .banker-selected-top;
-      top: pxToRem(6px);
-      transform: translate(-50%, 0);
-    }
-  }
-
-  &.ru {
-    &::before {
-      @extend .banker-selected-top;
-      bottom: pxToRem(6px);
-      transform: translate(-50%, 0) rotateX(180deg);
-    }
-  }
-
-  @at-root .gb-rotate {
-    width: 350px;
-    height: 350px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotateZ(-45deg);
-
-    .gb-row {
-      width: 100%;
-      height: 50%;
-      display: flex;
-
-      .gb-item {
-        width: 50%;
-        height: 100%;
-      }
-    }
-  }
-}
-
-.an-game-content {
-  position: absolute;
-  width: pxToRem(501px);
-  // height: percent(522);
-  height: pxToRem(522px);
-  top: percent(245);
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-image: url("../images/anbao/pic_game.png"),
-    url("../images/anbao/pic_game_center.png");
-  background-size: 100% 100%, pxToRem(94px) pxToRem(98px);
-  background-position: center, center;
-  background-repeat: no-repeat, no-repeat;
-  z-index: 9;
-
-  &.fact {
-    background: transparent;
-    transform: translate(0, 0, 9);
-    z-index: 99;
-  }
-
-  &.lower {
-    top: percent(276);
-  }
-
-  .row {
-    font-size: 0;
-
-    .item {
-      display: inline-block;
-    }
-  }
-
-  // @at-root .game-result {
-  //   background-image: url('../images/anbao/game_result_right.png');
-  //   background-size: pxToRem(428px) pxToRem(515px);
-  // }
-
-  @at-root .an-game__bottom {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 13;
-    background-repeat: no-repeat;
-    &::before {
-      content: '';
-      background-repeat: no-repeat;
-      background-size: contain;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation: breath 1.5s linear both 2 1s;
-      // transform-origin: 0 0;
-      
-    }
-    &.long {
-      &::before {
-        background-image: url('../images/anbao/result/gold_long.png');
-        width: pxToRem(282px);
-        height: pxToRem(338px);
-      }
-    }
-
-    &.long,
-    &.hu {
-      background-image: url('../images/anbao/game_result_right.png');
-      background-size: pxToRem(428px) pxToRem(515px);
-      background-position: right;
-      animation: resultAnit 1s ease-in both 3;
-    }
-
-    &.hu {
-      transform: rotateY(180deg);
-      &::before {
-        background-image: url('../images/anbao/result/gold_hu.png');
-        width: pxToRem(307px);
-        height: pxToRem(351px);
-      }
-    }
-
-    &.chu,
-    &.ru {
-      background-image: url('../images/anbao/game_result_top.png');
-      background-size: pxToRem(484px) pxToRem(449px);
-      background-position: top;
-      animation: resultAnit2 1s ease-in both 3;
-    }
-    &.chu {
-      &::before {
-         background-image: url('../images/anbao/result/gold_chu.png');
-         width: pxToRem(232px);
-         height: pxToRem(344px);
-      }
-    }
-
-    &.ru {
-      transform: rotateX(180deg);
-      &::before {
-         background-image: url('../images/anbao/result/gold_ru.png');
-         width: pxToRem(327px);
-         height: pxToRem(202px);
-      }
-    }
-
-    .row {
-      // height: percent(126, 515);
-      height: pxToRem(126px);
-
-      &.slim {
-        // height: percent(68, 515);
-        height: pxToRem(68px);
-      }
-
-      .item {
-        height: 100%;
-        width: pxToRem(122px);
-
-        &:first-of-type {
-          width: pxToRem(68px);
-        }
-
-        &:last-of-type {
-          width: pxToRem(68px);
-          margin-right: -5px;
-        }
-      }
-    }
-  }
-
-  @at-root .an-game__cover {
-    @include background("../images/anbao/icon_cover.png", 114px, 123px);
-    @extend .center;
-    z-index: 103;
-    // @extend .slideOutRight;
-  }
-
-  @at-root .an-game__middle {
-    @extend .center;
-    width: pxToRem(225px);
-    height: pxToRem(225px);
-    overflow: hidden;
-    z-index: 11;
-
-    .rotate {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotateZ(-45deg);
-      width: pxToRem(310px);
-      height: pxToRem(310px);
-    }
-
-    .row {
-      width: 100%;
-      height: 50%;
-
-      .item {
-        height: 100%;
-        width: 50%;
-
-        &:last-of-type {
-          margin-right: -5px;
-        }
-      }
-    }
-  }
-
-  @at-root .an-game__top {
-    @extend .center;
-    width: pxToRem(85px);
-    height: pxToRem(85px);
-    background-position: center;
-    background-size: 100%;
-    z-index: 12;
-    // background-image: url(../images//anbao/pic_game_center.png)
-  }
-}
-
-.icon-banker {
-  @include background("../images/anbao/icon_zhuang.png", 51px, 58px);
-  animation: lose .38s linear both;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.gamer-group {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 3;
-
-  &.mode16 {
-    .seat {
-      width: pxToRem(74px);
-      height: percent(110);
-    }
-  }
-
-  &.mode20 {
-    .seat {
-      width: pxToRem(74px);
-      height: percent(100);
-    }
-  }
-
-  &.mode30 {
-    .seat {
-      width: pxToRem(74px);
-      height: percent(99);
-
-      &.small {
-        width: pxToRem(50px);
-        height: percent(80);
-      }
-    }
-  }
-
-  @at-root .seat {
-    position: absolute;
-    width: pxToRem(78px);
-    height: percent(128);
-    max-height: pxToRem(128px);
-    background: url(../images/anbao/bg_avator.png) no-repeat center;
-    color: #fff;
-    text-align: center;
-    z-index: 200;
-
-    &.banker {
-      &::after {
-        content: "";
-        @include background("../images/anbao/icon_zhuang.png", 51px, 58px);
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translate(30%, -10%);
-        animation: fadeIn .5s linear both;
-      }
-    }
-
-    &.rob {
-      &::before {
-        content: "";
-        // @include background("../images/anbao/icon_rob.png", 52px, 54px);
-        @extend .icon-banker;
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translate(100%, 0);
-        @extend .robanimate;
-      }
-    }
-
-    &.norob {
-      &::before {
-        content: "";
-        @include background("../images/anbao/icon_norob.png", 102px, 54px);
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        transform: translate(0, 80%);
-        // animation: robanimate 1.5s linear both;
-        @extend .robanimate;
-      }
-    }
-
-    &.current-user {
-
-      // bottom: percent(68);
-      // left: pxToRem(19px);
-      figure {
-        figcaption {
-          margin-top: -4px;
-        }
-      }
-
-      .score {
-        margin-top: -5px;
-      }
-    }
-
-    &.empty {
-      &:after {
-        position: absolute;
-        content: "";
-        background: url(../images/anbao/txt_kw.png) no-repeat center;
-        background-size: contain;
-        width: pxToRem(57px);
-        height: percent(117, 128);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-    }
-
-    figure {
-      position: relative;
-      width: 100%;
-      height: percent(95, 128);
-
-      &.ready {
-        &::before {
-          content: "";
-          @include background("../images/anbao/txt_ready.png", 54px, 30px);
-          position: absolute;
-          top: pxToRem(9px);
-          left: 50%;
-          transform: translateX(-50%);
-        }
-      }
-
-      img {
-        padding-top: pxToRem(6px);
-        // width: pxToRem(65px);
-        height: percent(65, 95);
-      }
-
-      figcaption {
-        font-size: pxToRem(16px);
-        margin-top: -4px;
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-      }
-    }
-
-    .score {
-      font-size: 11px;
-      color: #e2d33b;
-      // padding-top: 3px;
-      // margin-top: -5px;
-    }
-
-    .member-no {
-      display: block;
-      font-size: 8px;
-    }
-  }
-}
-
-.chip-group {
-  position: absolute;
-  bottom: percent(22);
-  left: pxToRem(131px);
-  height: percent(98);
-  font-size: 0;
-  display: none;
-  //   z-index: 9;
-  z-index: 100;
-
-  @at-root .chip {
-    display: inline-block;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: pxToRem(87px);
-    height: 100%;
-    margin-right: pxToRem(12px);
-
-    &.active {
-      transform: translate(0, -10%);
-    }
-
-    &.move {
-      position: absolute;
-      width: pxToRem(44px);
-      height: pxToRem(49px);
-      margin: 0;
-      z-index: 9;
-
-      &.transition {
-        transition: transform 0.3s;
-      }
-    }
-  }
-
-  @at-root .chip10 {
-    background-image: url(../images/anbao/chip10.png);
-  }
-
-  @at-root .chip20 {
-    background-image: url(../images/anbao/chip20.png);
-  }
-
-  @at-root .chip30 {
-    background-image: url(../images/anbao/chip30.png);
-  }
-
-  @at-root .chip50 {
-    background-image: url(../images/anbao/chip50.png);
-  }
-
-  @at-root .chip100 {
-    background-image: url(../images/anbao/chip100.png);
-  }
-}
-
-.money-track-group {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  //   z-index: 100;
-  z-index: 99;
-  display: none;
-
-  @at-root .money-track {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: pxToRem(62px);
-    // height: percent(300);
-    transform-origin: top;
-
-    &.earn {
-      .coins {
-        animation-name: earn;
-      }
-    }
-
-    .coins {
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: block;
-      background: url(../images/anbao/coins.png) no-repeat center;
-      background-size: contain;
-      width: pxToRem(62px);
-      height: pxToRem(69px);
-      animation-duration: 0.38s;
-      animation-fill-mode: forwards;
-      animation-name: lose;
-    }
-
-    .coins1 {
-      @extend .coins;
-      animation-delay: 0.15s;
-    }
-
-    .coins3 {
-      @extend .coins;
-      animation-delay: 0.3s;
-    }
-  }
-}
-
-.animated {
-  animation-duration: 0.6s;
-  animation-fill-mode: both;
-}
-
-@-webkit-keyframes lose {
-  from {
-    top: 0;
-    visibility: visible;
-  }
-
-  to {
-    top: 100%;
-    visibility: hidden;
-  }
-}
-
-@keyframes lose {
-  from {
-    top: 0;
-    visibility: visible;
-  }
-
-  to {
-    top: 100%;
-    visibility: hidden;
-  }
-}
-
-@-webkit-keyframes earn {
-  from {
-    top: 100%;
-    visibility: visible;
-  }
-
-  to {
-    top: 0;
-    visibility: hidden;
-  }
-}
-
-@keyframes earn {
-  from {
-    top: 100%;
-    visibility: visible;
-  }
-
-  to {
-    top: 0;
-    visibility: hidden;
-  }
-}
-
-.game-btns {
-  width: 100%;
-  position: absolute;
-  z-index: 100;
-  bottom: percent(100);
-  top: 75%;
-  // bottom: 0;
-  text-align: center;
-  font-size: pxToRem(40px);
-  color: #fff;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  align-items: center;
-
-
-  >div {
-    margin: auto;
-  }
-
-  .game-btn-yellow-big {
-    @include background("../images/anbao/btn_yellow_big.png", 204px, 72px);
-    line-height: pxToRem(72px);
-    color: #9a651c;
-    font-size: pxToRem(32px);
-    margin-bottom: pxToRem(20px);
-    display: none;
-  }
-
-  .game-btn-count {
-    @extend .game-btn-yellow-big;
-  }
-
-  .game-btn-yellow-small {
-    @include background("../images/anbao/btn_yellow_small.png", 160px, 75px);
-    line-height: pxToRem(75px);
-    // color: #fff;
-    // font-size: pxToRem(40px);
-    -webkit-text-stroke: pxToRem(3px) rgba(195, 113, 53, 0.2);
-    text-shadow: pxToRem(3px) pxToRem(3px) pxToRem(3px) #c37135;
-    font-weight: bold;
-    display: none;
-  }
-
-  .game-btn-blue {
-    @include background("../images/anbao/btn_blue.png", 163px, 75px);
-    line-height: pxToRem(75px);
-    -webkit-text-stroke: pxToRem(3px) rgba(18, 147, 184, 0.2);
-    text-shadow: pxToRem(3px) pxToRem(3px) pxToRem(3px) #1293b8;
-    display: none;
-  }
-
-  .game-btn-purple {
-    @include background("../images/anbao/btn_purple.png", 160px, 75px);
-    line-height: pxToRem(75px);
-    -webkit-text-stroke: pxToRem(3px) rgba(143, 43, 193, 0.2);
-    text-shadow: pxToRem(3px) pxToRem(3px) pxToRem(3px) #8f2bc1;
-    font-weight: bold;
-    display: none;
-  }
-
-  //   .game-btn-action {
-  //     @extend .game-btn-yellow-small;
-  //     display: none;
-  //   }
-  .game-count-down {
-    @include background("../images/anbao/bg_countdown.png", 88px, 90px);
-    line-height: pxToRem(90px);
-    text-align: center;
-    font-size: pxToRem(37px);
-    color: #216541;
-    display: none;
-
-  }
-
-  .game-btn-rob {
-    margin-right: pxToRem(60px);
-  }
-
-  .flex-btns {
-    display: flex;
-    justify-content: center;
-    // margin-top: pxToRem(28px);
-  }
-}
-
-.game-btns[data-state="1"] {
-
-  .game-btn-count,
-  .game-btn-ready {
-    display: block;
-  }
-}
-
-.game-btns[data-state="2"] {
-
-  .game-count-down,
-  .game-btn-rob,
-  .game-btn-norob {
-    display: block;
-  }
-}
-
-.game-btns[data-state="4"] {
-
-  .game-count-down,
-  .game-btn-db {
-    display: block;
-  }
-}
-
-.game-btns[data-state="5"] {
-  .game-count-down {
-    display: block;
-  }
-
-  .flex-btns[data-isbanker="false"] {
-
-    .game-btn-stop,
-    .game-btn-chips {
-      display: block;
-    }
-
-    .game-btn-stop {
-      font-size: pxToRem(30px);
-      margin-right: pxToRem(70px);
-    }
-  }
-
-  .flex-btns[data-isbanker="true"] {
-    .game-btn-statis {
-      display: block;
-    }
-  }
-
-
-}
-
-.game-btns[data-state="6"] {
-  .game-btn-chips {
-    display: block;
-  }
-
-  &.banker {
-    bottom: 0;
-
-    .game-count-down,
-    .game-btn-statis,
-    .game-btn-kb {
-      display: block;
-    }
-
-    .game-btn-chips {
-      display: none;
-    }
-  }
-
-
-}
-
-.game-results {
-  width: 100%;
-  position: absolute;
-  top: 62%;
-  text-align: center;
-
-  .pseudo {
-    position: absolute;
-    background-repeat: no-repeat;
-    top: 50%;
-    content: "";
-    background-size: contain;
-  }
-
-  .result-wrapper {
-    @include background("../images/anbao/bg_black.png", 393px, 72px);
-    position: relative;
-    margin: auto;
-
-    &::before {
-      @extend .pseudo;
-      left: pxToRem(-10px);
-      transform: translate(-100%, -50%);
-    }
-
-    &::after {
-      @extend .pseudo;
-      right: pxToRem(-10px);
-      transform: translate(100%, -50%);
-    }
-  }
-
-  .result-wrapper:first-child {
-    margin-bottom: pxToRem(7px);
-
-    &::before {
-      background-image: url("../images/anbao/num_one.png");
-      width: pxToRem(13px);
-      height: pxToRem(28px);
-    }
-
-    &::after {
-      background-image: url("../images/anbao/num_six.png");
-      width: pxToRem(21px);
-      height: pxToRem(29px);
-    }
-  }
-
-  .result-wrapper:last-child {
-    &::before {
-      background-image: url("../images/anbao/num_seven.png");
-      width: pxToRem(19px);
-      height: pxToRem(26px);
-    }
-
-    &::after {
-      background-image: url("../images/anbao/num_tw.png");
-      width: pxToRem(36px);
-      height: pxToRem(27px);
-    }
-  }
-}
-
-.game-msg {
-  @include background("../images/anbao/icon_msg.png", 69px, 70px);
-  position: absolute;
-  z-index: 100;
-  bottom: percent(30);
-  // bottom: pxToRem(47px);
-  right: pxToRem(24px);
-}
-.msg-popup {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 9999;
-  display: none;
-  .msg-masker {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 10000;
-  }
-  .msg-list {
-    width: pxToRem(480px);
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, .6);
-    border-top-left-radius: pxToRem(10px);
-    z-index: 10010;
-    >li {
-      width: 100%;
-      height: pxToRem(90px);
-      line-height: pxToRem(90px);
-      color: rgba(209, 200, 200, 1);
-      font-size: pxToRem(26px);
-
-    }
-  }
-}
-.tj-content {
-  // background-color: rgba(0, 0, 0, .85);
-  // border: pxToRem(7px) solid rgba(255, 255, 255, .53);
-  // width: pxToRem(510px);
-  // height: percent(762);
-  padding: pxToRem(44px) pxToRem(15px) pxToRem(44px) pxToRem(18px);
-  // border-radius: pxToRem(25px);
-  // box-shadow: 0 0 3px #000;
-  @include background('../images/anbao/analysis_bg.png', 511px, 762px);
-  .icon-close {
-    top: 0;
-    right: 0;
-    transform: translate(30%, -30%);
-  }
-  .tj-title {
+    top: percent(172);
     width: 100%;
     text-align: center;
     color: #fff;
-    font-size:pxToRem(40px);
-    margin-bottom: pxToRem(24px);
-  }
-  @at-root .tj-list {
-    >li {
-      @include background('../images/anbao/analysis_item_bg.png', 478px, 84px);
-      display: flex;
-      padding: 0 pxToRem(40px);
-      justify-content: space-around;
-      align-items: center;
-      font-size: pxToRem(26px);
-      margin-bottom: pxToRem(14px);
-      span:first-child {
-        color: rgba(174, 164, 189, 1);
-      }
-      span:last-child {
-        color: rgba(239, 191, 45, 1);
-      }
+    font-size: pxToRem(27px);
+    margin-top: pxToRem(8px);
+    line-height: pxToRem(28px);
+    &>p:last-of-type {
+        font-size: pxToRem(25px);
     }
-  }
+    &.more {
+        top: percent(25);
+        left: pxToRem(100px);
+        width: pxToRem(450px);
+        margin-top: 0;
+        font-size: pxToRem(21px);
+        &>p:last-of-type {
+            font-size: pxToRem(16px);
+        }
+    }
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.banker-selected-top {
+    @include background("../images/anbao/banker_result_top.png",
+    490px,
+    251px);
+    left: 50%;
+}
+
+.banker-selected-left {
+    @include background("../images/anbao/banker_result_left.png",
+    246px,
+    498px);
+    top: 50%;
+}
+
+.game-banker-content {
+    position: absolute;
+    @include background("../images/anbao/pic_game_banker.png",
+    501px,
+    519px);
+    top: percent(245);
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 100;
+    display: none;
+    overflow: hidden;
+    &::before {
+        content: "";
+        position: absolute;
+    }
+    &.hu {
+        &::before {
+            @extend .banker-selected-left;
+            left: pxToRem(6px);
+            transform: translate(0, -50%);
+        }
+    }
+    &.long {
+        &::before {
+            @extend .banker-selected-left;
+            right: pxToRem(6px);
+            transform: translate(0, -50%) rotateY(180deg);
+        }
+    }
+    &.chu {
+        &::before {
+            @extend .banker-selected-top;
+            top: pxToRem(6px);
+            transform: translate(-50%, 0);
+        }
+    }
+    &.ru {
+        &::before {
+            @extend .banker-selected-top;
+            bottom: pxToRem(6px);
+            transform: translate(-50%, 0) rotateX(180deg);
+        }
+    }
+    @at-root .gb-rotate {
+        width: 350px;
+        height: 350px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotateZ(-45deg);
+        .gb-row {
+            width: 100%;
+            height: 50%;
+            display: flex;
+            .gb-item {
+                width: 50%;
+                height: 100%;
+            }
+        }
+    }
+}
+
+.an-game-content {
+    position: absolute;
+    width: pxToRem(501px);
+    // height: percent(522);
+    height: pxToRem(522px);
+    top: percent(245);
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-image: url("../images/anbao/pic_game.png"), url("../images/anbao/pic_game_center.png");
+    background-size: 100% 100%, pxToRem(94px) pxToRem(98px);
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    z-index: 9;
+    &.fact {
+        background: transparent;
+        transform: translate(0, 0, 9);
+        z-index: 99;
+    }
+    &.lower {
+        top: percent(276);
+    }
+    .row {
+        font-size: 0;
+        .item {
+            display: inline-block;
+        }
+    }
+    // @at-root .game-result {
+    //   background-image: url('../images/anbao/game_result_right.png');
+    //   background-size: pxToRem(428px) pxToRem(515px);
+    // }
+    @at-root .an-game__bottom {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 13;
+        background-repeat: no-repeat;
+        &::before {
+            content: '';
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: breath 1.5s linear both 2 1s;
+            // transform-origin: 0 0;
+        }
+        &.long {
+            &::before {
+                background-image: url('../images/anbao/result/gold_long.png');
+                width: pxToRem(282px);
+                height: pxToRem(338px);
+            }
+        }
+        &.long,
+        &.hu {
+            background-image: url('../images/anbao/game_result_right.png');
+            background-size: pxToRem(428px) pxToRem(515px);
+            background-position: right;
+            animation: resultAnit 1s ease-in both 3;
+        }
+        &.hu {
+            transform: rotateY(180deg);
+            &::before {
+                background-image: url('../images/anbao/result/gold_hu.png');
+                width: pxToRem(307px);
+                height: pxToRem(351px);
+            }
+        }
+        &.chu,
+        &.ru {
+            background-image: url('../images/anbao/game_result_top.png');
+            background-size: pxToRem(484px) pxToRem(449px);
+            background-position: top;
+            animation: resultAnit2 1s ease-in both 3;
+        }
+        &.chu {
+            &::before {
+                background-image: url('../images/anbao/result/gold_chu.png');
+                width: pxToRem(232px);
+                height: pxToRem(344px);
+            }
+        }
+        &.ru {
+            transform: rotateX(180deg);
+            &::before {
+                background-image: url('../images/anbao/result/gold_ru.png');
+                width: pxToRem(327px);
+                height: pxToRem(202px);
+            }
+        }
+        .row {
+            // height: percent(126, 515);
+            height: pxToRem(126px);
+            &.slim {
+                // height: percent(68, 515);
+                height: pxToRem(68px);
+            }
+            .item {
+                height: 100%;
+                width: pxToRem(122px);
+                &:first-of-type {
+                    width: pxToRem(68px);
+                }
+                &:last-of-type {
+                    width: pxToRem(68px);
+                    margin-right: -5px;
+                }
+            }
+        }
+    }
+    @at-root .an-game__cover {
+        @include background("../images/anbao/icon_cover.png",
+        114px,
+        123px);
+        @extend .center;
+        z-index: 103;
+        // @extend .slideOutRight;
+    }
+    @at-root .an-game__middle {
+        @extend .center;
+        width: pxToRem(225px);
+        height: pxToRem(225px);
+        overflow: hidden;
+        z-index: 11;
+        .rotate {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateZ(-45deg);
+            width: pxToRem(310px);
+            height: pxToRem(310px);
+        }
+        .row {
+            width: 100%;
+            height: 50%;
+            .item {
+                height: 100%;
+                width: 50%;
+                &:last-of-type {
+                    margin-right: -5px;
+                }
+            }
+        }
+    }
+    @at-root .an-game__top {
+        @extend .center;
+        width: pxToRem(85px);
+        height: pxToRem(85px);
+        background-position: center;
+        background-size: 100%;
+        z-index: 12;
+        // background-image: url(../images//anbao/pic_game_center.png)
+    }
+}
+
+.icon-banker {
+    @include background("../images/anbao/icon_zhuang.png",
+    51px,
+    58px);
+    animation: lose .38s linear both;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.gamer-group {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    &.mode16 {
+        .seat {
+            width: pxToRem(74px);
+            height: percent(110);
+        }
+    }
+    &.mode20 {
+        .seat {
+            width: pxToRem(74px);
+            height: percent(100);
+        }
+    }
+    &.mode30 {
+        .seat {
+            width: pxToRem(74px);
+            height: percent(99);
+            &.small {
+                width: pxToRem(50px);
+                height: percent(80);
+            }
+        }
+    }
+    @at-root .seat {
+        position: absolute;
+        width: pxToRem(78px);
+        height: percent(128);
+        max-height: pxToRem(128px);
+        background: url(../images/anbao/bg_avator.png) no-repeat center;
+        color: #fff;
+        text-align: center;
+        z-index: 200;
+        &.banker {
+            &::after {
+                content: "";
+                @include background("../images/anbao/icon_zhuang.png",
+                51px,
+                58px);
+                position: absolute;
+                top: 0;
+                right: 0;
+                transform: translate(30%, -10%);
+                animation: fadeIn .5s linear both;
+            }
+        }
+        &.rob {
+            &::before {
+                content: "";
+                // @include background("../images/anbao/icon_rob.png", 52px, 54px);
+                @extend .icon-banker;
+                position: absolute;
+                top: 0;
+                right: 0;
+                transform: translate(100%, 0);
+                @extend .robanimate;
+            }
+        }
+        &.norob {
+            &::before {
+                content: "";
+                @include background("../images/anbao/icon_norob.png",
+                102px,
+                54px);
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                transform: translate(0, 80%);
+                // animation: robanimate 1.5s linear both;
+                @extend .robanimate;
+            }
+        }
+        &.current-user {
+            // bottom: percent(68);
+            // left: pxToRem(19px);
+            figure {
+                figcaption {
+                    margin-top: -4px;
+                }
+            }
+            .score {
+                margin-top: -5px;
+            }
+        }
+        &.empty {
+            &:after {
+                position: absolute;
+                content: "";
+                background: url(../images/anbao/txt_kw.png) no-repeat center;
+                background-size: contain;
+                width: pxToRem(57px);
+                height: percent(117, 128);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        figure {
+            position: relative;
+            width: 100%;
+            height: percent(95, 128);
+            &.ready {
+                &::before {
+                    content: "";
+                    @include background("../images/anbao/txt_ready.png",
+                    54px,
+                    30px);
+                    position: absolute;
+                    top: pxToRem(9px);
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+            }
+            img {
+                padding-top: pxToRem(6px);
+                // width: pxToRem(65px);
+                height: percent(65, 95);
+            }
+            figcaption {
+                font-size: pxToRem(16px);
+                margin-top: -4px;
+                width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+        .score {
+            font-size: 11px;
+            color: #e2d33b;
+            // padding-top: 3px;
+            // margin-top: -5px;
+        }
+        .member-no {
+            display: block;
+            font-size: 8px;
+        }
+    }
+}
+
+.chip-group {
+    position: absolute;
+    bottom: percent(22);
+    left: pxToRem(131px);
+    height: percent(98);
+    font-size: 0;
+    display: none;
+    //   z-index: 9;
+    z-index: 100;
+    @at-root .chip {
+        display: inline-block;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: pxToRem(87px);
+        height: 100%;
+        margin-right: pxToRem(12px);
+        &.active {
+            transform: translate(0, -10%);
+        }
+        &.move {
+            position: absolute;
+            width: pxToRem(44px);
+            height: pxToRem(49px);
+            margin: 0;
+            z-index: 9;
+            &.transition {
+                transition: transform 0.3s;
+            }
+        }
+    }
+    @at-root .chip10 {
+        background-image: url(../images/anbao/chip10.png);
+    }
+    @at-root .chip20 {
+        background-image: url(../images/anbao/chip20.png);
+    }
+    @at-root .chip30 {
+        background-image: url(../images/anbao/chip30.png);
+    }
+    @at-root .chip50 {
+        background-image: url(../images/anbao/chip50.png);
+    }
+    @at-root .chip100 {
+        background-image: url(../images/anbao/chip100.png);
+    }
+}
+
+.money-track-group {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    //   z-index: 100;
+    z-index: 99;
+    display: none;
+    @at-root .money-track {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: pxToRem(62px);
+        // height: percent(300);
+        transform-origin: top;
+        &.earn {
+            .coins {
+                animation-name: earn;
+            }
+        }
+        .coins {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            background: url(../images/anbao/coins.png) no-repeat center;
+            background-size: contain;
+            width: pxToRem(62px);
+            height: pxToRem(69px);
+            animation-duration: 0.38s;
+            animation-fill-mode: forwards;
+            animation-name: lose;
+        }
+        .coins1 {
+            @extend .coins;
+            animation-delay: 0.15s;
+        }
+        .coins3 {
+            @extend .coins;
+            animation-delay: 0.3s;
+        }
+    }
+}
+
+.animated {
+    animation-duration: 0.6s;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes lose {
+    from {
+        top: 0;
+        visibility: visible;
+    }
+    to {
+        top: 100%;
+        visibility: hidden;
+    }
+}
+
+@keyframes lose {
+    from {
+        top: 0;
+        visibility: visible;
+    }
+    to {
+        top: 100%;
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes earn {
+    from {
+        top: 100%;
+        visibility: visible;
+    }
+    to {
+        top: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes earn {
+    from {
+        top: 100%;
+        visibility: visible;
+    }
+    to {
+        top: 0;
+        visibility: hidden;
+    }
+}
+
+.game-btns {
+    width: 100%;
+    position: absolute;
+    z-index: 100;
+    bottom: percent(100);
+    top: 75%;
+    // bottom: 0;
+    text-align: center;
+    font-size: pxToRem(40px);
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    >div {
+        margin: auto;
+    }
+    .game-btn-yellow-big {
+        @include background("../images/anbao/btn_yellow_big.png",
+        204px,
+        72px);
+        line-height: pxToRem(72px);
+        color: #9a651c;
+        font-size: pxToRem(32px);
+        margin-bottom: pxToRem(20px);
+        display: none;
+    }
+    .game-btn-count {
+        @extend .game-btn-yellow-big;
+    }
+    .game-btn-yellow-small {
+        @include background("../images/anbao/btn_yellow_small.png",
+        160px,
+        75px);
+        line-height: pxToRem(75px);
+        // color: #fff;
+        // font-size: pxToRem(40px);
+        -webkit-text-stroke: pxToRem(3px) rgba(195, 113, 53, 0.2);
+        text-shadow: pxToRem(3px) pxToRem(3px) pxToRem(3px) #c37135;
+        font-weight: bold;
+        display: none;
+    }
+    .game-btn-blue {
+        @include background("../images/anbao/btn_blue.png",
+        163px,
+        75px);
+        line-height: pxToRem(75px);
+        -webkit-text-stroke: pxToRem(3px) rgba(18, 147, 184, 0.2);
+        text-shadow: pxToRem(3px) pxToRem(3px) pxToRem(3px) #1293b8;
+        display: none;
+    }
+    .game-btn-purple {
+        @include background("../images/anbao/btn_purple.png",
+        160px,
+        75px);
+        line-height: pxToRem(75px);
+        -webkit-text-stroke: pxToRem(3px) rgba(143, 43, 193, 0.2);
+        text-shadow: pxToRem(3px) pxToRem(3px) pxToRem(3px) #8f2bc1;
+        font-weight: bold;
+        display: none;
+    }
+    //   .game-btn-action {
+    //     @extend .game-btn-yellow-small;
+    //     display: none;
+    //   }
+    .game-count-down {
+        @include background("../images/anbao/bg_countdown.png",
+        88px,
+        90px);
+        line-height: pxToRem(90px);
+        text-align: center;
+        font-size: pxToRem(37px);
+        color: #216541;
+        display: none;
+    }
+    .game-btn-rob {
+        margin-right: pxToRem(60px);
+    }
+    .flex-btns {
+        display: flex;
+        justify-content: center;
+        // margin-top: pxToRem(28px);
+    }
+}
+
+.game-btns[data-state="1"] {
+    .game-btn-count,
+    .game-btn-ready {
+        display: block;
+    }
+}
+
+.game-btns[data-state="2"] {
+    .game-count-down,
+    .game-btn-rob,
+    .game-btn-norob {
+        display: block;
+    }
+}
+
+.game-btns[data-state="4"] {
+    .game-count-down,
+    .game-btn-db {
+        display: block;
+    }
+}
+
+.game-btns[data-state="5"] {
+    .game-count-down {
+        display: block;
+    }
+    .flex-btns[data-isbanker="false"] {
+        .game-btn-stop,
+        .game-btn-chips {
+            display: block;
+        }
+        .game-btn-stop {
+            font-size: pxToRem(30px);
+            margin-right: pxToRem(70px);
+        }
+    }
+    .flex-btns[data-isbanker="true"] {
+        .game-btn-statis {
+            display: block;
+        }
+    }
+}
+
+.game-btns[data-state="6"] {
+    .game-btn-chips {
+        display: block;
+    }
+    &.banker {
+        bottom: 0;
+        .game-count-down,
+        .game-btn-statis,
+        .game-btn-kb {
+            display: block;
+        }
+        .game-btn-chips {
+            display: none;
+        }
+    }
+}
+
+.game-results {
+    width: 100%;
+    position: absolute;
+    top: 62%;
+    text-align: center;
+    .pseudo {
+        position: absolute;
+        background-repeat: no-repeat;
+        top: 50%;
+        content: "";
+        background-size: contain;
+    }
+    .result-wrapper {
+        @include background("../images/anbao/bg_black.png",
+        393px,
+        72px);
+        position: relative;
+        margin: auto;
+        &::before {
+            @extend .pseudo;
+            left: pxToRem(-10px);
+            transform: translate(-100%, -50%);
+        }
+        &::after {
+            @extend .pseudo;
+            right: pxToRem(-10px);
+            transform: translate(100%, -50%);
+        }
+    }
+    .result-wrapper:first-child {
+        margin-bottom: pxToRem(7px);
+        &::before {
+            background-image: url("../images/anbao/num_one.png");
+            width: pxToRem(13px);
+            height: pxToRem(28px);
+        }
+        &::after {
+            background-image: url("../images/anbao/num_six.png");
+            width: pxToRem(21px);
+            height: pxToRem(29px);
+        }
+    }
+    .result-wrapper:last-child {
+        &::before {
+            background-image: url("../images/anbao/num_seven.png");
+            width: pxToRem(19px);
+            height: pxToRem(26px);
+        }
+        &::after {
+            background-image: url("../images/anbao/num_tw.png");
+            width: pxToRem(36px);
+            height: pxToRem(27px);
+        }
+    }
+}
+
+.game-msg {
+    @include background("../images/anbao/icon_msg.png",
+    69px,
+    70px);
+    position: absolute;
+    z-index: 100;
+    bottom: percent(30);
+    // bottom: pxToRem(47px);
+    right: pxToRem(24px);
+}
+
+.msg-popup {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+    display: none;
+    .msg-masker {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 10000;
+    }
+    .msg-list {
+        width: pxToRem(480px);
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, .6);
+        border-top-left-radius: pxToRem(10px);
+        z-index: 10010;
+        >li {
+            width: 100%;
+            height: pxToRem(90px);
+            line-height: pxToRem(90px);
+            color: rgba(209, 200, 200, 1);
+            font-size: pxToRem(26px);
+        }
+    }
+}
+
+.tj-content {
+    // background-color: rgba(0, 0, 0, .85);
+    // border: pxToRem(7px) solid rgba(255, 255, 255, .53);
+    // width: pxToRem(510px);
+    // height: percent(762);
+    padding: pxToRem(44px) pxToRem(15px) pxToRem(44px) pxToRem(18px);
+    // border-radius: pxToRem(25px);
+    // box-shadow: 0 0 3px #000;
+    @include background('../images/anbao/analysis_bg.png',
+    511px,
+    762px);
+    .icon-close {
+        top: 0;
+        right: 0;
+        transform: translate(30%, -30%);
+    }
+    .tj-title {
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        font-size: pxToRem(40px);
+        margin-bottom: pxToRem(24px);
+    }
+    @at-root .tj-list {
+        width: 100%;
+        height: pxToRem(620px);
+        >li {
+            @include background('../images/anbao/analysis_item_bg.png',
+            478px,
+            84px);
+            display: flex;
+            padding: 0 pxToRem(40px);
+            justify-content: space-around;
+            align-items: center;
+            font-size: pxToRem(26px);
+            margin-bottom: pxToRem(14px);
+            span:first-child {
+                color: rgba(174, 164, 189, 1);
+            }
+            span:last-child {
+                color: rgba(239, 191, 45, 1);
+            }
+        }
+    }
 }

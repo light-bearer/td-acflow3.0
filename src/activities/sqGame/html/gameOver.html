@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no" />
     <meta name="format-detection" content="telephone=no" />
     <title>游戏结束</title>
     <!-- build:css ../css/gameOver.css -->
@@ -16,27 +14,40 @@
     <link rel="stylesheet" href="../css/common.css" />
     <!-- endbuild -->
     <!-- build:js ../js/lib/adapt.js -->
-    <script
-      src="../../../lib/adapt.js"
-      type="text/javascript"
-      charset="utf-8"
-    ></script>
+    <script src="../../../lib/adapt.js" type="text/javascript" charset="utf-8"></script>
     <!-- endbuild -->
-  </head>
+</head>
 
-  <body>
-    <div class="content ">
-      
+<body>
+    <div class="content main-content">
+        <div class="bg-over">
+            <p class="go-txt">
+                <!-- <span>房间号：75785</span><span>6月8日15:27:54</span><span>12局</span> -->
+            </p>
+            <ul class="go-list">
+                <!-- <li class="go-item">
+                    <div class="go-c-avator"><img src="../images/bg_avator.png"></img>
+                    </div>
+                    <div class="go-c-second">
+                        <p>这世界很酷</p>
+                        <p>ID:878798</p>
+                    </div>
+                    <span class="g-c-num">+0</span>
+                </li> -->
+            </ul>
+        </div>
+        <div class="go-btn-warppers">
+            <div class="go-btn-save"></div>
+            <div class="go-btn-zj"></div>
+        </div>
+        <p class="go-remark">游戏对战记录仅为游戏规则体现，不具备货币属性</p>
     </div>
-  </body>
-  <!-- build:js ../js/lib/fastclick-jquery.js-->
-  <script
-    src="../../../lib/fastclick-jquery-fix-1.8.3.js"
-    type="text/javascript"
-    charset="utf-8"
-  ></script>
-  <!-- endbuild -->
-  <script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
-  
-  <script src="../js/gameOver.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<!-- build:js ../js/lib/fastclick-jquery.js-->
+<script src="../../../lib/fastclick-jquery-fix-1.8.3.js" type="text/javascript" charset="utf-8"></script>
+<!-- endbuild -->
+<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="../js/gameOver.js" type="text/javascript" charset="utf-8"></script>
+
 </html>
