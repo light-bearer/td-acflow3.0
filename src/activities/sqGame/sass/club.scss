@@ -696,6 +696,95 @@
     }
 
 }
+// 账单明细
+.popup-found-detail {
+    @extend .popup-multi;
+    .popup-content {
+        width: pxToRem(720px);
+        height: percent(1026);
+    }
+    .txt-found-detail {
+        height: percent(52, 1026);
+        top: percent(44, 1026);
+        background-image: url("../images/club/txt_found_detail.png");
+    }
+    .popup-content-main {
+        width: pxToRem(628px);
+        left: pxToRem(45px);
+        right: pxToRem(46px);
+        top: percent(119, 1026);
+        bottom: percent(98, 1026);
+        .list-scroll {
+            position: absolute;
+            top: pxToRem(75px);
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: auto;
+        }
+        .loadmore {
+            height: pxToRem(118px);
+            line-height: pxToRem(118px);
+            text-align: center;
+            color: #DDC4B1;
+            font-size: pxToRem(30px);
+        }
+        .nomore {
+            background: url("../images/club/bg_detail_bottom.png") no-repeat center;
+            background-size: contain;
+            width: pxToRem(302px);
+            height: pxToRem(39px);
+            line-height: pxToRem(39px);
+            font-size: pxToRem(30px);
+            color: #C39581;
+            text-align: center;   
+            margin: pxToRem(40px) auto;      
+        }
+    }
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 pxToRem(16px);
+        text-align: center;
+        &.th {
+            color: #EAC3AA;
+            height: pxToRem(75px);
+            line-height: pxToRem(75px);
+            font-size: pxToRem(35px);
+
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+        &.tr {
+            color: #fff;
+            height: pxToRem(114px);
+            line-height: pxToRem(114px);
+            font-size: pxToRem(24px);
+            background-color: #352121;
+            margin-bottom: pxToRem(10px);
+            
+        }
+        &>div {
+            &:first-of-type {
+                width: pxToRem(120px);
+            }
+            &:nth-of-type(2) {
+                width: pxToRem(120px);
+            }
+            &:nth-of-type(3) {
+                width: pxToRem(190px);
+            }
+            &:nth-of-type(4) {
+                flex: 1;
+                padding-left: pxToRem(26px);
+                text-align: left;
+            }
+        }
+    }
+}
 .hidden {
     display: none !important;
 }

@@ -150,6 +150,10 @@
                 // joinGroup(inputValue);
             }
         })
+    });
+    // 基金账单明细
+    $('.popup-found').on('click', '.btn-found-detail', function(e) {
+        $('.popup-found-detail').show();
     })
 
       // 1、进来第一步，调群组列表接口group/getListOfUser
