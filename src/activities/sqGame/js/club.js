@@ -32,6 +32,9 @@
             case 'create':
                 eventCreate()
                 break;
+            case 'msg': 
+                eventMsg();
+                break;
             case 'score':
                 eventScore();
                 break;
@@ -392,6 +395,11 @@
         });
     }
 
+    // 消息
+    function eventMsg() {
+        $('.popup-msg').show();
+    }
+    
     function eventScore() {
         window.location.href = './record.html';
     }
