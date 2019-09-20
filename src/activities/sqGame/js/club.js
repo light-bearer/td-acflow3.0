@@ -43,6 +43,9 @@
             case 'found':
                 eventFound();
                 break;
+            case 'cfdf':
+                eventCFDF();
+                break;
                 
         }
     });
@@ -391,6 +394,10 @@
     // 俱乐部基金
     function eventFound() {
         $('.popup-found').show();
+    }
+    // 抽分调分
+    function eventCFDF() {
+        $('.popup-cfdf').show();
     }
 
     // 选择群组
