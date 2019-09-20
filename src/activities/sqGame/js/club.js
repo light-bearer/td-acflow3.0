@@ -4,7 +4,8 @@
     code = Util.getParam("code"); // 授权code
 
     var groups = [],
-        currentGroup = '';
+        currentGroup = '',
+        currentRoom = '1';
     
     var GETTING_MEMBERS = false; // 正在获取成员数据
 
@@ -45,6 +46,9 @@
                 break;
             case 'cfdf':
                 eventCFDF();
+                break;
+            case 'jfph': 
+                eventJFPH();
                 break;
                 
         }
@@ -87,7 +91,11 @@
     // 点击群组
     $('.room-groups').on('click', '.room.my-info', function(e) {
         handleSelectGroup(e);
-    })
+    });
+    // 选择房间
+    $('.room-groups').on('click', '.room.game, .room.normal', function(e) {
+        handleSelectRoom(e);
+    });
     // 弹窗创建俱乐部
     $('.create-join-club').on('click', '.btn-create-club', function(e) {
         // $('.popup-create-club').show();
@@ -170,6 +178,7 @@
             if (data.code === 0) {
                 groups = data.data;
                 currentGroup = 0;
+                currentRoom = "1";
                 // 编译地步房间模板
                 var groupTemp = '';
                 groups.forEach(function(group, index) {
@@ -182,10 +191,10 @@
                     + '</div>';
                 })
 
-                groupTemp += '<div class="room normal active" data-value="0">'
+                groupTemp += '<div class="room normal active" data-value="1">'
                            + ' <i class="icon-roomcard"></i>'
                            + '</div>'
-                           + '<div class="room game" data-value="1">'
+                           + '<div class="room game" data-value="2">'
                            + '<i class="icon-cup"></i>'
                            + '</div>';
                 $('#room_scroll_wrapper').html(groupTemp);
@@ -283,6 +292,7 @@
             chipLimit: $('input[name="chipLimits"]:checked').val(),
             people: $('input[name="peoples"]:checked').val(),
             betTime: $('input[name="betTimes"]:checked').val(),
+            groupId: groups[currentGroup].id,
             gameId: $('.game-list-item.active').attr('data-id'),
             playOdds: "",
             type: $(".btns-wapper")
@@ -323,16 +333,20 @@
           }
           // console.info("roomParams---", roomParams);
           Util.Ajax({
-            url: Util.openAPI + "/app/room/createRoom",
+            url: Util.openAPI + "/app/groupRoomParams/saveAndOpen",
             type: "post",
             data: roomParams,
             dataType: "json",
             cbOk: function(data, textStatus, jqXHR) {
               // console.log(data);
               if (data.code === 0) {
-                // Util.setSession("roomParams", data.data);
-                var id = data.data.id;
-                location.href = "./gameAnbao.html?id=" + id;
+                Util.popup({
+                    type: 'alert',
+                    content: '发布成功',
+                    positiveCb: function() {
+                        $('.create-room-popup').hide();
+                    }
+                });
               } else {
                 Util.toast(data.msg);
               }
@@ -399,7 +413,18 @@
     function eventCFDF() {
         $('.popup-cfdf').show();
     }
-
+    // 积分排行
+    function eventJFPH() {
+        var $panel = $('.jfph-panel'),
+        status = $panel.attr('data-status');
+        if (status === '0') {
+            $panel.attr('data-status', 1);
+            $panel.show();
+            return;
+        }
+        $panel.attr('data-status', 0);
+        $panel.hide();
+    }
     // 选择群组
     function handleSelectGroup(e) {
         var $target = $(e.currentTarget),
@@ -409,6 +434,18 @@
         currentGroup = index;
         $('#group_name').html(groups[currentGroup].name);
         $('#group_num').html(groups[currentGroup].groupNumber);
+
+        // 默认选回第一间房
+        currentRoom = "1";
+        $('.room.game, .room.normal').removeClass('active');
+        $('.room.normal').addClass('active');
+    }
+    // 选择房间
+    function handleSelectRoom(e) {
+        var $target = $(e.currentTarget);
+        currentRoom = $target.attr('data-value');
+        $('.room.game, .room.normal').removeClass('active');
+        $target.addClass('active');
     }
 
     function getGroupUserList() {

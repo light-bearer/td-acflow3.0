@@ -2,6 +2,9 @@
 @import "variables";
 @import "../../../sass/func";
 
+.align-left {
+    text-align: left;
+}
 .mc-content {
     padding-top: pxToRem(243px);
     padding-bottom: pxToRem(266px);
@@ -417,20 +420,22 @@
     }
     .btns-group {
         width: pxToRem(210px);
-        height: pxToRem(164px);
+        height: pxToRem(170px);
         position: absolute;
         bottom: pxToRem(102px);
         right: pxToRem(29px);
         left: unset;
         top: unset;
         transform: none;
+        background: url("../images/club/bg_create_join.png") no-repeat center;
+        background-size: contain;
     }
     .btn-create-club {
         background: url("../images/club//btn_create_club.png") no-repeat center;
         background-size: contain;
         width: pxToRem(180px);
         height: pxToRem(57px);
-        margin-bottom: pxToRem(8px);
+        margin: pxToRem(11px) auto pxToRem(8px);
     }
     .btn-join-club {
         @extend .btn-create-club;
@@ -785,6 +790,7 @@
             }
         }
     }
+    
 }
 // 抽分调分
 .popup-cfdf {
@@ -838,13 +844,15 @@
 }
 
 .jfph-panel {
+    display: none;
     position: absolute;
     top: pxToRem(243px);
-    bottom: pxToRem(266px);
+    bottom: pxToRem(278px);
     left: 0;
     right: 0;
     background: url("../images/mycard/bg_mycard.png") no-repeat center;
     background: cover;
+    overflow: auto;
     .panel-content {
         position: relative;
         padding-top: pxToRem(54px);
@@ -856,6 +864,10 @@
                 height: pxToRem(75px);
             }
         }
+    }
+    .total-score {
+        text-align: left !important;
+        padding-left: pxToRem(50px);
     }
     .row {
         display: flex;
@@ -877,6 +889,8 @@
             right: 0;
         }
         &>div {
+            @include ellipsis;
+            text-align: center;
             &:nth-of-type(1) {
                 width: pxToRem(81px);
             }
@@ -884,13 +898,13 @@
                 flex: 1;
             }
             &:nth-of-type(3) {
-                width: pxToRem(64px);
+                width: pxToRem(90px);
             }
             &:nth-of-type(4) {
-                width: pxToRem(132px);
+                width: pxToRem(116px);
             }
             &:nth-of-type(5) {
-                width: pxToRem(120px);
+                width: pxToRem(110px);
             }
             &:nth-of-type(6) {
                 width: pxToRem(113px);
