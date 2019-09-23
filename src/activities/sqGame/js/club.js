@@ -15,11 +15,14 @@
     if (!baseInfo ||  !token) {
         Util.auth(code, function(token) {
             Util.getUserInfo(function(data) {});
-            getListOfUser();
+            // getListOfUser();
+            initPage()
         });
     } 
+    // 初始化页面
+    initPage()
     // 1、进来第一步，调群组列表
-    getListOfUser();
+    // getListOfUser();
 
     // $(".create-room-popup").show();
     $('.btn-groups').on('click', '.btn', function(e) {
@@ -166,7 +169,10 @@
     $('.popup-found').on('click', '.btn-found-detail', function(e) {
         $('.popup-found-detail').show();
     })
-
+    function initPage() {
+        getListOfUser();
+        intervalGetMsg();
+    }
       // 1、进来第一步，调群组列表接口group/getListOfUser
     function getListOfUser() {
         Util.Ajax({
@@ -212,7 +218,32 @@
             }
         });
     }
-
+    // 轮训获取消息
+    function intervalGetMsg() {
+        setInterval(function(){
+            getListOfStateAndGroup()
+        }, 2000);
+    }
+    // 获取休息
+    function getListOfStateAndGroup() {
+        Util.Ajax({
+            url: Util.openAPI + "/app/groupUser/getListOfStateAndGroup",
+            type: "get",
+            dataType: "json",
+            data: {
+                limit: Util.pager.limit,
+                page: Util.pager.page,
+                state: 0,
+                groupId: groups[currentGroup].id
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+                // console.log(data);
+                if (data.code === 0) {
+                    console.log(data.data)
+                }
+            }
+        });
+    }
     // 2、创建俱乐部
     function createGroup(name) {
         name = name.trim();
@@ -388,6 +419,30 @@
             },
             cbErr: function(e, xhr, type) {
             Util.toast("获取游戏列表失败");
+            }
+        });
+    }
+
+    // 创建
+    function eventCreate() {
+        Util.Ajax({
+            url: Util.openAPI + "/app/room/createRoomForGroup",
+            type: "post",
+            dataType: "json",
+            data: {
+                groupId: groups[currentGroup].id
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+                // console.log(data);
+                if (data.code === 0) {
+                    // TODO 刷新界面 getListOfGroup
+
+                } else {
+                    Util.toast("创建房间失败，请稍后再试");
+                }
+            },
+            cbErr: function(e, xhr, type) {
+                Util.toast("创建房间失败，请稍后再试");
             }
         });
     }
