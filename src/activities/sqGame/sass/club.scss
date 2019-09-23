@@ -146,10 +146,12 @@
                 background-size: contain;
                 background-repeat: no-repeat;
                 background-position: center;
-                vertical-align: center;
+                vertical-align: bottom;
 
                 margin-right: pxToRem(44px);
                 height: pxToRem(69px);
+
+                position: relative;
             }
             .gametype {
                 background-image: url("../images/club/btn_gametype.png");
@@ -158,6 +160,21 @@
             .create {
                 background-image: url("../images/club/btn_create.png");
                 width: pxToRem(60px);
+            }
+            .msg {
+                background-image: url("../images/club/btn_msg.png");
+                width: pxToRem(68px);
+                &:after {
+                    content: '';
+                    background: url("../images/club/point.png") no-repeat center;
+                    background-size: contain;
+                    width: pxToRem(24px);
+                    height: pxToRem(24px);
+                    position: absolute;
+                    right: pxToRem(-12px);
+                    top: pxToRem(-2px);
+
+                }
             }
             .score {
                 background-image: url("../images/club/btn_score.png");
@@ -563,6 +580,73 @@
     } 
     
 }
+// 消息 
+.popup-msg {
+    @extend .popup-multi;
+    .popup-content {
+        width: pxToRem(715px);
+        height: percent(774);
+    }
+    .txt-found-detail {
+        height: percent(52, 774);
+        top: percent(44, 774);
+        background-image: url("../images/club/txt_found_detail.png");
+    }
+    .popup-content-main {
+        left: pxToRem(39px);
+        right: pxToRem(41px);
+        top: percent(101, 774);
+        bottom: percent(46, 774);
+        overflow: auto;
+    }
+    .msg-item {
+        width: 100%;
+        height: pxToRem(146px);
+        background: url("../images/club/m_bg_item.png") no-repeat center;
+        background-size: 100% 100%;
+
+        position: relative;
+        padding: 0 pxToRem(14px) 0 pxToRem(130px);
+        .info-avator-wrapper {
+            position: absolute;
+            width: pxToRem(100px);
+            height: pxToRem(100px);
+            left: pxToRem(24px);
+            top: pxToRem(17px);
+        }
+        .info {
+            display: flex;
+            height: pxToRem(72px);
+            justify-content: space-between;
+            align-items: center;
+            font-size: pxToRem(34px);
+            color: #6B4E71;
+        }
+        .btns {
+            display: flex;
+            justify-content: flex-end;
+            >div {
+                margin-left: 2px;
+            }
+        }
+    }
+    .btn-shield {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-image: url("../images/members/btn_shield.png");
+        width: pxToRem(142px);
+        height: pxToRem(58px);
+    }
+    .btn-reject {
+        @extend .btn-shield;
+        background-image: url("../images/members/btn_reject.png");
+    }
+    .btn-agree {
+        @extend .btn-shield;
+        background-image: url("../images/members/btn_aggree.png");
+    }
+}
 // 群成员
 .popup-members {
     @extend .popup-multi;
@@ -728,14 +812,14 @@
             width: 100%;
             overflow: auto;
         }
-        .loadmore {
+        @at-root .loadmore {
             height: pxToRem(118px);
             line-height: pxToRem(118px);
             text-align: center;
             color: #DDC4B1;
             font-size: pxToRem(30px);
         }
-        .nomore {
+        @at-root .nomore {
             background: url("../images/club/bg_detail_bottom.png") no-repeat center;
             background-size: contain;
             width: pxToRem(302px);
