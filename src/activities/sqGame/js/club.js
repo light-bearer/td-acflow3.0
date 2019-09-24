@@ -177,7 +177,8 @@
     })
     function initPage() {
         getListOfUser();
-        intervalGetMsg();
+        // intervalGetMsg();
+        getListOfStateAndGroup();
     }
       // 1、进来第一步，调群组列表接口group/getListOfUser
     function getListOfUser() {
@@ -225,11 +226,11 @@
         });
     }
     // 轮训获取消息
-    function intervalGetMsg() {
-        interval = setInterval(function(){
-            getListOfStateAndGroup()
-        }, 2000);
-    }
+    // function intervalGetMsg() {
+    //     interval = setInterval(function(){
+    //         getListOfStateAndGroup()
+    //     }, 2000);
+    // }
     // 获取休息
     function getListOfStateAndGroup() {
         Util.Ajax({
@@ -267,7 +268,11 @@
                         $('.msg-list').append(_temp);
                     } else {
                         $('.btn.msg').hide();
-                        !interval && intervalGetMsg();
+                        if (!interval) {
+                            interval = setInterval(function(){
+                                getListOfStateAndGroup()
+                            }, 2000);
+                        }
                     }
                 }
             }
@@ -480,7 +485,7 @@
     function eventMsg() {
         $('.popup-msg').show();
     }
-    
+
     function eventScore() {
         window.location.href = './record.html';
     }
