@@ -516,7 +516,7 @@
     function payIntegal(num) {
         Util.Ajax({
             url: Util.openAPI + "/app/group/pay",
-            type: "get",
+            type: "post",
             dataType: "json",
             data: {
                 id: groups[currentGroup].id,
