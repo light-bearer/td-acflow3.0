@@ -162,6 +162,7 @@
                 width: pxToRem(60px);
             }
             .msg {
+                display: none;
                 background-image: url("../images/club/btn_msg.png");
                 width: pxToRem(68px);
                 &:after {

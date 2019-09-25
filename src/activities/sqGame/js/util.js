@@ -6,6 +6,10 @@
 
     var TOKEN = "TOKEN";
     var BASE_INFO = "BASE_INFO";
+    var pager = {
+        limit: 10,
+        page: 1
+    }
     var LISTCONFIG = {
         //上拉加载的配置项
         up: {
@@ -594,6 +598,7 @@
         token: TOKEN,
         baseInfo: BASE_INFO,
         openAPI: openAPI,
+        pager: pager,
         getCookie: getCookie,
         getParam: getParam,
         setParam: setParam,

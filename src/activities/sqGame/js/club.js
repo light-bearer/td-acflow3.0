@@ -3,11 +3,14 @@
     var openId = Util.getParam("openId"), // 登录后返回相关openid
     code = Util.getParam("code"); // 授权code
 
+    var interval = null, pager = {limit: Util.pager.limit, page: Util.pager.page}
+
     var groups = [],
         currentGroup = '',
         currentRoom = '1';
     
     var GETTING_MEMBERS = false; // 正在获取成员数据
+
 
   /** 主要初始化 */
     var baseInfo = Util.getSession(Util.baseInfo),
@@ -15,11 +18,14 @@
     if (!baseInfo ||  !token) {
         Util.auth(code, function(token) {
             Util.getUserInfo(function(data) {});
-            getListOfUser();
+            // getListOfUser();
+            initPage()
         });
     } 
+    // 初始化页面
+    initPage()
     // 1、进来第一步，调群组列表
-    getListOfUser();
+    // getListOfUser();
 
     // $(".create-room-popup").show();
     $('.btn-groups').on('click', '.btn', function(e) {
@@ -169,7 +175,11 @@
     $('.popup-found').on('click', '.btn-found-detail', function(e) {
         $('.popup-found-detail').show();
     })
-
+    function initPage() {
+        getListOfUser();
+        // intervalGetMsg();
+        getListOfStateAndGroup();
+    }
       // 1、进来第一步，调群组列表接口group/getListOfUser
     function getListOfUser() {
         Util.Ajax({
@@ -215,7 +225,59 @@
             }
         });
     }
-
+    // 轮训获取消息
+    // function intervalGetMsg() {
+    //     interval = setInterval(function(){
+    //         getListOfStateAndGroup()
+    //     }, 2000);
+    // }
+    // 获取休息
+    function getListOfStateAndGroup() {
+        Util.Ajax({
+            url: Util.openAPI + "/app/groupUser/getListOfStateAndGroup",
+            type: "get",
+            dataType: "json",
+            data: {
+                limit: pager.limit,
+                page: pager.page,
+                state: 0,
+                groupId: groups[currentGroup].id
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+                // console.log(data);
+                if (data.code === 0) {
+                    console.log(data.data)
+                    // 如果有消息，那么关闭轮询，否则启动轮询
+                    if (data.data.total > 0) {
+                        $('.btn.msg').css({display: 'inline-block'});
+                        clearInterval(interval);
+                        interval = null;
+                        // 编译消息模板
+                        var _rows = data.data.rows, _temp = '';
+                        for(let i = 0; i < _rows.length; i++) {
+                            _temp += '<div class="msg-item">'
+                            +'<div class="info-avator-wrapper"> <img src="'+ _rows[i].userImg + '"/></div>'
+                            +'<div class="info"><span>'+ _rows[i].userNickName +'</span><span>ID:'+ _rows[i].userId +'</span></div>'
+                            +'<div class="btns">'
+                            +'<div class="btn-shield"></div>'
+                            +'<div class="btn-reject"></div>'
+                            +'<div class="btn-agree"></div>'
+                            +'</div>'
+                            +'</div>';
+                        }
+                        $('.msg-list').append(_temp);
+                    } else {
+                        $('.btn.msg').hide();
+                        if (!interval) {
+                            interval = setInterval(function(){
+                                getListOfStateAndGroup()
+                            }, 2000);
+                        }
+                    }
+                }
+            }
+        });
+    }
     // 2、创建俱乐部
     function createGroup(name) {
         name = name.trim();
@@ -395,11 +457,35 @@
         });
     }
 
+    // 创建
+    function eventCreate() {
+        Util.Ajax({
+            url: Util.openAPI + "/app/room/createRoomForGroup",
+            type: "post",
+            dataType: "json",
+            data: {
+                groupId: groups[currentGroup].id
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+                // console.log(data);
+                if (data.code === 0) {
+                    // TODO 刷新界面 getListOfGroup
+
+                } else {
+                    Util.toast("创建房间失败，请稍后再试");
+                }
+            },
+            cbErr: function(e, xhr, type) {
+                Util.toast("创建房间失败，请稍后再试");
+            }
+        });
+    }
+
     // 消息
     function eventMsg() {
         $('.popup-msg').show();
     }
-    
+
     function eventScore() {
         window.location.href = './record.html';
     }
