@@ -30,26 +30,29 @@
            <i class="icon-fresh"></i>
         </div>
         <div class="content-main">
-            <div class="room">
-                <div class="top">
-                    <div class="info-avator-wrapper">
-                        <img src="" alt="" id="creator_img">
+            <div class="room-list">
+                <!-- <div class="room">
+                    <div class="top">
+                        <div class="info-avator-wrapper">
+                            <img src="" alt="" id="creator_img">
+                        </div>
+                        <div class="room-name">潮汕暗宝/自由抢庄(房号:119238）</div>
+                        <div class="room-count">0/10</div>
                     </div>
-                    <div class="room-name">潮汕暗宝/自由抢庄(房号:119238）</div>
-                    <div class="room-count">0/10</div>
-                </div>
-                <div class="bottom">
-                    <div class="row">
-                        <div class="col"><i class="icon-txt">分</i><span>100</span></div>
-                        <div class="col"><i class="icon-txt">局</i><span>0/12</span></div>
+                    <div class="bottom">
+                        <div class="row">
+                            <div class="col"><i class="icon-txt">分</i><span>100</span></div>
+                            <div class="col"><i class="icon-txt">局</i><span>0/12</span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><i class="icon-txt">规</i><span>龙虎出入1:3 同粘1:2 角串1:1</span></div>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col"><i class="icon-txt">规</i><span>龙虎出入1:3 同粘1:2 角串1:1</span></div>
-                    </div>
-                </div>
-                <div class="btn-join"></div>
+                    <div class="btn-join"></div>
+                </div> -->
             </div>
-            
+            <div class="loadmore">点击加载更多</div>
+            <div class="nomore">已经到底了</div>
         </div>
 
          <!-- 积分排行 -->
@@ -252,11 +255,11 @@
             <div class="popup-content-main">
                <div class="row1">
                    1.管理员开启设置后，俱乐部中所有开房均由基金买单，无需开房人支付。
-                   <span class="status">已经开启</span>
+                   <span class="status" id="payState">已经开启</span>
                </div>
                <div class="row2">
                    <span>当前俱乐部基金</span>
-                   <span class="display-wrapper">0</span>
+                   <span class="display-wrapper" id="integal">0</span>
                </div>
             </div>
             <div class="btn-group">

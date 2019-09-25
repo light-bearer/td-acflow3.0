@@ -3,11 +3,13 @@
     var openId = Util.getParam("openId"), // 登录后返回相关openid
     code = Util.getParam("code"); // 授权code
 
-    var interval = null, pager = {limit: Util.pager.limit, page: Util.pager.page}
+    var interval = null, 
+        msgPager = {limit: Util.pager.limit, page: Util.pager.page},
+        roomPager = {limit: Util.pager.limit, page: Util.pager.page};
 
     var groups = [],
         currentGroup = '',
-        currentRoom = '1';
+        groupType = '1';
     
     var GETTING_MEMBERS = false; // 正在获取成员数据
 
@@ -62,7 +64,11 @@
                 
         }
     });
-
+    // 房间加载更多
+    $('.content-main').on('click', '.loadmore', function(e) {
+        roomPager.page += 1;
+        getRoomListOfGroup();
+    })
      // 游戏类型设置切换庄家
      $(".create-room-popup .btns-wapper").on("click", "i", function(e) {
         var target = $(this);
@@ -139,6 +145,13 @@
     $(".btn-save").on("click", function(e) {
         createGameType();
       });
+    // 审批消息
+    $('.popup-msg').on('click', '.btn-approval', function(e) {
+        var $target = $(e.currentTarget),
+        userId = $target.attr('data-id'),
+        state = $target.attr('data-state');
+        approval(userId, state);
+    })
     // 解散
     $('.popup-dismiss').on('click', '.btn-dismiss', function() {
         Util.popup({
@@ -167,6 +180,11 @@
             width: '70%',
             cb: function(inputValue) {
                 console.log(inputValue)
+                if (!/^[1-9]\d*$/.test(inputValue)) {
+                    Util.toast('请输入正整数');
+                    return;
+                }
+                payIntegal(inputValue);
                 // joinGroup(inputValue);
             }
         })
@@ -176,12 +194,16 @@
         $('.popup-found-detail').show();
     })
     function initPage() {
-        getListOfUser();
+        getListOfUser(function() {
+            // 获取房间列表
+            getRoomListOfGroup();
+            // 获取消息
+            getListOfStateAndGroup();
+        });
         // intervalGetMsg();
-        getListOfStateAndGroup();
     }
       // 1、进来第一步，调群组列表接口group/getListOfUser
-    function getListOfUser() {
+    function getListOfUser(cb) {
         Util.Ajax({
             url: Util.openAPI + "/app/group/getListOfUser",
             type: "get",
@@ -191,7 +213,9 @@
             if (data.code === 0) {
                 groups = data.data;
                 currentGroup = 0;
-                currentRoom = "1";
+                groupType = "1";
+                roomPager.page = 1;
+                $('.cfdf, .jfph, .sf').hide();
                 // 编译地步房间模板
                 var groupTemp = '';
                 groups.forEach(function(group, index) {
@@ -215,6 +239,7 @@
                 // 展示当前俱乐部名称和id
                 $('#group_name').text(groups[currentGroup].name);
                 $('#group_num').html(groups[currentGroup].groupNumber);
+                cb && cb();
 
             } else {
                 Util.toast("获取群组列表失败");
@@ -231,15 +256,15 @@
     //         getListOfStateAndGroup()
     //     }, 2000);
     // }
-    // 获取休息
+    // 获取消息
     function getListOfStateAndGroup() {
         Util.Ajax({
             url: Util.openAPI + "/app/groupUser/getListOfStateAndGroup",
             type: "get",
             dataType: "json",
             data: {
-                limit: pager.limit,
-                page: pager.page,
+                limit: msgPager.limit,
+                page: msgPager.page,
                 state: 0,
                 groupId: groups[currentGroup].id
             },
@@ -259,13 +284,23 @@
                             +'<div class="info-avator-wrapper"> <img src="'+ _rows[i].userImg + '"/></div>'
                             +'<div class="info"><span>'+ _rows[i].userNickName +'</span><span>ID:'+ _rows[i].userId +'</span></div>'
                             +'<div class="btns">'
-                            +'<div class="btn-shield"></div>'
-                            +'<div class="btn-reject"></div>'
-                            +'<div class="btn-agree"></div>'
+                            +'<div class="btn-approval btn-shield" data-id="'+ _rows[i].userId + '" data-state="0"></div>'
+                            +'<div class="btn-approval btn-reject" data-id="'+ _rows[i].userId + '" data-state="-1"></div>'
+                            +'<div class="btn-approval btn-agree" data-id="'+ _rows[i].userId + '" data-state="1"></div>'
                             +'</div>'
                             +'</div>';
                         }
+                        if(msgPager.page === 1) {
+                            $('.msg-list').html('');
+                        }
                         $('.msg-list').append(_temp);
+                        if (msgPager.limit * msgPager.page >= data.data.total) {
+                            $('.popup-msg').find('.nomore').show();
+                            $('.popup-msg').find('.loadmore').hide();
+                        } else {
+                            $('.popup-msg').find('.nomore').hide();
+                            $('.popup-msg').find('.loadmore').show();
+                        }
                     } else {
                         $('.btn.msg').hide();
                         if (!interval) {
@@ -274,6 +309,27 @@
                             }, 2000);
                         }
                     }
+                }
+            }
+        });
+    }
+    // 审批消息
+    function approval(userId, state) {
+        Util.Ajax({
+            url: Util.openAPI + "/app/groupUser/action",
+            type: "post",
+            dataType: "json",
+            data: {
+                id: userId,
+                state: state
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+                if(data.code === 0) {
+                    Util.toast('审批成功');
+                    msgPager.page = 1;
+                    getListOfStateAndGroup();
+                } else {
+                    Util.toast(data.msg);
                 }
             }
         });
@@ -456,7 +512,86 @@
             }
         });
     }
-
+    // 充值基金
+    function payIntegal(num) {
+        Util.Ajax({
+            url: Util.openAPI + "/app/group/pay",
+            type: "get",
+            dataType: "json",
+            data: {
+                id: groups[currentGroup].id,
+                integal: num
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+            // console.log(data);
+            if (data.code === 0) {
+                Util.toast("充值成功！");
+                groups[currentGroup].integal = num;
+            } else {
+                Util.toast(data.msg);
+            }
+            },
+            cbErr: function(e, xhr, type) {
+            Util.toast("充值失败！");
+            }
+        });
+    }
+    // 获取房间列表
+    function getRoomListOfGroup() {
+        Util.Ajax({
+            url: Util.openAPI + "/app/room/getListOfGroup",
+            type: "get",
+            dataType: "json",
+            data: {
+                limit: roomPager.limit,
+                page: roomPager.page,
+                groupId: groups[currentGroup].id,
+                groupType: groupType
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+            // console.log(data);
+            if (data.code === 0) {
+               
+                // console.log(data.data)
+                var _data = data.data, _temp = '';
+                for(var i = 0; i < _data.rows.length; i++) {
+                    _temp += '<div class="room">'
+                    + '<div class="top">'
+                    + '<div class="info-avator-wrapper">'
+                    + '<img src="'+ '' +'" alt="" id="creator_img">'
+                    + '</div>'
+                    + '<div class="room-name">潮汕暗宝/'+ _data.rows[i].type+'(房号:' + _data.row[i].roomNumber + '）</div>'
+                        + '<div class="room-count">'+ _data.rows[i].joinUserCount+'/'+ _data.rows[i].people+'</div>'
+                        + '</div>'
+                        + '<div class="bottom">'
+                        + '<div class="row">'
+                        + '<div class="col"><i class="icon-txt">分</i><span>'+ _data.rows[i].winIntegal+'</span></div>'
+                        + '<div class="col"><i class="icon-txt">局</i><span>'+ _data.rows[i].numberOfOpen+'/'+ _data.rows[i].numberOfGame+'</span></div>'
+                        + '</div>'
+                        + '<div class="row">'
+                        + '<div class="col"><i class="icon-txt">规</i><span>'+ _data.rows[i].oddsString+'</span></div>'
+                        + '</div>'
+                        + '</div>'
+                        + '<div class="btn-join"></div>'
+                        + '</div>';
+                }
+                $('room-list').append(_temp);
+                if (roomPager.limit * roomPager.page >= data.data.total) {
+                    $('.content-main').find('.nomore').show();
+                    $('.content-main').find('.loadmore').hide();
+                } else {
+                    $('.content-main').find('.nomore').hide();
+                    $('.content-main').find('.loadmore').show();
+                }
+            } else {
+                Util.toast("获取房间列表失败");
+            }
+            },
+            cbErr: function(e, xhr, type) {
+            Util.toast("获取房间列表失败");
+            }
+        });
+    }
     // 创建
     function eventCreate() {
         Util.Ajax({
@@ -469,10 +604,10 @@
             cbOk: function(data, textStatus, jqXHR) {
                 // console.log(data);
                 if (data.code === 0) {
-                    // TODO 刷新界面 getListOfGroup
+                    getRoomListOfGroup();
 
                 } else {
-                    Util.toast("创建房间失败，请稍后再试");
+                    Util.toast(data.msg);
                 }
             },
             cbErr: function(e, xhr, type) {
@@ -501,6 +636,9 @@
 
     // 俱乐部基金
     function eventFound() {
+        var _group = groups[currentGroup];
+        $('.popup-found #payState').html(_group.payState == '1' ? '尚未开启': '已经开启');
+        $('.popup-found #integal').html(_group.integal);
         $('.popup-found').show();
     }
     // 抽分调分
@@ -530,18 +668,30 @@
         $('#group_num').html(groups[currentGroup].groupNumber);
 
         // 默认选回第一间房
-        currentRoom = "1";
+        groupType = "1";
+        roomPager.page = 1;
+        $('.cfdf, .jfph, .sf').hide();
         $('.room.game, .room.normal').removeClass('active');
         $('.room.normal').addClass('active');
     }
     // 选择房间
     function handleSelectRoom(e) {
         var $target = $(e.currentTarget);
-        currentRoom = $target.attr('data-value');
+        if ($target.hasClass('active')) {
+            return;
+        }
+        groupType = $target.attr('data-value');
+        if(groupType == '1') {
+            $('.cfdf, .jfph, .sf').hide();
+        } else {
+            $('.cfdf, .jfph, .sf').show();
+        }
+        roomPager.page = 1;
         $('.room.game, .room.normal').removeClass('active');
         $target.addClass('active');
     }
 
+    
     function getGroupUserList() {
         if(GETTING_MEMBERS) {
             return;
