@@ -109,8 +109,10 @@
                 display: flex;
                 line-height: pxToRem(33px);
                 margin-bottom: pxToRem(14px);
+                width: pxToRem(450px);
                 .col {
                     min-width: pxToRem(168px);
+                    line-height: pxToRem(32px);
                 }
             }
             .btn-join {

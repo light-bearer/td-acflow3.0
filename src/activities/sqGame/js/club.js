@@ -111,6 +111,10 @@
     $('.room-groups').on('click', '.room.game, .room.normal', function(e) {
         handleSelectRoom(e);
     });
+    // 加入游戏房
+    $('.room-list').on('click', '.room .btn-join', function(e) {
+        joinRoom(e);
+    });
     // 弹窗创建俱乐部
     $('.create-join-club').on('click', '.btn-create-club', function(e) {
         // $('.popup-create-club').show();
@@ -132,7 +136,6 @@
             title: '../images/club/txt_join_club.png',
             placeholder: '输入加入俱乐部ID',
             cb: function(inputValue) {
-                console.log(inputValue)
                 joinGroup(inputValue);
             }
         })
@@ -165,7 +168,40 @@
                 console.log('dismiss')
             }
         })
-    })
+    });
+    // 解散设置，保存俱乐部名称
+    $('.popup-dismiss').on('click', '.btn-dismiss-save', function() {
+        var _name = $('#input_club_name').val().trim();
+        updateGroup({name: _name}, function() {
+            $('#group_name').html(_name);
+            Util.popup({
+                type: 'alert',
+                content: '修改成功',
+                negativeCb: function() {
+    
+                }
+            })
+        });
+    });
+    // 解散设置，确定按钮
+    $('.popup-dismiss').on('click', '.btn-confirm', function() {
+        var createState = $('input[name="create_state"]:checked').val(),
+            payState = $('input[name="pay_state"]:checked').val();
+        updateGroup({
+            createState: createState,
+            payState: payState,
+        }, function() {
+            groups[currentGroup].createState = createState;
+            groups[currentGroup].payState = payState;
+            Util.popup({
+                type: 'alert',
+                content: '修改成功',
+                negativeCb: function() {
+    
+                }
+            })
+        });
+    });
     // 成员滚动加载更多
     $('.member-list').scroll(function(e) {
         // console.log('scroll');
@@ -310,6 +346,34 @@
                         }
                     }
                 }
+            }
+        });
+    }
+    // 加入游戏房间
+    function joinRoom(e) {
+        var $target = $(e.currentTarget),
+            roomId = $target.attr('data-roomid'),
+            gameId = $target.attr('data-gameid')
+        Util.Ajax({
+            url: Util.openAPI + "/app/room/joinRoom",
+            type: "post",
+            dataType: "json",
+            data: {
+                id: roomId,
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+                if(data.code === 0) {
+                    Util.toast('加入成功！');
+                    // 加入成功，跳转到游戏页面（现在暂时直接跳转暗宝
+                    setTimeout(function() {
+                        window.location.href = "./gameAnBao.html?id=" + roomId;
+                    }, 500)
+                } else {
+                    Util.toast(data.msg);
+                }
+            },
+            cbErr: function() {
+                Util.toast('加入失败，请稍后再试！');
             }
         });
     }
@@ -512,6 +576,35 @@
             }
         });
     }
+    // 解散设置，更新群组信息
+    function updateGroup(options, cb) {
+        var group = groups[currentGroup];
+        var _options = {
+            id: group.id,
+            name: group.name,
+            createState: group.createState,
+            payState: group.payState,
+            state: group.state
+        };
+        _options = $.extend(_options, options || {});
+        Util.Ajax({
+            url: Util.openAPI + "/app/group/update",
+            type: "post",
+            dataType: "json",
+            data: _options,
+            cbOk: function(data, textStatus, jqXHR) {
+            // console.log(data);
+            if (data.code === 0) {
+               cb && cb();
+            } else {
+                Util.toast(data.msg);
+            }
+            },
+            cbErr: function(e, xhr, type) {
+            Util.toast("设置失败！");
+            }
+        });
+    }
     // 充值基金
     function payIntegal(num) {
         Util.Ajax({
@@ -526,7 +619,10 @@
             // console.log(data);
             if (data.code === 0) {
                 Util.toast("充值成功！");
-                groups[currentGroup].integal = num;
+                var _integal = parseInt(groups[currentGroup].integal) + num;
+                groups[currentGroup].integal = _integal;
+                $('.popup-found #integal').html(_integal);
+
             } else {
                 Util.toast(data.msg);
             }
@@ -558,24 +654,25 @@
                     _temp += '<div class="room">'
                     + '<div class="top">'
                     + '<div class="info-avator-wrapper">'
-                    + '<img src="'+ '' +'" alt="" id="creator_img">'
+                    + '<img src="'+  _data.rows[i].gameImg +'" alt="" id="creator_img">'
                     + '</div>'
-                    + '<div class="room-name">潮汕暗宝/'+ _data.rows[i].type+'(房号:' + _data.row[i].roomNumber + '）</div>'
+                    + '<div class="room-name">'+ (_data.rows[i].gameName || '')  +'/'+ _data.rows[i].type+'(房号:' + _data.rows[i].roomNumber + '）</div>'
                         + '<div class="room-count">'+ _data.rows[i].joinUserCount+'/'+ _data.rows[i].people+'</div>'
                         + '</div>'
                         + '<div class="bottom">'
                         + '<div class="row">'
-                        + '<div class="col"><i class="icon-txt">分</i><span>'+ _data.rows[i].winIntegal+'</span></div>'
+                        + '<div class="col"><i class="icon-txt">分</i><span>'+ (_data.rows[i].winIntegal || '')+'</span></div>'
                         + '<div class="col"><i class="icon-txt">局</i><span>'+ _data.rows[i].numberOfOpen+'/'+ _data.rows[i].numberOfGame+'</span></div>'
                         + '</div>'
                         + '<div class="row">'
-                        + '<div class="col"><i class="icon-txt">规</i><span>'+ _data.rows[i].oddsString+'</span></div>'
+                        + '<div class="col font-24"><i class="icon-txt">规</i><span>'+ _data.rows[i].oddsString+'</span></div>'
                         + '</div>'
                         + '</div>'
-                        + '<div class="btn-join"></div>'
+                        + '<div class="btn-join" data-roomid="'+_data.rows[i].id +'" data-gameid="'+ _data.rows[i].gameId +'"></div>'
                         + '</div>';
                 }
-                $('room-list').append(_temp);
+                roomPager.page === 1  && $('.room-list').html('');
+                $('.room-list').append(_temp);
                 if (roomPager.limit * roomPager.page >= data.data.total) {
                     $('.content-main').find('.nomore').show();
                     $('.content-main').find('.loadmore').hide();
@@ -599,11 +696,13 @@
             type: "post",
             dataType: "json",
             data: {
-                groupId: groups[currentGroup].id
+                groupId: groups[currentGroup].id,
+                groupType: groupType
             },
             cbOk: function(data, textStatus, jqXHR) {
                 // console.log(data);
                 if (data.code === 0) {
+                    Util.toast('创建房间成功！');
                     getRoomListOfGroup();
 
                 } else {
@@ -626,7 +725,13 @@
     }
     // 解散
     function eventDismiss() {
-        $('.popup-dismiss').show();
+        console.log(groups[currentGroup]);
+        var $dismiss = $('.popup-dismiss'),
+            group = groups[currentGroup];
+        $dismiss.find('#input_club_name').val(group.name);
+        $("input[name='create_state'][value='"+group.createState+"']").prop("checked",true);
+        $("input[name='pay_state'][value='"+group.payState+"']").prop("checked",true);
+        $dismiss.show();
     }
     // 成员
     function eventMember() {
@@ -638,6 +743,7 @@
     function eventFound() {
         var _group = groups[currentGroup];
         $('.popup-found #payState').html(_group.payState == '1' ? '尚未开启': '已经开启');
+        debugger
         $('.popup-found #integal').html(_group.integal);
         $('.popup-found').show();
     }
@@ -689,6 +795,8 @@
         roomPager.page = 1;
         $('.room.game, .room.normal').removeClass('active');
         $target.addClass('active');
+        roomPager.page = 1;
+        getRoomListOfGroup();
     }
 
     

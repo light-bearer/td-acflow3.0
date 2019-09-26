@@ -112,12 +112,21 @@ $duration: 1.4s;
     padding: pxToRem(28px) pxToRem(70px);
     min-width: pxToRem(240px);
 
-    font-size: pxToRem(32px);
-    line-height: pxToRem(48px);
+    // font-size: pxToRem(32px);
+    // line-height: pxToRem(48px);
     text-align: center;
 
     color: #fff;
     background-color: rgba(0, 0, 0, .6);
+
+    width: pxToRem(704px);
+    height: pxToRem(265px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: pxToRem(43px);
+    background: url("../images/bg_toast.png") no-repeat center;
+    background-size: 100% 100%;
   }
 }
 

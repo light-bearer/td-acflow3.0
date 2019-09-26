@@ -26,7 +26,7 @@
             <i class="icon-title"></i>
         </header>
         <div class="mc-btn-wrapper members-top-wrapper">
-           <p><span id="group_name">一起玩吧</span> <font>(ID:<span id="group_num"></span>)</font></p>
+           <p><span id="group_name"></span> <font>(ID:<span id="group_num"></span>)</font></p>
            <i class="icon-fresh"></i>
         </div>
         <div class="content-main">
@@ -65,7 +65,6 @@
                     </div>
                     <div class="row"><div>总分:</div><div class="total-score">0</div></div>
                 </div>
-                
             </div>
         </div>
         
@@ -191,27 +190,28 @@
         <div class="popup-content">
             <i class="icon-close"></i>
             <div class="input-wrapper">
-                <input placeholder="一起玩吧"></input>
+                <input placeholder="请输入名称" id="input_club_name"></input>
             </div>
             <div class="btn-dismiss-save"></div>
             <div class="checkbox-radio-wrapper checkbox1">
-                <input type="checkbox" id="checkbox1" />
+                <input type="radio" name="create_state" id="checkbox1" value="1" />
                 <label for="checkbox1"></label>
             </div>
             <div class="checkbox-radio-wrapper checkbox2">
-                <input type="checkbox" id="checkbox2" />
+                <input type="radio" name="create_state" id="checkbox2" value="2" />
                 <label for="checkbox2"></label>
             </div>
             <div class="checkbox-radio-wrapper checkbox3">
-                <input type="checkbox" id="checkbox3" />
+                <input type="radio" name="pay_state" id="checkbox3"  value="1" />
                 <label for="checkbox3"></label>
             </div>
             <div class="checkbox-radio-wrapper checkbox4">
-                <input type="checkbox" id="checkbox4" />
+                <input type="radio" name="pay_state" id="checkbox4"  value="2" />
                 <label for="checkbox4"></label>
             </div>
             <div class="btn-dismiss"></div>
             <div class="btn-confirm"></div>
+            <!-- <div class="btn-confirm"></div> -->
         </div>
     </div>
     <!-- 群成员 -->
