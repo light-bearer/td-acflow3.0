@@ -165,7 +165,17 @@
             },
             positiveCb: function() {
                 // todo dismiss
-                console.log('dismiss')
+                // console.log('dismiss')
+                updateGroup({
+                    state: -1,
+                }, function() {
+                    $('.popup-dismiss').hide();
+                    Util.toast('解散俱乐部成功', 1000);
+                    setTimeout(function(e) {
+                        window.location.reload();
+                    }, 1000);
+                    
+                });
             }
         })
     });
@@ -619,7 +629,7 @@
             // console.log(data);
             if (data.code === 0) {
                 Util.toast("充值成功！");
-                var _integal = parseInt(groups[currentGroup].integal) + num;
+                var _integal = parseInt(groups[currentGroup].integal) + parseInt(num);
                 groups[currentGroup].integal = _integal;
                 $('.popup-found #integal').html(_integal);
 
@@ -743,7 +753,6 @@
     function eventFound() {
         var _group = groups[currentGroup];
         $('.popup-found #payState').html(_group.payState == '1' ? '尚未开启': '已经开启');
-        debugger
         $('.popup-found #integal').html(_group.integal);
         $('.popup-found').show();
     }
@@ -776,6 +785,7 @@
         // 默认选回第一间房
         groupType = "1";
         roomPager.page = 1;
+        getRoomListOfGroup();
         $('.cfdf, .jfph, .sf').hide();
         $('.room.game, .room.normal').removeClass('active');
         $('.room.normal').addClass('active');
