@@ -55,6 +55,7 @@
                         // Util.setSession(TOKEN, "9417832d2b944869918f58eb76239dbb");
                         // Util.setSession(TOKEN, 1234);
 
+
                         Util.setSession(TOKEN, data.data.token);
 
                         cb && cb(data.data.token);
@@ -347,20 +348,24 @@
             console.error("请引入微信js-sdk");
             return;
         }
+        // alert('config url:' + shareUrl);
+        var url = delUrlParam('code');
         Ajax({
-            url: "/app/wechat/wxjsconfig",
+            url: Util.openAPI + "/app/gzhShare",
             type: "get",
             data: {
-                url: encodeURIComponent(window.location.href.split("#")[0])
+                url: url
+                    // url: shareUrl
             },
             dataType: "json",
             cbOk: function(data, textStatus, jqXHR) {
                 console.log(data);
                 if (data.code === 0) {
                     var _data = data.data;
+
                     wx.config({
                         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId: _data.appId, // 必填，公众号的唯一标识
+                        appId: _data.appid, // 必填，公众号的唯一标识
                         timestamp: _data.timestamp, // 必填，生成签名的时间戳
                         nonceStr: _data.nonceStr, // 必填，生成签名的随机串
                         signature: _data.signature, // 必填，签名，见附录1
@@ -374,7 +379,7 @@
 
                     wx.ready(function() {
                         console.log("ready");
-                        readyCb && readyCb();
+                        readyCb && readyCb(data);
                     });
                 }
             },
@@ -593,6 +598,31 @@
         temp += "</div></li>";
         return temp;
     }
+
+    function delUrlParam(paramKey, url) {
+        url = url || window.location.href; //页面url
+        var urlParam = window.location.search.substr(1); //页面参数
+        var beforeUrl = url.substr(0, url.indexOf("?")); //页面主地址（参数之前地址）
+        var nextUrl = "";
+
+        var arr = new Array();
+        if (urlParam != "") {
+            var urlParamArr = urlParam.split("&"); //将参数按照&符分成数组
+            for (var i = 0; i < urlParamArr.length; i++) {
+                var paramArr = urlParamArr[i].split("="); //将参数键，值拆开
+                //如果键雨要删除的不一致，则加入到参数中
+                if (paramArr[0] != paramKey) {
+                    arr.push(urlParamArr[i]);
+                }
+            }
+        }
+        if (arr.length > 0) {
+            nextUrl = "?" + arr.join("&");
+        }
+        url = beforeUrl + nextUrl;
+        return url;
+    }
+
 
     var Util = {
         token: TOKEN,

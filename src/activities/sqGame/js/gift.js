@@ -102,11 +102,10 @@
                         // 用户点击了分享后执行的回调函数
                     }
                 };
-                //获取“分享到朋友圈”按钮点击状态及自定义分享内容接口（即将废弃）
+                //获取“分享到朋友圈”按钮点击状态及自定义分享内容接口（即将废弃
                 wx.onMenuShareTimeline(shareData);
-                // wx.updateTimelineShareData(shareData);
 
-                //获取“分享给朋友”按钮点击状态及自定义分享内容接口（即将废弃）
+                //获取“分享给朋友”按钮点击状态及自定义分享内容接口（即将废弃
                 wx.onMenuShareAppMessage(shareData);
                 // wx.updateAppMessageShareData(shareData);
                 // showDialog();

@@ -772,6 +772,9 @@
         72px);
         position: relative;
         margin: auto;
+        text-align: left;
+        line-height: pxToRem(72px);
+        font-size: 0;
         &::before {
             @extend .pseudo;
             left: pxToRem(-10px);
@@ -806,6 +809,17 @@
             background-image: url("../images/anbao/num_tw.png");
             width: pxToRem(36px);
             height: pxToRem(27px);
+        }
+    }
+    .icon-result {
+        width: pxToRem(63px);
+        height: pxToRem(61px);
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: inline-block;
+        vertical-align: middle;
+        &.long {
+            background-image: url('../images/anbao/result/long.png');
         }
     }
 }
