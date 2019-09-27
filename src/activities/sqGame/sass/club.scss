@@ -468,6 +468,14 @@
 }
 // 解散
 .popup-dismiss {
+    &.creator {
+        .btn-dismiss, .btn-confirm, .btn-dismiss-save {
+            display: block;
+        }
+        .btn-quit {
+            display: none;
+        }
+    }
     .popup-content {
         background: url("../images/club/bg_dismiss.png") no-repeat center;
         background-size: contain;
@@ -516,6 +524,7 @@
         
     }
     .btn-dismiss-save {
+        display: none;
         background: url("../images/club/btn_dismiss_save.png") no-repeat center;
         background-size: contain;
         width: pxToRem(178px);
@@ -526,17 +535,30 @@
         right: pxToRem(16px);
     }
     .btn-dismiss {
+        display: none;
         width: pxToRem(280px);
         height: pxToRem(86px);
         
         position: absolute;
         bottom: pxToRem(34px);
         left: pxToRem(34px); 
+        background: url("../images/club/btn_bg_dismiss.png") no-repeat center;
+        background-size: contain;
     }
     .btn-confirm {
         @extend .btn-dismiss;
         left: unset;
         right: pxToRem(34px);
+        background: url("../images/user/btn_submit.png") no-repeat center;
+        background-size: contain;
+    }
+    .btn-quit {
+        @extend .btn-dismiss;
+        display: block;
+        left: 50%;
+        margin-left: pxToRem(-140px);
+        background: url("../images/club/btn_quit.png") no-repeat center;
+        background-size: contain;
     }
 }
 // 后面多个弹窗公用部分

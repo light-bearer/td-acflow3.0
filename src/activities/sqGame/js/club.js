@@ -5,7 +5,9 @@
 
     var interval = null, 
         msgPager = {limit: Util.pager.limit, page: Util.pager.page},
-        roomPager = {limit: Util.pager.limit, page: Util.pager.page};
+        memberPager = {limit: Util.pager.limit, page: Util.pager.page},
+        roomPager = {limit: Util.pager.limit, page: Util.pager.page},
+        integalPager = {limit: Util.pager.limit, page: Util.pager.page};
 
     var groups = [],
         currentGroup = '',
@@ -212,11 +214,20 @@
             })
         });
     });
-    // 成员滚动加载更多
-    $('.member-list').scroll(function(e) {
-        // console.log('scroll');
-        handleScroll(e);
+    // 解散设置，退出群组
+    $('.popup-dismiss').on('click', '.btn-quit', function() {
+        quitGroup();
     });
+    // 成员滚动加载更多
+    // $('.member-list').scroll(function(e) {
+    //     // console.log('scroll');
+    //     handleScroll(e);
+    // });
+    // 成员点击加载更多
+    $('.popup-members').on('click', '.loadmore', function(e) {
+        memberPager.page += 1;
+        getGroupUserList();
+    })
 
     // 充值基金
     $('.popup-found').on('click', '.btn-found-recharge', function(e) {
@@ -237,8 +248,16 @@
     });
     // 基金账单明细
     $('.popup-found').on('click', '.btn-found-detail', function(e) {
+        if($('.popup-found-detail .list-main .row').length <= 0) {
+            getIntegalDetail();
+        }
         $('.popup-found-detail').show();
     })
+    // 基金账单明细加载更多
+    $('.popup-found-detail').on('click', '.loadmore', function(){
+        integalPager.page += 1;
+        getIntegalDetail();
+    });
     function initPage() {
         getListOfUser(function() {
             // 获取房间列表
@@ -304,6 +323,7 @@
     // }
     // 获取消息
     function getListOfStateAndGroup() {
+        msgPager.page = msgPager.page < 1 ? 1: msgPager.page;
         Util.Ajax({
             url: Util.openAPI + "/app/groupUser/getListOfStateAndGroup",
             type: "get",
@@ -355,7 +375,14 @@
                             }, 2000);
                         }
                     }
+                } else {
+                    msgPager.page -= 1;
+                    Util.toast(data.msg);
                 }
+            },
+            cbErr: function() {
+                msgPager.page -= 1;
+                Util.toast('消息查询失败，请稍后再试')
             }
         });
     }
@@ -615,6 +642,31 @@
             }
         });
     }
+    // 退出群组
+    function quitGroup() {
+        Util.Ajax({
+            url: Util.openAPI + "/app/groupUser/cancel",
+            type: "post",
+            dataType: "json",
+            data: {
+                id: groups[currentGroup].id
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+            // console.log(data);
+            if (data.code === 0) {
+                Util.toast("退出成功！");
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                Util.toast(data.msg);
+            }
+            },
+            cbErr: function(e, xhr, type) {
+                Util.toast("退出失败，请稍后再试！");
+            }
+        });
+    }
     // 充值基金
     function payIntegal(num) {
         Util.Ajax({
@@ -642,8 +694,49 @@
             }
         });
     }
+    // 基金，账单明细
+    function getIntegalDetail() {
+        var $detail = $('.popup-found-detail');
+        integalPager.page = integalPager.page < 1 ? 1: integalPager.page
+        Util.Ajax({
+            url: Util.openAPI + "/app/integalDetail/getListOfGroup",
+            type: "get",
+            dataType: "json",
+            data: {
+                groupId: groups[currentGroup].id,
+                limit: integalPager.limit,
+                page: integalPager.page
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+            // console.log(data);
+            if (data.code === 0) {
+                var _rows = data.data.row, _temp = '';
+                for(var i = 0; i < _rows.length; i ++) {
+                    _temp += '<div class="row tr"><div>' + _rows[i].type +'</div><div>'+ _rows[i].count +'</div><div>'+ _rows[i].nickName +'</div><div>' + _rows[i].createTime + '</div></div>';
+                }
+                integalPager.page === 1  && $('.room-list').html('');
+                $detail.find('.list-main').append(_temp);
+                if (integalPager.limit * integalPager.page >= data.data.total) {
+                    $detail.find('.nomore').show();
+                    $detail.find('.loadmore').hide();
+                } else {
+                    $detail.find('.nomore').hide();
+                    $detail.find('.loadmore').show();
+                }
+            } else {
+                Util.toast(data.msg);
+                integalPager.page -= 1;
+            }
+            },
+            cbErr: function(e, xhr, type) {
+                integalPager.page -= 1;
+                Util.toast("查询明细失败！");
+            }
+        });
+    }
     // 获取房间列表
     function getRoomListOfGroup() {
+        roomPager.page = roomPager.page < 1 ? 1 : roomPager.page;
         Util.Ajax({
             url: Util.openAPI + "/app/room/getListOfGroup",
             type: "get",
@@ -664,7 +757,7 @@
                     _temp += '<div class="room">'
                     + '<div class="top">'
                     + '<div class="info-avator-wrapper">'
-                    + '<img src="'+  _data.rows[i].gameImg +'" alt="" id="creator_img">'
+                    + '<img src="'+  _data.rows[i].userImg +'" alt="" id="creator_img">'
                     + '</div>'
                     + '<div class="room-name">'+ (_data.rows[i].gameName || '')  +'/'+ _data.rows[i].type+'(房号:' + _data.rows[i].roomNumber + '）</div>'
                         + '<div class="room-count">'+ _data.rows[i].joinUserCount+'/'+ _data.rows[i].people+'</div>'
@@ -692,10 +785,12 @@
                 }
             } else {
                 Util.toast("获取房间列表失败");
+                roomPager.page -= 1;
             }
             },
             cbErr: function(e, xhr, type) {
-            Util.toast("获取房间列表失败");
+                roomPager.page -= 1;
+                Util.toast("获取房间列表失败");
             }
         });
     }
@@ -736,16 +831,27 @@
     // 解散
     function eventDismiss() {
         console.log(groups[currentGroup]);
+        console.log(baseInfo)
         var $dismiss = $('.popup-dismiss'),
             group = groups[currentGroup];
         $dismiss.find('#input_club_name').val(group.name);
         $("input[name='create_state'][value='"+group.createState+"']").prop("checked",true);
         $("input[name='pay_state'][value='"+group.payState+"']").prop("checked",true);
+        // 如果是创建人
+        if(baseInfo.id === group.createUserId) {
+            $dismiss.addClass('creator')
+            $dismiss.find('input').removeAttr("disabled")
+        } else {
+            $dismiss.removeClass('creator')
+            $dismiss.find('input').attr("disabled","disabled")
+            
+        }
+
         $dismiss.show();
     }
     // 成员
     function eventMember() {
-        getGroupUserList(currentGroup);
+        getGroupUserList();
         $('.popup-members').show();
     }
 
@@ -811,30 +917,47 @@
 
     
     function getGroupUserList() {
+        memberPager.page = memberPager.page < 1 ? 1: memberPager.page
+        var $pmember = $('.popup-members');
         if(GETTING_MEMBERS) {
             return;
         }
         GETTING_MEMBERS = true;
-        $('.list-loading').show();
         Util.Ajax({
             url: Util.openAPI + "/app/groupUser/getGroupUserList",
             type: "get",
-            data: {},
+            data: {
+                limit: memberPager.limit,
+                page: memberPager.page
+            },
             dataType: "json",
             cbOk: function(data, textStatus, jqXHR) {
               // console.log(data);
               if (data.code === 0) {
                 console.log(data)
+                var _temp = '';
+                if(memberPager.page === 1) {
+                    $pmember.find('.list-scroll').html('');
+                    }
+                    $pmember.find('.list-scroll').append(_temp);
+                    if (memberPager.limit * memberPager.page >= data.data.total) {
+                        $pmember.find('.nomore').show();
+                        $pmember.find('.loadmore').hide();
+                    } else {
+                        $pmember.find('.nomore').hide();
+                        $pmember.find('.loadmore').show();
+                    }
               } else {
+                memberPager.page -= 1;
                 Util.toast(data.msg);
               }
               GETTING_MEMBERS = false;
-            $('.list-loading').hide();
+              
             },
             cbErr: function(e, xhr, type) {
               Util.toast("获取成员数据失败！");
               GETTING_MEMBERS = false;
-              $('.list-loading').hide();
+              memberPager.page -= 1;
             }
         });
     }
