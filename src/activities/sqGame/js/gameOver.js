@@ -2,6 +2,7 @@
     FastClick.attach(document.body);
     var roomNumber = Util.getParam("roomNumber");
     (function() {
+        if(!roomNumber) return;
         Util.Ajax({
             url: Util.openAPI + "/app/room/getResultForRoom",
             type: "get",

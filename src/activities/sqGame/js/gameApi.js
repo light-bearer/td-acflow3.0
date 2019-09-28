@@ -474,12 +474,14 @@
                     .addClass("tj-title")
                     .html(title),
                     _cloaseIcon = $("<i/>").addClass("icon-close"),
+                    listWrapper = $("<div/>").addClass("tj-list-wrapper"),
                     _list = $("<ul/>").addClass("tj-list");
                 _list.html(itemTemp);
-                _tjContent
+                listWrapper.html(_list),
+                    _tjContent
                     .append(_cloaseIcon)
                     .append(_title)
-                    .append(_list);
+                    .append(listWrapper);
                 _popup.append(_tjContent);
 
                 $("body").append(_popup);
@@ -488,7 +490,7 @@
                 });
             } else {
                 $(".tj-title").html(title);
-                $(".tj-list").heml(itemTemp);
+                $(".tj-list").html(itemTemp);
             }
             return _popup;
         };

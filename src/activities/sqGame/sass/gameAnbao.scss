@@ -10,7 +10,7 @@
 
 .ab-top-wrapper {
     position: absolute;
-    top: percent(15);
+    top: 0;
     right: pxToRem(24px);
     height: percent(72);
     width: 100%;
@@ -35,7 +35,7 @@
 
 .ab-txt {
     position: absolute;
-    top: percent(92);
+    top: percent(70);
     left: 50%;
     @include background("../images/anbao/icon_txt.png",
     444px,
@@ -49,7 +49,7 @@
 
 .ab-room {
     position: absolute;
-    top: percent(172);
+    top: percent(140);
     width: 100%;
     text-align: center;
     color: #fff;
@@ -97,7 +97,7 @@
     @include background("../images/anbao/pic_game_banker.png",
     501px,
     519px);
-    top: percent(245);
+    top: percent(220);
     left: 50%;
     transform: translate(-50%, 0);
     z-index: 100;
@@ -159,7 +159,7 @@
     width: pxToRem(501px);
     // height: percent(522);
     height: pxToRem(522px);
-    top: percent(245);
+    top: percent(220);
     left: 50%;
     transform: translate(-50%, 0);
     background-image: url("../images/anbao/pic_game.png"), url("../images/anbao/pic_game_center.png");
@@ -194,7 +194,7 @@
         z-index: 13;
         background-repeat: no-repeat;
         &::before {
-            content: '';
+            content: "";
             background-repeat: no-repeat;
             background-size: contain;
             position: absolute;
@@ -206,14 +206,14 @@
         }
         &.long {
             &::before {
-                background-image: url('../images/anbao/result/gold_long.png');
+                background-image: url("../images/anbao/result/gold_long.png");
                 width: pxToRem(282px);
                 height: pxToRem(338px);
             }
         }
         &.long,
         &.hu {
-            background-image: url('../images/anbao/game_result_right.png');
+            background-image: url("../images/anbao/game_result_right.png");
             background-size: pxToRem(428px) pxToRem(515px);
             background-position: right;
             animation: resultAnit 1s ease-in both 3;
@@ -221,21 +221,21 @@
         &.hu {
             transform: rotateY(180deg);
             &::before {
-                background-image: url('../images/anbao/result/gold_hu.png');
+                background-image: url("../images/anbao/result/gold_hu.png");
                 width: pxToRem(307px);
                 height: pxToRem(351px);
             }
         }
         &.chu,
         &.ru {
-            background-image: url('../images/anbao/game_result_top.png');
+            background-image: url("../images/anbao/game_result_top.png");
             background-size: pxToRem(484px) pxToRem(449px);
             background-position: top;
             animation: resultAnit2 1s ease-in both 3;
         }
         &.chu {
             &::before {
-                background-image: url('../images/anbao/result/gold_chu.png');
+                background-image: url("../images/anbao/result/gold_chu.png");
                 width: pxToRem(232px);
                 height: pxToRem(344px);
             }
@@ -243,7 +243,7 @@
         &.ru {
             transform: rotateX(180deg);
             &::before {
-                background-image: url('../images/anbao/result/gold_ru.png');
+                background-image: url("../images/anbao/result/gold_ru.png");
                 width: pxToRem(327px);
                 height: pxToRem(202px);
             }
@@ -317,7 +317,7 @@
     @include background("../images/anbao/icon_zhuang.png",
     51px,
     58px);
-    animation: lose .38s linear both;
+    animation: lose 0.38s linear both;
     position: absolute;
     top: 0;
     left: 0;
@@ -361,25 +361,28 @@
         color: #fff;
         text-align: center;
         z-index: 200;
+        &::before {
+            position: absolute;
+        }
         &.banker {
             &::after {
                 content: "";
                 @include background("../images/anbao/icon_zhuang.png",
                 51px,
                 58px);
-                position: absolute;
                 top: 0;
                 right: 0;
                 transform: translate(30%, -10%);
-                animation: fadeIn .5s linear both;
+                animation: fadeIn 0.5s linear both;
             }
         }
         &.rob {
             &::before {
                 content: "";
-                // @include background("../images/anbao/icon_rob.png", 52px, 54px);
-                @extend .icon-banker;
-                position: absolute;
+                @include background("../images/anbao/icon_rob.png",
+                52px,
+                54px);
+                // @extend .icon-banker;
                 top: 0;
                 right: 0;
                 transform: translate(100%, 0);
@@ -392,7 +395,6 @@
                 @include background("../images/anbao/icon_norob.png",
                 102px,
                 54px);
-                position: absolute;
                 bottom: 0;
                 right: 0;
                 transform: translate(0, 80%);
@@ -469,7 +471,7 @@
 
 .chip-group {
     position: absolute;
-    bottom: percent(22);
+    bottom: percent(0);
     left: pxToRem(131px);
     height: percent(98);
     font-size: 0;
@@ -633,7 +635,7 @@
         line-height: pxToRem(72px);
         color: #9a651c;
         font-size: pxToRem(32px);
-        margin-bottom: pxToRem(20px);
+        // margin-bottom: pxToRem(20px);
         display: none;
     }
     .game-btn-count {
@@ -711,7 +713,7 @@
 
 .game-btns[data-state="4"] {
     .game-count-down,
-    .game-btn-db {
+    .game-btn-db[data-isbanker="true"] {
         display: block;
     }
 }
@@ -819,7 +821,7 @@
         display: inline-block;
         vertical-align: middle;
         &.long {
-            background-image: url('../images/anbao/result/long.png');
+            background-image: url("../images/anbao/result/long.png");
         }
     }
 }
@@ -856,7 +858,7 @@
         position: absolute;
         right: 0;
         bottom: 0;
-        background-color: rgba(0, 0, 0, .6);
+        background-color: rgba(0, 0, 0, 0.6);
         border-top-left-radius: pxToRem(10px);
         z-index: 10010;
         >li {
@@ -877,7 +879,7 @@
     padding: pxToRem(44px) pxToRem(15px) pxToRem(44px) pxToRem(18px);
     // border-radius: pxToRem(25px);
     // box-shadow: 0 0 3px #000;
-    @include background('../images/anbao/analysis_bg.png',
+    @include background("../images/anbao/analysis_bg.png",
     511px,
     762px);
     .icon-close {
@@ -892,11 +894,14 @@
         font-size: pxToRem(40px);
         margin-bottom: pxToRem(24px);
     }
-    @at-root .tj-list {
+    .tj-list {
         width: 100%;
         height: pxToRem(620px);
+        overflow: auto;
+    }
+    @at-root .tj-list {
         >li {
-            @include background('../images/anbao/analysis_item_bg.png',
+            @include background("../images/anbao/analysis_item_bg.png",
             478px,
             84px);
             display: flex;

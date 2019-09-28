@@ -7,7 +7,8 @@
         hasShowResult = false, //是否已显示游戏结果
         baseInfo = Util.getSession(Util.baseInfo),
         token = Util.getSession(Util.token),
-        code = Util.getParam("code");
+        code = Util.getParam("code"),
+        countInterval = null;
     // var roomData; //房间数据
     // 当前座位模式
     var CURRENT_MODE = [];
@@ -47,16 +48,17 @@
         (function() {
             getRoomDetail({ useResult: true, random: true }, function(roomData) {
                 getUserOfRoom(roomData);
+                initEmptySeat(roomData);
             });
 
-            invertal = setInterval(function() {
+            setInterval(function() {
                 getRoomDetail({ useResult: true, random: false }, function(roomData) {
                     getUserOfRoom(roomData);
                 });
             }, 1000);
-            //防外挂
-            var antiPlug = new AntiPlug();
-            antiPlug.show();
+            // //防外挂
+            // var antiPlug = new AntiPlug();
+            // antiPlug.show();
         })();
 
         /**
@@ -103,7 +105,8 @@
                 function(data) {
                     // 初始化座位
                     var result = data.data;
-                    initSeat(roomData, result);
+                    // initSeat(roomData, result);
+                    gamerSeat(roomData, result);
                     initGame(roomData, result);
                     Util.setSession('gameResultId', result.gameResultId);
 
@@ -128,7 +131,9 @@
                 $('.game-btn-action').attr('data-disable', 'true')
                 return;
             }
-            $('.game-btn-action').attr('data-disable', 'false')
+            $('.game-btn-action').attr('data-disable', 'false');
+            var gameResultList = roomData.gameResultDtoList;
+
             switch (state) {
                 case 1:
                     //准备中
@@ -137,7 +142,7 @@
                         $(".game-btns").attr("data-state", '')
 
                         //开奖中
-                        var gameResultDtoList = roomData.gameResultDtoList;
+                        // var gameResultDtoList = roomData.gameResultDtoList;
                         if (
                             gameResultDtoList &&
                             gameResultDtoList.length > 0
@@ -173,27 +178,13 @@
                                 //游戏结果效果播放完毕，修改用户状态为未准备
                                 GameApi.provideFinish({
                                     roomId: roomId
+                                }, function() {
+                                    $('.seat').removeClass('banker')
                                 });
                             }, 4000);
                         }
                     } else {
-                        var gameResultList = roomData.gameResultDtoList,
-                            firstRowTemp = '',
-                            secondRowTemp = '',
-                            resultWrappers = $('.result-wrapper');
-                        if (gameResultList && gameResultList.length > 0) {
-                            gameResultList && gameResultList.forEach(function(item, index) {
-                                var className = getResultClass(item.resultCode)
-                                temp = '<i class="icon-result ' + className + '"></i>'
-                                if (index < 5) {
-                                    firstRowTemp += temp;
-                                } else {
-                                    secondRowTemp += temp;
-                                }
-                            });
-                            resultWrappers.eq(0).html(firstRowTemp);
-                            resultWrappers.eq(1).html(secondRowTemp);
-                        }
+
 
 
                         $(".game-btns").attr("data-state", state)
@@ -208,15 +199,17 @@
                     break;
                 case 3:
                     // 抢庄完成：这里要调用动态效果，轮询定庄，定完庄后，调用接口修改房间状态；
-                    // creatBankerTrack();
-                    // GameApi.updateState(roomId);
+                    creatBankerTrack();
+                    GameApi.updateState(roomId);
                     break;
                 case 4:
                     var _bankerContent = $(".game-banker-content");
+                    $('.game-btn-db').attr('data-isbanker', isBanker);
                     if (isBanker) {
                         _bankerContent.show();
                     } else {
-                        $(".game-btn-kb").hide();
+                        _bankerContent.hide();
+                        // $(".game-btn-db").hide();
                     }
                     //定宝
                     countDown(20, function() {
@@ -239,6 +232,7 @@
                         $(".game-count-down").hide();
                     }
                     var gameBetList = gamersData.gameBetList;
+
                     setTimeout(function() {
                         initBetData(gameBetList);
                     }, 0);
@@ -263,6 +257,23 @@
                     location.href = "./gameOver.html?roomNumber=" + roomNumber;
                     break;
 
+            }
+            // var gameResultList = roomData.gameResultDtoList,
+            var firstRowTemp = '',
+                secondRowTemp = '',
+                resultWrappers = $('.result-wrapper');
+            if (gameResultList && gameResultList.length > 0) {
+                gameResultList && gameResultList.forEach(function(item, index) {
+                    var className = getResultClass(item.resultCode)
+                    temp = '<i class="icon-result ' + className + '"></i>'
+                    if (index < 5) {
+                        firstRowTemp += temp;
+                    } else {
+                        secondRowTemp += temp;
+                    }
+                });
+                resultWrappers.eq(0).html(firstRowTemp);
+                resultWrappers.eq(1).html(secondRowTemp);
             }
         }
 
@@ -297,24 +308,28 @@
         }
 
         function initBetData(gameBetList) {
+            // console.info('---initBetData-', gameBetList)
             gameBetList &&
                 gameBetList.forEach(function(item) {
-                    if (baseInfo.id != item.userId) {
-                        // console.info(item.userId, $("#" + item.userId), $("#3"));
-                        var seatIndex = $("#" + item.userId).attr("data-index");
-                        // console.info(item.userId, seatIndex);
-                        bets(seatIndex, item.betMoney, { x: item.x, y: item.y });
-                    }
+                    // console.info(baseInfo.id, item.userId);
+                    // if (baseInfo.id != item.userId) {
+                    //     // console.info(item.userId, $("#" + item.userId), $("#3"));
+                    //     var seatIndex = $("#" + item.userId).attr("data-index");
+                    //     // console.info(item.userId, seatIndex);
+                    //     bets(seatIndex, item.betMoney, { x: item.x, y: item.y });
+                    // }
+                    var seatIndex = $("#" + item.userId).attr("data-index");
+                    bets(seatIndex, item.betMoney, item.id, { x: item.x, y: item.y });
                 });
         }
 
         function countDown(count, cb) {
             $(".game-count-down").html(count);
-            var countInterval = setInterval(function() {
+            if (countInterval) return;
+            countInterval = setInterval(function() {
                 if (count == 1) {
                     cb && cb();
                     clearInterval(countInterval);
-                    // rob(0,true);
                 }
                 count--;
                 $(".game-count-down").html(count);
@@ -361,7 +376,7 @@
                         // gameCode.push(value);
                         var x = e.clientX - 10,
                             y = e.clientY - 12;
-                        bets(0, chip, { x: x, y: y });
+                        bets(0, chip, baseInfo.id, { x: x, y: y });
                         toBet({ chip: chip, x: x, y: y, code: value });
                         $(".game-btn-chips").html(totalChip);
                     } else {
@@ -391,14 +406,18 @@
                 case "ready":
                     //准备
                     ready();
+                    $('#' + baseInfo.id).find('figure').addClass('ready');
                     break;
                 case "rob":
                     //抢庄
                     rob(1, false);
+                    // $('#' + baseInfo.id).addClass('rob');
                     break;
                 case "norob":
                     //不抢庄
                     rob(2, false);
+                    // $('#' + baseInfo.id).addClass('norob');
+
                     break;
                 case "db":
                     //庄家定宝
@@ -451,7 +470,9 @@
                 },
                 cbOk: function(data, textStatus, jqXHR) {
                     // console.log(data);
-                    if (data.code === 0) {} else {
+                    if (data.code === 0) {
+
+                    } else {
                         Util.toast(data.msg);
                     }
                 },
@@ -509,6 +530,8 @@
                 roomId: roomId,
                 numberOfGame: numberOfGame,
                 resultCode: resultCode
+            }, function() {
+                $('.game-banker-content').hide();
             });
         }
         /**
@@ -545,14 +568,12 @@
         //   _device = type === "w" ? WIN_WIDTH : WIN_HEIGHT;
         //   return ((num / _num) * _device).toFixed(0) + "px";
         // }
-
         /**
-         * 座位初始化
-         * @param {string} totalCount 总人数
-         * @param {*} roomUsersData 房间内玩家信息
+         *初始化空位置
+         * @param {*} roomData 
          */
-        function initSeat(roomData, roomUsersData) {
-            var list = roomUsersData.roomUserDtoList;
+        function initEmptySeat(roomData) {
+            var totalCount = roomData.people;
             var totalCount = roomData.people;
             // 如果人多，样式修改
             if (totalCount >= 20) {
@@ -565,20 +586,44 @@
 
             // 获取当前位置模式，即位置数据
             CURRENT_MODE = SEAT_MODE["MODE" + totalCount];
+            var temp = '';
+            if (CURRENT_MODE) {
+                for (var i = 0, len = CURRENT_MODE.length; i < len; i++) {
+                    temp += '<div class="seat empty ' +
+                        (CURRENT_MODE[i].class || "") +
+                        '" data-index="' + i + '" style="top:' +
+                        CURRENT_MODE[i].top +
+                        "; left:" +
+                        CURRENT_MODE[i].left +
+                        "; right: " +
+                        CURRENT_MODE[i].right +
+                        '"></div>';
+                }
+                $(".gamer-group")
+                    .addClass("mode" + totalCount)
+                    .html(temp);
+
+            }
+        }
+        /**
+         * 玩家入座
+         * @param {*} roomData 
+         * @param {*} roomUsersData 
+         */
+        function gamerSeat(roomData, roomUsersData) {
+            var list = roomUsersData.roomUserDtoList,
+                curUser = {}, //当前用户
+                gamerList = []; //除掉当前用户的其他玩家
             banker = null; //庄家的座位号
             gamer = []; //闲家的座位号
-            if (CURRENT_MODE) {
-                // var baseInfo = Util.getSession("BASE_INFO"),
-                var curUser = {},
-                    gamerList = [];
-                list.forEach(function(item) {
-                    if (item.userId == baseInfo.id) {
-                        curUser = item;
-                    } else {
-                        gamerList.push(item);
-                    }
-                });
-
+            list.forEach(function(item) {
+                if (item.userId == baseInfo.id) {
+                    curUser = item;
+                } else {
+                    gamerList.push(item);
+                }
+            });
+            if (curUser && curUser.id) {
                 var curUserStatus = getGamerStatus(
                     curUser,
                     roomData.state,
@@ -589,25 +634,15 @@
                 } else {
                     gamer.push(0);
                 }
-
-                // 当前用户模版
-                var _temp = '';
-                if (curUser && curUser.userNickName) {
-                    _temp +=
-                        '<div id="seat' +
-                        curUser.userId +
-                        '" class="seat current-user ' +
-                        curUserStatus.robClass +
-                        " " +
-                        curUserStatus.bankerClass +
-                        '"  style="top:' +
-                        CURRENT_MODE[0].top +
-                        "; left:" +
-                        CURRENT_MODE[0].left +
-                        "; right: " +
-                        CURRENT_MODE[0].right +
-                        '" data-index="0">' +
-                        "<figure class='" +
+                var curUserClass = "seat current-user " + curUserStatus.robClass + " " + curUserStatus.bankerClass,
+                    $curUserSeat = $('#' + curUser.id);
+                // console.info('$curUserSeat----', $curUserSeat)
+                if ($curUserSeat && $curUserSeat.length > 0) {
+                    $curUserSeat.attr('class', curUserClass);
+                    $curUserSeat.find('figure').attr('class', curUserStatus.readyClass);
+                    $curUserSeat.find('.score').html(curUser.sumWinInteger)
+                } else {
+                    var temp = "<figure class='" +
                         curUserStatus.readyClass +
                         "'>" +
                         '<img src="' +
@@ -622,114 +657,251 @@
                         "</div>" +
                         '<span class="member-no">' +
                         curUser.memberNumber +
-                        "</span>" +
-                        "</div>";
+                        "</span>";
+                    $('.seat[data-index="0"]').attr('id', curUser.userId).attr('class', curUserClass).html(temp);
+                }
+
+            }
+
+            var useRandomSeats = randomSeats.slice(0, gamerList.length);
+            useRandomSeats.forEach(function(seatNo) {
+                var mode_item = CURRENT_MODE[seatNo],
+                    gamerData = gamerList.pop(),
+                    gamerStatus = getGamerStatus(
+                        gamerData,
+                        roomData.state,
+                        roomUsersData.userIdOfRob
+                    );
+                if (gamerStatus.isBanker) {
+                    banker = seatNo;
                 } else {
-                    _temp +=
-                        '<div id="seat0"  class="seat empty ' +
-                        (CURRENT_MODE[0].class || "") +
-                        '" data-index="0" style="top:' +
-                        CURRENT_MODE[0].top +
-                        "; left:" +
-                        CURRENT_MODE[0].left +
-                        "; right: " +
-                        CURRENT_MODE[0].right +
-                        '"></div>';
+                    gamer.push(seatNo);
+                }
+                var $seat = $('#' + gamerData.userId),
+                    seatClass = "seat gamer " + gamerStatus.robClass + " " + gamerStatus.bankerClass + (mode_item.class || "");
+                if ($seat && $seat.length > 0) {
+                    //玩家已有座位
+                    $seat.attr('class', seatClass);
+                    $seat.find('figure').attr('class', gamerStatus.readyClass);
+                    $seat.find('.score').html(gamerData.sumWinInteger)
 
-
+                } else {
+                    //玩家还未入座
+                    var $emptySeat = $('.seat[data-index="' + seatNo + '"]');
+                    // seatClass = "seat gamer " + gamerStatus.robClass + " " + gamerStatus.bankerClass + (mode_item.class || ""),
+                    seatTemp = "<figure class='" +
+                        gamerStatus.readyClass +
+                        "'>" +
+                        '<img src="' +
+                        gamerStatus.userImg +
+                        '"/>' +
+                        "<figcaption>" +
+                        gamerData.userNickName +
+                        "</figcaption>" +
+                        "</figure>" +
+                        '<div class="score">' +
+                        gamerData.sumWinInteger +
+                        "</div>";
+                    $emptySeat.attr('id', gamerData.userId).attr('class', seatClass).html(seatTemp);
                 }
 
 
-                var useRandomSeats = randomSeats.slice(0, gamerList.length);
-
-                for (var i = 1, len = CURRENT_MODE.length; i < len; i++) {
-                    // 如果有人就编辑玩家模版，如果没有就编译空位置模版
-                    var mode_item = CURRENT_MODE[i];
-                    if (useRandomSeats.indexOf(i) != -1) {
-                        var gamerData = gamerList.pop();
-                        var gamerStatus = getGamerStatus(
-                            gamerData,
-                            roomData.state,
-                            roomUsersData.userIdOfRob
-                        );
-                        if (gamerStatus.isBanker) {
-                            banker = i;
-                        } else {
-                            gamer.push(i);
-                        }
-
-                        _temp +=
-                            ' <div id="seat' +
-                            gamerData.userId +
-                            '" class="seat gamer ' +
-                            gamerStatus.robClass +
-                            " " +
-                            gamerStatus.bankerClass +
-                            (mode_item.class || "") +
-                            '"  style="top:' +
-                            mode_item.top +
-                            "; left:" +
-                            mode_item.left +
-                            "; right: " +
-                            mode_item.right +
-                            '" data-index="' +
-                            i +
-                            '">' +
-                            "<figure class='" +
-                            gamerStatus.readyClass +
-                            "'>" +
-                            '<img src="' +
-                            gamerStatus.userImg +
-                            '"/>' +
-                            "<figcaption>" +
-                            gamerData.userNickName +
-                            "</figcaption>" +
-                            "</figure>" +
-                            '<div class="score">' +
-                            gamerData.sumWinInteger +
-                            "</div>" +
-                            "</div>";
-                    } else {
-                        _temp +=
-                            '<div id="seat' +
-                            i +
-                            '"  class="seat empty ' +
-                            (mode_item.class || "") +
-                            '" data-index="' +
-                            i +
-                            '" style="top:' +
-                            mode_item.top +
-                            "; left:" +
-                            mode_item.left +
-                            "; right: " +
-                            mode_item.right +
-                            '"></div>';
-                    }
-                }
-            }
-
-            $(".gamer-group")
-                .addClass("mode" + totalCount)
-                .html(_temp);
-            if (roomData.state == 3) {
-                // 抢庄完成：这里要调用动态效果，轮询定庄，定完庄后，调用接口修改房间状态；
-                creatBankerTrack();
-                GameApi.updateState(roomId);
-            }
+            });
+            // if (roomData.state == 3) {
+            //     // 抢庄完成：这里要调用动态效果，轮询定庄，定完庄后，调用接口修改房间状态；
+            //     creatBankerTrack();
+            //     GameApi.updateState(roomId);
+            // }
 
             Util.setSession('banker', banker + '');
             Util.setSession('gamer', gamer);
-            // ----- 测试赢钱 -------
-            // initTrack(banker, gamer);
-            // // if (!banker) return;
 
-            // gamer.forEach(function(g) {
-            //   // 如果赢了就加上earn样式，否则就remove earn样式
-            //   $("#track" + g + "_" + banker).addClass("earn");
-            // });
-            // $(".money-track-group").show();
-            // ------ 测试赢钱 end ------
         }
+
+        // /**
+        //  * 座位初始化
+        //  * @param {string} totalCount 总人数
+        //  * @param {*} roomUsersData 房间内玩家信息
+        //  */
+        // function initSeat(roomData, roomUsersData) {
+        //     var list = roomUsersData.roomUserDtoList;
+        //     var totalCount = roomData.people;
+        //     // 如果人多，样式修改
+        //     if (totalCount >= 20) {
+        //         $(".ab-txt").addClass("small");
+        //         $(".ab-room").addClass("more");
+        //     }
+        //     if (totalCount >= 30) {
+        //         $(".an-game-content").addClass("lower");
+        //     }
+
+        //     // 获取当前位置模式，即位置数据
+        //     CURRENT_MODE = SEAT_MODE["MODE" + totalCount];
+        //     banker = null; //庄家的座位号
+        //     gamer = []; //闲家的座位号
+        //     if (CURRENT_MODE) {
+        //         // var baseInfo = Util.getSession("BASE_INFO"),
+        //         var curUser = {},
+        //             gamerList = [];
+        //         list.forEach(function(item) {
+        //             if (item.userId == baseInfo.id) {
+        //                 curUser = item;
+        //             } else {
+        //                 gamerList.push(item);
+        //             }
+        //         });
+
+        //         var curUserStatus = getGamerStatus(
+        //             curUser,
+        //             roomData.state,
+        //             roomUsersData.userIdOfRob
+        //         );
+        //         if (curUserStatus.isBanker) {
+        //             banker = 0;
+        //         } else {
+        //             gamer.push(0);
+        //         }
+
+        //         // 当前用户模版
+        //         var _temp = '';
+        //         if (curUser && curUser.userNickName) {
+        //             _temp +=
+        //                 '<div id="seat' +
+        //                 curUser.userId +
+        //                 '" class="seat current-user ' +
+        //                 curUserStatus.robClass +
+        //                 " " +
+        //                 curUserStatus.bankerClass +
+        //                 '"  style="top:' +
+        //                 CURRENT_MODE[0].top +
+        //                 "; left:" +
+        //                 CURRENT_MODE[0].left +
+        //                 "; right: " +
+        //                 CURRENT_MODE[0].right +
+        //                 '" data-index="0">' +
+        //                 "<figure class='" +
+        //                 curUserStatus.readyClass +
+        //                 "'>" +
+        //                 '<img src="' +
+        //                 curUserStatus.userImg +
+        //                 '"/>' +
+        //                 "<figcaption>" +
+        //                 curUser.userNickName +
+        //                 "</figcaption>" +
+        //                 "</figure>" +
+        //                 '<div class="score">' +
+        //                 curUser.sumWinInteger +
+        //                 "</div>" +
+        //                 '<span class="member-no">' +
+        //                 curUser.memberNumber +
+        //                 "</span>" +
+        //                 "</div>";
+        //         } else {
+        //             _temp +=
+        //                 '<div id="seat0"  class="seat empty ' +
+        //                 (CURRENT_MODE[0].class || "") +
+        //                 '" data-index="0" style="top:' +
+        //                 CURRENT_MODE[0].top +
+        //                 "; left:" +
+        //                 CURRENT_MODE[0].left +
+        //                 "; right: " +
+        //                 CURRENT_MODE[0].right +
+        //                 '"></div>';
+
+
+        //         }
+
+
+        //         var useRandomSeats = randomSeats.slice(0, gamerList.length);
+
+        //         for (var i = 1, len = CURRENT_MODE.length; i < len; i++) {
+        //             // 如果有人就编辑玩家模版，如果没有就编译空位置模版
+        //             var mode_item = CURRENT_MODE[i];
+        //             if (useRandomSeats.indexOf(i) != -1) {
+        //                 var gamerData = gamerList.pop();
+        //                 var gamerStatus = getGamerStatus(
+        //                     gamerData,
+        //                     roomData.state,
+        //                     roomUsersData.userIdOfRob
+        //                 );
+        //                 if (gamerStatus.isBanker) {
+        //                     banker = i;
+        //                 } else {
+        //                     gamer.push(i);
+        //                 }
+
+        //                 _temp +=
+        //                     ' <div id="seat' +
+        //                     gamerData.userId +
+        //                     '" class="seat gamer ' +
+        //                     gamerStatus.robClass +
+        //                     " " +
+        //                     gamerStatus.bankerClass +
+        //                     (mode_item.class || "") +
+        //                     '"  style="top:' +
+        //                     mode_item.top +
+        //                     "; left:" +
+        //                     mode_item.left +
+        //                     "; right: " +
+        //                     mode_item.right +
+        //                     '" data-index="' +
+        //                     i +
+        //                     '">' +
+        //                     "<figure class='" +
+        //                     gamerStatus.readyClass +
+        //                     "'>" +
+        //                     '<img src="' +
+        //                     gamerStatus.userImg +
+        //                     '"/>' +
+        //                     "<figcaption>" +
+        //                     gamerData.userNickName +
+        //                     "</figcaption>" +
+        //                     "</figure>" +
+        //                     '<div class="score">' +
+        //                     gamerData.sumWinInteger +
+        //                     "</div>" +
+        //                     "</div>";
+        //             } else {
+        //                 _temp +=
+        //                     '<div id="seat' +
+        //                     i +
+        //                     '"  class="seat empty ' +
+        //                     (mode_item.class || "") +
+        //                     '" data-index="' +
+        //                     i +
+        //                     '" style="top:' +
+        //                     mode_item.top +
+        //                     "; left:" +
+        //                     mode_item.left +
+        //                     "; right: " +
+        //                     mode_item.right +
+        //                     '"></div>';
+        //             }
+        //         }
+        //     }
+
+        //     $(".gamer-group")
+        //         .addClass("mode" + totalCount)
+        //         .html(_temp);
+        //     if (roomData.state == 3) {
+        //         // 抢庄完成：这里要调用动态效果，轮询定庄，定完庄后，调用接口修改房间状态；
+        //         creatBankerTrack();
+        //         GameApi.updateState(roomId);
+        //     }
+
+        //     Util.setSession('banker', banker + '');
+        //     Util.setSession('gamer', gamer);
+        //     // ----- 测试赢钱 -------
+        //     // initTrack(banker, gamer);
+        //     // // if (!banker) return;
+
+        //     // gamer.forEach(function(g) {
+        //     //   // 如果赢了就加上earn样式，否则就remove earn样式
+        //     //   $("#track" + g + "_" + banker).addClass("earn");
+        //     // });
+        //     // $(".money-track-group").show();
+        //     // ------ 测试赢钱 end ------
+        // }
 
         function getGamerStatus(data, state, userIdOfRob) {
             var result = {
@@ -823,9 +995,11 @@
             $(".money-track-group").append($track);
         }
         //抢庄特效
+
         function creatBankerTrack() {
             var start = $(".an-game__cover").offset(),
-                end = $(".banker").offset();
+                // end = $(".banker").offset();
+                end = $("#" + baseInfo.id).offset();
             if (!start || !end) return;
             var trackHeight = Math.sqrt(
                 Math.pow(start.left - end.left, 2) + Math.pow(start.top - end.top, 2)
@@ -923,7 +1097,7 @@
          * @param {number} endPos.x, 结束坐标 x
          * @param {number} endPos.y, 结束坐标 y
          */
-        function bets(seatIndex, chip, endPos) {
+        function bets(seatIndex, chip, id, endPos) {
             // 动画时间
             var dura = 300;
             // 起始坐标
@@ -934,7 +1108,9 @@
             var end = [endPos.x, endPos.y];
             // 初始化下注码
             // if ($chip.length <= 0) {
+            if ($('#' + id) && $('#' + id).length > 0) return; //防止重复渲染导致动画重复播放
             var $chip = $("<div/>")
+                .attr('id', id)
                 // .attr('id', 'chip_move' + seatIndex)
                 .addClass("chip")
                 .addClass("move")
