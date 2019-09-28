@@ -468,6 +468,14 @@
 }
 // 解散
 .popup-dismiss {
+    &.creator {
+        .btn-dismiss, .btn-confirm, .btn-dismiss-save {
+            display: block;
+        }
+        .btn-quit {
+            display: none;
+        }
+    }
     .popup-content {
         background: url("../images/club/bg_dismiss.png") no-repeat center;
         background-size: contain;
@@ -516,6 +524,7 @@
         
     }
     .btn-dismiss-save {
+        display: none;
         background: url("../images/club/btn_dismiss_save.png") no-repeat center;
         background-size: contain;
         width: pxToRem(178px);
@@ -526,17 +535,30 @@
         right: pxToRem(16px);
     }
     .btn-dismiss {
+        display: none;
         width: pxToRem(280px);
         height: pxToRem(86px);
         
         position: absolute;
         bottom: pxToRem(34px);
         left: pxToRem(34px); 
+        background: url("../images/club/btn_bg_dismiss.png") no-repeat center;
+        background-size: contain;
     }
     .btn-confirm {
         @extend .btn-dismiss;
         left: unset;
         right: pxToRem(34px);
+        background: url("../images/user/btn_submit.png") no-repeat center;
+        background-size: contain;
+    }
+    .btn-quit {
+        @extend .btn-dismiss;
+        display: block;
+        left: 50%;
+        margin-left: pxToRem(-140px);
+        background: url("../images/club/btn_quit.png") no-repeat center;
+        background-size: contain;
     }
 }
 // 后面多个弹窗公用部分
@@ -1004,6 +1026,66 @@
             }
         }
     }
+}
+
+// 详情
+.popup-detail {
+    display: block;
+    @extend .popup-multi;
+    .popup-content {
+        width: pxToRem(467px);
+        height: percent(768);
+        left: unset;
+        right: pxToRem(18px);
+        top: percent(243);
+        transform: none;
+    }
+    
+    .popup-content-main {
+        left: pxToRem(8px);
+        right: pxToRem(6px);
+        top: percent(97, 768);
+        bottom: percent(10, 768);
+        padding: pxToRem(7px) 0;
+        
+    }
+    .btn-group {
+        position: absolute;
+        top: percent(25, 768);
+        height: percent(60, 768);
+        left: pxToRem(23px);
+        right: pxToRem(52px);
+        display: flex;
+        justify-content: space-between;
+    }
+    .btn-all {
+        background: url("../images//club/btn_all.png") no-repeat center;
+        background-size: contain;
+        width: pxToRem(175px);
+        height: 100%;
+    }
+    .btn-unshield {
+        background: url("../images//club/btn_unshield.png") no-repeat center;
+        background-size: contain;
+        width: pxToRem(175px);
+        height: 100%;
+    }
+    .row {
+        display: flex;
+        align-items: center;
+        line-height:pxToRem(44px);
+        color: #fff;
+        font-size: pxToRem(30px);
+        background: url("../images//club/m_bg_item.png") no-repeat center;
+        background-size: 100% 100%;
+        margin: 0 auto;
+        width: pxToRem(440px);
+        height: pxToRem(109px);
+        &:before {
+            content: '';
+        }
+    }
+    
 }
 .hidden {
     display: none !important;
