@@ -7,8 +7,8 @@
         hasShowResult = false, //是否已显示游戏结果
         baseInfo = Util.getSession(Util.baseInfo),
         token = Util.getSession(Util.token),
-        code = Util.getParam("code"),
-        countInterval = null;
+        code = Util.getParam("code");
+    // countInterval = null;
     // var roomData; //房间数据
     // 当前座位模式
     var CURRENT_MODE = [];
@@ -23,6 +23,8 @@
         gamer = Util.getSession('gamer'); //array 闲家的座位号
     // 位置模式, 座位，从左下角当前登录者开始，顺时针布局
     var SEAT_MODE = GameApi.SEAT_MODE;
+
+    var throttleCountdown;
 
 
     /** 主要初始化 */
@@ -51,14 +53,20 @@
                 initEmptySeat(roomData);
             });
 
+
+
+            throttleCountdown = Util.throttle(function(count, cb) {
+                countDown(count, cb)
+            }, 20 * 1000)
+
             setInterval(function() {
                 getRoomDetail({ useResult: true, random: false }, function(roomData) {
                     getUserOfRoom(roomData);
                 });
             }, 1000);
             // //防外挂
-            // var antiPlug = new AntiPlug();
-            // antiPlug.show();
+            var antiPlug = new AntiPlug();
+            antiPlug.show();
         })();
 
         /**
@@ -111,10 +119,16 @@
                     Util.setSession('gameResultId', result.gameResultId);
 
                     gameResultId = result.gameResultId;
+
                 }
             );
 
         }
+        // var throttleCountdown = Util.throttle(function(count) {
+        //     countDown(count)
+        // }, 10 * 1000)
+
+
         /**
          * 根据状态初始化游戏页面
          * @param {*} data
@@ -144,11 +158,11 @@
                         //开奖中
                         // var gameResultDtoList = roomData.gameResultDtoList;
                         if (
-                            gameResultDtoList &&
-                            gameResultDtoList.length > 0
+                            gameResultList &&
+                            gameResultList.length > 0
                         ) {
                             //显示上一局游戏结果
-                            var result = gameResultDtoList[gameResultDtoList.length - 1],
+                            var result = gameResultList[gameResultList.length - 1],
                                 className = getResultClass(result.resultCode);
                             $(".an-game__bottom").attr("class", "an-game__bottom  " + className);
                             $(".an-game__cover")
@@ -184,16 +198,19 @@
                             }, 4000);
                         }
                     } else {
-
-
-
+                        $('.seat').removeClass('banker');
+                        $('.chip[data-type="move"]').remove();
                         $(".game-btns").attr("data-state", state)
                     }
 
                     break;
                 case 2:
                     //抢庄中
-                    countDown(10, function() {
+
+                    // countDown(10, function() {
+                    //     state == 2 && rob(0, true); //倒计时结束，状态未改变时自动提交
+                    // });
+                    throttleCountdown(10, function() {
                         state == 2 && rob(0, true); //倒计时结束，状态未改变时自动提交
                     });
                     break;
@@ -212,7 +229,12 @@
                         // $(".game-btn-db").hide();
                     }
                     //定宝
-                    countDown(20, function() {
+                    // countDown(20, function() {
+                    //     if (isBanker) {
+                    //         state == 4 && db();
+                    //     }
+                    // });
+                    throttleCountdown(20, function() {
                         if (isBanker) {
                             state == 4 && db();
                         }
@@ -223,7 +245,13 @@
                     $("#betBtnWrapper").attr("data-isbanker", isBanker);
                     if (!isBanker) {
                         $(".chip-group").show();
-                        countDown(15, function() {
+                        // countDown(15, function() {
+                        //     state == 5 && stopBet(true);
+                        //     $(".chip-group").hide();
+                        //     $(".game-btn-stop").hide();
+                        // });
+
+                        throttleCountdown(15, function() {
                             state == 5 && stopBet(true);
                             $(".chip-group").hide();
                             $(".game-btn-stop").hide();
@@ -241,7 +269,10 @@
                     //开宝中
                     if (isBanker) {
                         $(".game-btns").addClass("banker");
-                        countDown(10, function() {
+                        // countDown(10, function() {
+                        //     state == 6 && bankerOpen();
+                        // });
+                        throttleCountdown(10, function() {
                             state == 6 && bankerOpen();
                         });
                     } else {
@@ -264,16 +295,20 @@
                 resultWrappers = $('.result-wrapper');
             if (gameResultList && gameResultList.length > 0) {
                 gameResultList && gameResultList.forEach(function(item, index) {
-                    var className = getResultClass(item.resultCode)
-                    temp = '<i class="icon-result ' + className + '"></i>'
-                    if (index < 5) {
-                        firstRowTemp += temp;
-                    } else {
-                        secondRowTemp += temp;
+                    var className = getResultClass(item.resultCode),
+                        _resultIcon = $('#result' + item.id);
+                    if (!_resultIcon || _resultIcon.length === 0) {
+                        temp = '<i id="result' + item.id + '" class="icon-result ' + className + '"></i>'
+                        if (index < 5) {
+                            firstRowTemp += temp;
+                        } else {
+                            secondRowTemp += temp;
+                        }
                     }
+
                 });
-                resultWrappers.eq(0).html(firstRowTemp);
-                resultWrappers.eq(1).html(secondRowTemp);
+                resultWrappers.eq(0).append(firstRowTemp);
+                resultWrappers.eq(1).append(secondRowTemp);
             }
         }
 
@@ -323,10 +358,12 @@
                 });
         }
 
+
+
         function countDown(count, cb) {
+            // console.info('countdown--', count)
             $(".game-count-down").html(count);
-            if (countInterval) return;
-            countInterval = setInterval(function() {
+            var countInterval = setInterval(function() {
                 if (count == 1) {
                     cb && cb();
                     clearInterval(countInterval);
@@ -368,7 +405,8 @@
                 // 当前登录人下注
                 if (chip) {
                     // chip = +chip;
-                    var _total = totalChip + parseInt(chip)
+                    var _total = totalChip + parseInt(chip);
+                    // debugger
 
                     if (_total <= 100) {
                         totalChip += parseInt(chip);
@@ -376,7 +414,7 @@
                         // gameCode.push(value);
                         var x = e.clientX - 10,
                             y = e.clientY - 12;
-                        bets(0, chip, baseInfo.id, { x: x, y: y });
+                        bets(0, chip, null, { x: x, y: y });
                         toBet({ chip: chip, x: x, y: y, code: value });
                         $(".game-btn-chips").html(totalChip);
                     } else {
@@ -454,6 +492,8 @@
          * @param {Boolean} isAutoStop 是否倒计时结束自动调的接口
          */
         function stopBet(isAutoStop) {
+            $('.chip-group').hide();
+            $('.chip-group').find('.chip').removeClass('active');
             GameApi.stopBet({ roomId: roomId, isAutoStop: isAutoStop });
         }
         /**
@@ -532,6 +572,7 @@
                 resultCode: resultCode
             }, function() {
                 $('.game-banker-content').hide();
+                $('.game-banker-content').attr('class', 'game-banker-content').attr('data-select', '');
             });
         }
         /**
@@ -634,6 +675,7 @@
                 } else {
                     gamer.push(0);
                 }
+                console.info('test---',curUserStatus.robClass)
                 var curUserClass = "seat current-user " + curUserStatus.robClass + " " + curUserStatus.bankerClass,
                     $curUserSeat = $('#' + curUser.id);
                 // console.info('$curUserSeat----', $curUserSeat)
@@ -911,10 +953,17 @@
                 readyClass: "",
                 isBanker: false
             };
-            if (state == 2 && +data.isRob) {
+            if (state == 2) {
                 //state (integer): 游戏状态：1准备中、2抢庄中、3抢庄完成、4定宝中、5下注中、6开奖中
                 //isRob (integer): 是否抢庄：0未操作、1抢庄、2不抢
-                result.robClass = data.isRob == 1 ? "rob" : "norob";
+                // result.robClass = data.isRob == 1 ? "rob" : "norob";
+                
+                if(data.isRob == 1) {
+                    result.robClass = 'rob';
+                }
+                 if(data.isRob == 2) {
+                    result.robClass = 'norob';
+                }
             }
             if (data.userId && userIdOfRob && data.userId == userIdOfRob) {
                 result.bankerClass = "banker";
@@ -1108,9 +1157,14 @@
             var end = [endPos.x, endPos.y];
             // 初始化下注码
             // if ($chip.length <= 0) {
-            if ($('#' + id) && $('#' + id).length > 0) return; //防止重复渲染导致动画重复播放
+            if (id) {
+                var _chip = $('.chip[data-id="' + id + '"]');
+                if (_chip && _chip.length > 0) return; //防止重复渲染导致动画重复播放
+            }
+
             var $chip = $("<div/>")
-                .attr('id', id)
+                .attr('data-id', id)
+                .attr('data-type', 'move')
                 // .attr('id', 'chip_move' + seatIndex)
                 .addClass("chip")
                 .addClass("move")
