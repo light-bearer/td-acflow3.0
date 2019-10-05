@@ -7,7 +7,8 @@
         msgPager = {limit: Util.pager.limit, page: Util.pager.page},
         memberPager = {limit: Util.pager.limit, page: Util.pager.page},
         roomPager = {limit: Util.pager.limit, page: Util.pager.page},
-        integalPager = {limit: Util.pager.limit, page: Util.pager.page};
+        integalPager = {limit: Util.pager.limit, page: Util.pager.page},
+        detailPager = {limit: Util.pager.limit, page: Util.pager.page};
 
     var groups = [],
         currentGroup = '',
@@ -19,6 +20,7 @@
   /** 主要初始化 */
     var baseInfo = Util.getSession(Util.baseInfo),
       token = Util.getSession(Util.token);
+      console.log(baseInfo, token)
     if (!baseInfo ||  !token) {
         Util.auth(code, function(token) {
             Util.getUserInfo(function(data) {});
@@ -35,6 +37,10 @@
     $('.btn-groups').on('click', '.btn', function(e) {
         var $target = $(e.currentTarget),
         _btn = $target.attr('data-type');
+        if (groups.length <= 0) {
+            Util.toast('请先创建或者加入俱乐部');
+            return;
+        }
         switch(_btn) {
             case 'gametype':
                 eventGametype();
@@ -62,6 +68,9 @@
                 break;
             case 'jfph': 
                 eventJFPH();
+                break;
+            case 'detail':
+                eventDetail();
                 break;
                 
         }
@@ -258,6 +267,24 @@
         integalPager.page += 1;
         getIntegalDetail();
     });
+
+    // 详情 全部选择
+    $('.popup-detail').on('click', '.btn-all', function(e) {
+        $('.popup-detail').find('.row').removeClass('active').addClass('active');
+    })
+    // 详情，解除屏蔽
+    $('.popup-detail').on('click', '.btn-unshield', function(e) {
+        batckCancelScreen();
+    })
+    $('.popup-detail').on('click', '.row', function(e) {
+        var $target = $(e.currentTarget);
+        $target.hasClass('active') ? $target.removeClass('active') : $target.addClass('active');
+    })
+    // 详情，加载更多
+    $('.popup-detail').on('click', '.loadmore', function(e) {
+        detailPager.page += 1;
+        getDetailList();
+    })
     function initPage() {
         getListOfUser(function() {
             // 获取房间列表
@@ -293,17 +320,21 @@
                     + '</div>';
                 })
 
-                groupTemp += '<div class="room normal active" data-value="1">'
+                
+
+                if (groups.length > 0) {
+                    groupTemp += '<div class="room normal active" data-value="1">'
                            + ' <i class="icon-roomcard"></i>'
                            + '</div>'
                            + '<div class="room game" data-value="2">'
                            + '<i class="icon-cup"></i>'
                            + '</div>';
-                $('#room_scroll_wrapper').html(groupTemp);
-
-                // 展示当前俱乐部名称和id
-                $('#group_name').text(groups[currentGroup].name);
-                $('#group_num').html(groups[currentGroup].groupNumber);
+                    $('#room_scroll_wrapper').html(groupTemp);
+                    // 展示当前俱乐部名称和id
+                    $('#group_name').text(groups[currentGroup].name);
+                    $('#group_num').html(groups[currentGroup].groupNumber);
+                }
+                
                 cb && cb();
 
             } else {
@@ -323,6 +354,9 @@
     // }
     // 获取消息
     function getListOfStateAndGroup() {
+        if (groups.length <= 0) {
+            return;
+        }
         msgPager.page = msgPager.page < 1 ? 1: msgPager.page;
         Util.Ajax({
             url: Util.openAPI + "/app/groupUser/getListOfStateAndGroup",
@@ -737,6 +771,9 @@
     // 获取房间列表
     function getRoomListOfGroup() {
         roomPager.page = roomPager.page < 1 ? 1 : roomPager.page;
+        if (groups.length <= 0) {
+            return;
+        }
         Util.Ajax({
             url: Util.openAPI + "/app/room/getListOfGroup",
             type: "get",
@@ -819,7 +856,120 @@
             }
         });
     }
+    // 详情列表
+    function getDetailList() {
+        if (groups.length <= 0) {
+            return;
+        }
+        detailPager.page = detailPager.page < 1 ? 1 : detailPager.page;
+        Util.Ajax({
+            url: Util.openAPI + "/app/groupUser/getListOfStateAndGroup",
+            type: "get",
+            dataType: "json",
+            data: {
+                groupId: groups[currentGroup].id,
+                state: 2,
+                page: detailPager.page,
+                limit: detailPager.limit
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+                // console.log(data);
+                if (data.code === 0) {
+                    var $detail = $('.popup-detail'),
+                        $content = $detail.find('.popup-content-main'),
+                        $list = $content.find('.list-scroll');
+                    var _rows = data.data.rows, _temp = '';
+                    for(var i = 0; i < _rows.length; i++) {
+                        _temp += '<div class="row" data-id="' + _rows[i].id + '">'
+                        + '<div class="info-avator-wrapper">'
+                        + '<img src="' + _rows[i].userImg + '" alt="" id="creator_img">'
+                        + '</div>'
+                        + '<div class="info">'
+                        + '<p class="font-34">' + _rows[i].userNickName + '</p>'
+                        + '<p class="font-30">ID：' + _rows[i].userId + '</p>'
+                        + '</div>'
+                        + '</div>';
+                    }
+                    detailPager.page === 1  && $list.html('');
+                    $list.append(_temp);
+                    if (detailPager.limit * detailPager.page >= data.data.total) {
+                        $content.find('.nomore').show();
+                        $content.find('.loadmore').hide();
+                    } else {
+                        $content.find('.nomore').hide();
+                        $content.find('.loadmore').show();
+                    }
 
+                } else {
+                    detailPager.page -= 1;
+                    Util.toast(data.msg);
+                }
+            },
+            cbErr: function(e, xhr, type) {
+                    detailPager.page -= 1;
+                    Util.toast("查询失败，请稍后再试");
+            }
+        });
+    }
+    // 解除屏蔽
+    function batckCancelScreen() {
+        var $rows = $('.popup-detail .row.active');
+        if ($rows.length <= 0) {
+            Util.toast('请先选择组员');
+            return;
+        }
+        
+        var groupUserIds = [];
+        for(var i = 0; i < $rows.length; i ++) {
+            groupUserIds.push($($rows[i]).attr('data-id'));
+        }
+        Util.Ajax({
+            url: Util.openAPI + "/app/groupUser/batckCancelScreen",
+            type: "post",
+            dataType: "json",
+            data: {
+                id: groups[currentGroup].id,
+                groupUserIds: groupUserIds.join(',')
+            },
+            cbOk: function(data, textStatus, jqXHR) {
+                // console.log(data);
+                if (data.code === 0) {
+                    var $detail = $('.popup-detail'),
+                        $content = $detail.find('.popup-content-main'),
+                        $list = $content.find('.list-scroll');
+                    var _rows = data.data.rows, _temp = '';
+                    for(var i = 0; i < _rows.length; i++) {
+                        _temp += '<div class="row">'
+                        + '<div class="info-avator-wrapper">'
+                        + '<img src="' + _rows[i].userImg + '" alt="" id="creator_img">'
+                        + '</div>'
+                        + '<div class="info">'
+                        + '<p class="font-34">' + _rows[i].userNickName + '</p>'
+                        + '<p class="font-30">ID：' + _rows[i].userId + '</p>'
+                        + '</div>'
+                        + '</div>';
+                    }
+                    detailPager.page === 1  && $list.html('');
+                    $list.append(_temp);
+                    if (detailPager.limit * detailPager.page >= data.data.total) {
+                        $content.find('.nomore').show();
+                        $content.find('.loadmore').hide();
+                    } else {
+                        $content.find('.nomore').hide();
+                        $content.find('.loadmore').show();
+                    }
+
+                } else {
+                    detailPager.page -= 1;
+                    Util.toast(data.msg);
+                }
+            },
+            cbErr: function(e, xhr, type) {
+                    detailPager.page -= 1;
+                    Util.toast("查询失败，请稍后再试");
+            }
+        });
+    }
     // 消息
     function eventMsg() {
         $('.popup-msg').show();
@@ -877,6 +1027,11 @@
         }
         $panel.attr('data-status', 0);
         $panel.hide();
+    }
+    // 详情
+    function eventDetail() {
+        getDetailList();
+        $('.popup-detail').show();
     }
     // 选择群组
     function handleSelectGroup(e) {
@@ -958,6 +1113,53 @@
               Util.toast("获取成员数据失败！");
               GETTING_MEMBERS = false;
               memberPager.page -= 1;
+            }
+        });
+    }
+
+    function getJFPHList() {
+        jfphPager.page = jfphPager.page < 1 ? 1: jfphPager.page
+        var $panel = $('.jfph-panel');
+        if(GETTING_MEMBERS) {
+            return;
+        }
+        GETTING_MEMBERS = true;
+        Util.Ajax({
+            url: Util.openAPI + "/app/groupUser/getGroupUserList",
+            type: "get",
+            data: {
+                limit: jfphPager.limit,
+                page: jfphPager.page,
+                isOrderGrade: 1
+            },
+            dataType: "json",
+            cbOk: function(data, textStatus, jqXHR) {
+              // console.log(data);
+              if (data.code === 0) {
+                console.log(data)
+                var _temp = '';
+                if(jfphPager.page === 1) {
+                    $panel.find('.list-scroll').html('');
+                    }
+                    $panel.find('.list-scroll').append(_temp);
+                    if (jfphPager.limit * jfphPager.page >= data.data.total) {
+                        $panel.find('.nomore').show();
+                        $panel.find('.loadmore').hide();
+                    } else {
+                        $panel.find('.nomore').hide();
+                        $panel.find('.loadmore').show();
+                    }
+              } else {
+                jfphPager.page -= 1;
+                Util.toast(data.msg);
+              }
+              GETTING_MEMBERS = false;
+              
+            },
+            cbErr: function(e, xhr, type) {
+              Util.toast("获取成员数据失败！");
+              GETTING_MEMBERS = false;
+              jfphPager.page -= 1;
             }
         });
     }

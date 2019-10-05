@@ -276,6 +276,10 @@
                 config.beforeSend && config.beforeSend(xhr, settings);
             },
             success: function(data, textStatus, jqXHR) {
+                if (data.code === 401) {
+                    Util.setSession(TOKEN, '');
+                    Util.setSession(BASE_INFO, '');
+                }
                 config.cbOk && config.cbOk(data, textStatus, jqXHR);
             },
             error: function(e, xhr, type) {

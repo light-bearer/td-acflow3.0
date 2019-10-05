@@ -841,6 +841,7 @@
             overflow: auto;
         }
         @at-root .loadmore {
+            display: none;
             height: pxToRem(118px);
             line-height: pxToRem(118px);
             text-align: center;
@@ -848,6 +849,7 @@
             font-size: pxToRem(30px);
         }
         @at-root .nomore {
+            display: none;
             background: url("../images/club/bg_detail_bottom.png") no-repeat center;
             background-size: contain;
             width: pxToRem(302px);
@@ -964,10 +966,14 @@
     right: 0;
     background: url("../images/mycard/bg_mycard.png") no-repeat center;
     background: cover;
-    overflow: auto;
+    // overflow: auto;
     .panel-content {
-        position: relative;
-        padding-top: pxToRem(54px);
+        position: absolute;
+        top: pxToRem(54px);
+        right:0;
+        bottom: 0;
+        left: 0;
+        overflow: auto;
         .rank-item {
             height: pxToRem(150px);
             background: url("../images/club/m_bg_item.png") no-repeat center;
@@ -1030,7 +1036,6 @@
 
 // 详情
 .popup-detail {
-    display: block;
     @extend .popup-multi;
     .popup-content {
         width: pxToRem(467px);
@@ -1047,6 +1052,7 @@
         top: percent(97, 768);
         bottom: percent(10, 768);
         padding: pxToRem(7px) 0;
+        overflow: auto;
         
     }
     .btn-group {
@@ -1071,6 +1077,7 @@
         height: 100%;
     }
     .row {
+        position: relative;
         display: flex;
         align-items: center;
         line-height:pxToRem(44px);
@@ -1081,8 +1088,37 @@
         margin: 0 auto;
         width: pxToRem(440px);
         height: pxToRem(109px);
+        padding-left: pxToRem(129px);
+        &.active {
+            &:before {
+                background-image: url("../images/club/bg_circle.png");
+            }
+        }
         &:before {
             content: '';
+            position: absolute;
+            top: 50%;
+            left: pxToRem(31px);
+            width: pxToRem(68px);
+            height: pxToRem(68px);
+            transform: translate(0, -50%);
+            
+            background-repeat: repeat;
+            background-size: contain;
+            background-position: center;
+            background-image: url("../images/club/bg_circle_black.png");
+        }
+        .info-avator-wrapper {
+            width: pxToRem(90px);
+            height: pxToRem(90px);
+            margin-right: pxToRem(12px);
+        }
+        .info {
+            width: pxToRem(198px);
+            p {
+                @include ellipsis;
+            }
+
         }
     }
     
