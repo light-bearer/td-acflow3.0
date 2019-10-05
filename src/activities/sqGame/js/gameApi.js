@@ -697,7 +697,7 @@
                     "<li><span>" +
                     item.resultName +
                     "</span><span>" +
-                    item.winMoney +
+                    item.betMoney +
                     "</span></li>";
             });
         return temp;

@@ -271,7 +271,6 @@
                 }
                 // console.info('token---', window.sessionStorage[TOKEN], Util.getSession(TOKEN))
                 xhr.setRequestHeader("token", Util.getSession(TOKEN));
-                // xhr.setRequestHeader("token", window.sessionStorage[TOKEN]);
 
                 config.beforeSend && config.beforeSend(xhr, settings);
             },
@@ -627,6 +626,23 @@
         return url;
     }
 
+    function throttle(func, wait) {
+        var context, args;
+        var previous = 0;
+
+        return function() {
+            var now = +new Date();
+            context = this;
+            args = arguments;
+            // console.info(now - previous, wait)
+            if (now - previous > wait) {
+                // console.info('apply--', func);
+                func && func.apply(context, args);
+                previous = now;
+            }
+        }
+    }
+
 
     var Util = {
         token: TOKEN,
@@ -648,7 +664,8 @@
         auth: auth,
         getUserInfo: getUserInfo,
         wxConfig: wxConfig,
-        getParamsOfGame: getParamsOfGame
+        getParamsOfGame: getParamsOfGame,
+        throttle: throttle
     };
     global.Util = Util;
 })(window);

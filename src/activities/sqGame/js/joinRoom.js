@@ -35,7 +35,7 @@
                     $roomMsg.find("#numberOfGame").html(data.numberOfGame);
                     if (data.createUserId === userInfo.id) {
                         //创建者进入页面，直接跳到游戏页面
-                        // location.href = "./gameAnBao.html?id=" + roomId;
+                        location.href = "./gameAnBao.html?id=" + roomId;
                     }
                 } else {
                     Util.toast(data.msg);
