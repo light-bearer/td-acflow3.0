@@ -8,6 +8,7 @@
         memberPager = {limit: Util.pager.limit, page: Util.pager.page},
         roomPager = {limit: Util.pager.limit, page: Util.pager.page},
         integalPager = {limit: Util.pager.limit, page: Util.pager.page},
+        jfphPager = {limit: Util.pager.limit, page: Util.pager.page},
         detailPager = {limit: Util.pager.limit, page: Util.pager.page};
 
     var groups = [],
@@ -1023,6 +1024,9 @@
         if (status === '0') {
             $panel.attr('data-status', 1);
             $panel.show();
+            if ($panel.find('.rank-item').length <= 0) {
+                getJFPHList();
+            }
             return;
         }
         $panel.attr('data-status', 0);
@@ -1093,15 +1097,28 @@
                 var _temp = '';
                 if(memberPager.page === 1) {
                     $pmember.find('.list-scroll').html('');
-                    }
-                    $pmember.find('.list-scroll').append(_temp);
-                    if (memberPager.limit * memberPager.page >= data.data.total) {
-                        $pmember.find('.nomore').show();
-                        $pmember.find('.loadmore').hide();
-                    } else {
-                        $pmember.find('.nomore').hide();
-                        $pmember.find('.loadmore').show();
-                    }
+                }
+                var _rows = data.data.rows, _group = groups[currentGroup];
+                for(var i = 0; i < _rows.length; i ++) {
+                    _temp += '<div class="member-item ' + (_rows[i].isGroup == 2 ? 'owner': '') + '">'
+                    + '<div class="info-avator-wrapper">'
+                    + '<img src="' + _rows[i].userImg + '"/>'
+                    + '</div>'
+                    + '<div class="member-info">'
+                    + '<p>' + _rows[i].userNickName + '</p>'
+                    + '<p>ID:' + _rows[i].memberNumber + '</p>'
+                    + '</div>'
+                    + (_rows[i].isGroup != 2 ? '<div class="btn-remove"></div>': '')
+                    + '</div>';
+                }
+                $pmember.find('.list-scroll').append(_temp);
+                if (memberPager.limit * memberPager.page >= data.data.total) {
+                    $pmember.find('.nomore').show();
+                    $pmember.find('.loadmore').hide();
+                } else {
+                    $pmember.find('.nomore').hide();
+                    $pmember.find('.loadmore').show();
+                }
               } else {
                 memberPager.page -= 1;
                 Util.toast(data.msg);
@@ -1140,15 +1157,24 @@
                 var _temp = '';
                 if(jfphPager.page === 1) {
                     $panel.find('.list-scroll').html('');
-                    }
-                    $panel.find('.list-scroll').append(_temp);
-                    if (jfphPager.limit * jfphPager.page >= data.data.total) {
-                        $panel.find('.nomore').show();
-                        $panel.find('.loadmore').hide();
-                    } else {
-                        $panel.find('.nomore').hide();
-                        $panel.find('.loadmore').show();
-                    }
+                }
+                var _rows = data.data.rows, _group = groups[currentGroup];
+                for(var i = 0; i < _rows.length; i ++) {
+                    _temp += '<div class="rank-item">'
+                    + '<div class="row">'
+                    + '<div>1</div><div>ohayooo</div><div>3762346</div><div>0</div><div>0</div><div>0</div><div>0</div>'
+                    + '</div>'
+                    + '<div class="row"><div>总分:</div><div class="total-score">0</div></div>'
+                + '</div>';
+                }
+                $panel.find('.list-scroll').append(_temp);
+                if (jfphPager.limit * jfphPager.page >= data.data.total) {
+                    $panel.find('.nomore').show();
+                    $panel.find('.loadmore').hide();
+                } else {
+                    $panel.find('.nomore').hide();
+                    $panel.find('.loadmore').show();
+                }
               } else {
                 jfphPager.page -= 1;
                 Util.toast(data.msg);
@@ -1199,7 +1225,8 @@
             title = $('<i/>').addClass('icon-title').css({
                 'backgroundImage': 'url("'+ _options.title + '")'
             }),
-            inputwrapper = $('<div/>').addClass('input-wrapper'),
+            // inputwrapper = $('<div/>').addClass('input-wrapper'),
+            inputwrapper = $('<div/>').addClass('common-input-wrapper'),
             input = $('<input/>').addClass('common-input').attr('placeholder', _options.placeholder),
 
             btn = $('<div/>').addClass('btn-confirm-yellow');

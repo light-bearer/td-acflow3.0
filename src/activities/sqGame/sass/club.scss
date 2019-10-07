@@ -5,6 +5,22 @@
 .align-left {
     text-align: left;
 }
+.input-wrapper {
+    background:rgba(71,42,26,1);
+    // box-shadow:0px pxToRem(3px) pxToRem(5px) 0px rgba(51,33,22,0.92);
+    border-radius: pxToRem(10px);
+    width: pxToRem(250px);
+    height: pxToRem(64px);
+    display: flex;
+    align-items: center;
+    input {
+        background: transparent;
+        color: #fff;
+        font-size: pxToRem(28px);
+        width: 100%;
+        padding: 0 pxToRem(16px);
+    }
+}
 .mc-content {
     padding-top: pxToRem(243px);
     padding-bottom: pxToRem(266px);
@@ -422,7 +438,7 @@
         // .txt-create-club {
         //     background-image: url("../images/club/txt_create_club.png");
         // }
-        .input-wrapper {
+        .common-input-wrapper {
             text-align: center;
         }
         .common-input {
@@ -486,22 +502,10 @@
             right: pxToRem(11px);
         }
         .input-wrapper {
-            background:rgba(71,42,26,1);
-            // box-shadow:0px pxToRem(3px) pxToRem(5px) 0px rgba(51,33,22,0.92);
-            border-radius: pxToRem(10px);
-            width: pxToRem(250px);
-            height: pxToRem(64px);
-
             position: absolute;
             top: pxToRem(119px);
             left: pxToRem(207px);
-            input {
-                background: transparent;
-                color: #fff;
-                font-size: pxToRem(28px);
-                width: 100%;
-                padding: 0 pxToRem(16px);
-            }
+            
         }
         
         .checkbox-radio-wrapper {
@@ -684,7 +688,7 @@
         .txt-member {
             height: percent(52, 950);
             top: percent(44, 950);
-            background-image: url("../images/club/m_title.png");
+            background-image: url("../images/club/txt_member.png");
         }
         @at-root .member-list {
             width: pxToRem(677px);
@@ -932,13 +936,34 @@
         height:pxToRem(59px);
         &.select {
             width: pxToRem(148px);
-            .icon-select {
+            color: #fff;
+            &:after {
+                content: '';
                 position: absolute;
                 // top: 50%;
                 top: 0;
                 right: pxToRem(-44px);
+                display: block;
+                background: url("../images/club/select.png") no-repeat center;
+                background-size: contain;
+                width: pxToRem(64px); 
+                height: pxToRem(64px);
                 // transform: translate(0, -50%);
             }
+            select {
+                -webkit-appearance: none;
+                background: transparent;
+                border: none;
+                font-size: pxToRem(35px);
+                color: #fff;
+            }
+        }
+    }
+    .input-wrapper {
+        height: pxToRem(59px);
+        input {
+            font-size: pxToRem(35px);
+            text-align: center;
         }
     }
     .row {
@@ -947,6 +972,8 @@
         font-size: pxToRem(30px);
         padding: 0 pxToRem(26px) pxToRem(26px);
         &>div:first-of-type {
+            display: flex;
+            align-items: center;
             width: pxToRem(213px);
         }
     }

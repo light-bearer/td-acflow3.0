@@ -60,12 +60,12 @@
             <div class="row rank-th"><div>排名</div><div>昵称</div><div>ID</div><div>大赢家</div><div>100分</div><div>300分</div><div>500分</div></div>
             <div class="panel-content">
                 <div class="list-scroll">
-                    <div class="rank-item"> 
+                    <!-- <div class="rank-item"> 
                         <div class="row">
                             <div>1</div><div>ohayooo</div><div>3762346</div><div>0</div><div>0</div><div>0</div><div>0</div>
                         </div>
                         <div class="row"><div>总分:</div><div class="total-score">0</div></div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="loadmore"></div>
                 <div class="nomore"></div>
@@ -310,11 +310,18 @@
             <i class="icon-close"></i>
             <i class="icon-title txt-limit"></i>
             <div class="popup-content-main">
-                <div class="row"><div>参与游戏分数</div><div class="display-wrapper">2000</div></div>
-                <div class="row"><div>参与游戏抢庄</div><div class="display-wrapper">1000</div></div>
-                <div class="row"><div>最低游戏分数</div><div class="display-wrapper">0</div></div>
-                <div class="row"><div>表情赠送</div><div class="display-wrapper select">大赢家 <i class="icon-select"></i></div></div>
-                <div class="row"><div>大赢家</div><div class="display-wrapper">1</div></div>
+                <div class="row"><div>参与游戏分数</div><div class="input-wrapper"><input placeholder="请输入数字" value="2000"></input></div></div>
+                <div class="row"><div>参与游戏抢庄</div><div class="input-wrapper"><input placeholder="请输入数字" value="1000"></input></div></div>
+                <div class="row"><div>最低游戏分数</div><div class="input-wrapper"><input placeholder="请输入数字" value="0"></input></div></div>
+                <!-- <div class="row"><div>表情赠送</div><div class="display-wrapper select">大赢家 <i class="icon-select"></i></div></div> -->
+                <div class="row"><div>表情赠送</div><div class="display-wrapper select">
+                        <select>
+                    <option value="大赢家">大赢家</option>
+                    <option value="二赢家">两个赢家</option>
+                    <option value="三赢家">三个赢家</option>
+                    <option value="所有赢家">所有赢家</option>
+                </select></div></div>
+                <div class="row"><div>大赢家</div><div class="input-wrapper"><input placeholder="请输入数字" value="1"></input></div></div>
             </div>
             <div class="btn-group">
                 <div class="btn-confirm-yellow"></div>
