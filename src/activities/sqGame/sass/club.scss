@@ -311,10 +311,15 @@
                         transform: translate(-50%, -50%);
                     }
                 } 
+                p {
+                    @include ellipsis();
+                    text-align: center;
+                }
                 .grade {
                     font-size: pxToRem(20px);
                     padding-top: pxToRem(10px);
                 }
+                
             }
 
            .icon-roomcard {
@@ -874,7 +879,7 @@
         &.th {
             color: #EAC3AA;
             height: pxToRem(75px);
-            line-height: pxToRem(75px);
+            // line-height: pxToRem(75px);
             font-size: pxToRem(35px);
 
             position: absolute;
@@ -885,13 +890,15 @@
         &.tr {
             color: #fff;
             height: pxToRem(114px);
-            line-height: pxToRem(114px);
+            // line-height: pxToRem(114px);
             font-size: pxToRem(24px);
             background-color: #352121;
             margin-bottom: pxToRem(10px);
             
         }
         &>div {
+            // display: flex;
+            // align-items: center;
             &:first-of-type {
                 width: pxToRem(120px);
             }
@@ -928,6 +935,26 @@
         top: percent(113, 881);
         bottom: percent(120, 881);
         padding: pxToRem(55px) 0;
+        &[data-give="1"] {
+            .give-count2, .give-count3, .give-count4 {
+                display: none;
+            }
+        }
+        &[data-give="2"] {
+            .give-count1, .give-count3, .give-count4 {
+                display: none;
+            }
+        }
+        &[data-give="3"] {
+            .give-count1, .give-count4 {
+                display: none;
+            }
+        }
+        &[data-give="4"] {
+            .give-count1 {
+                display: none;
+            }
+        }
         
     }
     .display-wrapper {

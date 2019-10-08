@@ -309,19 +309,22 @@
         <div class="popup-content">
             <i class="icon-close"></i>
             <i class="icon-title txt-limit"></i>
-            <div class="popup-content-main">
-                <div class="row"><div>参与游戏分数</div><div class="input-wrapper"><input placeholder="请输入数字" value="2000"></input></div></div>
-                <div class="row"><div>参与游戏抢庄</div><div class="input-wrapper"><input placeholder="请输入数字" value="1000"></input></div></div>
-                <div class="row"><div>最低游戏分数</div><div class="input-wrapper"><input placeholder="请输入数字" value="0"></input></div></div>
+            <div class="popup-content-main cfdf-form" data-give="1">
+                <div class="row"><div>参与游戏分数</div><div class="input-wrapper"><input id="joinGrade" placeholder="请输入数字" value="0"></input></div></div>
+                <div class="row"><div>参与游戏抢庄</div><div class="input-wrapper"><input id="robGrade" placeholder="请输入数字" value="0"></input></div></div>
+                <div class="row"><div>最低游戏分数</div><div class="input-wrapper"><input id="lowestGrade" placeholder="请输入数字" value="0"></input></div></div>
                 <!-- <div class="row"><div>表情赠送</div><div class="display-wrapper select">大赢家 <i class="icon-select"></i></div></div> -->
                 <div class="row"><div>表情赠送</div><div class="display-wrapper select">
-                        <select>
-                    <option value="大赢家">大赢家</option>
-                    <option value="二赢家">两个赢家</option>
-                    <option value="三赢家">三个赢家</option>
-                    <option value="所有赢家">所有赢家</option>
+                    <select>
+                    <option value="1">所有赢家</option>
+                    <option value="2">大赢家</option>
+                    <option value="3">两个赢家</option>
+                    <option value="4">三个赢家</option>
                 </select></div></div>
-                <div class="row"><div>大赢家</div><div class="input-wrapper"><input placeholder="请输入数字" value="1"></input></div></div>
+                <div class="row give-count1"><div>所有赢家</div><div class="input-wrapper"><input placeholder="请输入数字" value="1"></input></div></div>
+                <div class="row give-count2"><div>大赢家</div><div class="input-wrapper"><input placeholder="请输入数字" value="1"></input></div></div>
+                <div class="row give-count3"><div>二赢家</div><div class="input-wrapper"><input placeholder="请输入数字" value="1"></input></div></div>
+                <div class="row give-count4"><div>三赢家</div><div class="input-wrapper"><input placeholder="请输入数字" value="1"></input></div></div>
             </div>
             <div class="btn-group">
                 <div class="btn-confirm-yellow"></div>

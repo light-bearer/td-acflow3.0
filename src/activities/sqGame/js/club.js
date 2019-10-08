@@ -745,11 +745,11 @@
             cbOk: function(data, textStatus, jqXHR) {
             // console.log(data);
             if (data.code === 0) {
-                var _rows = data.data.row, _temp = '';
+                var _rows = data.data.rows, _temp = '';
                 for(var i = 0; i < _rows.length; i ++) {
                     _temp += '<div class="row tr"><div>' + _rows[i].type +'</div><div>'+ _rows[i].count +'</div><div>'+ _rows[i].nickName +'</div><div>' + _rows[i].createTime + '</div></div>';
                 }
-                integalPager.page === 1  && $('.room-list').html('');
+                integalPager.page === 1  && $detail.find('.list-main').html('');
                 $detail.find('.list-main').append(_temp);
                 if (integalPager.limit * integalPager.page >= data.data.total) {
                     $detail.find('.nomore').show();
@@ -1015,6 +1015,7 @@
     }
     // 抽分调分
     function eventCFDF() {
+        getCFDF_info();
         $('.popup-cfdf').show();
     }
     // 积分排行
@@ -1087,7 +1088,8 @@
             type: "get",
             data: {
                 limit: memberPager.limit,
-                page: memberPager.page
+                page: memberPager.page,
+                groupId: groups[currentGroup].id,
             },
             dataType: "json",
             cbOk: function(data, textStatus, jqXHR) {
@@ -1134,6 +1136,33 @@
         });
     }
 
+    // 抽分调分，群组详情
+    function getCFDF_info() {
+        Util.Ajax({
+            url: Util.openAPI + "/app/group/get",
+            type: "get",
+            data: {
+                id: groups[currentGroup].id,
+            },
+            dataType: "json",
+            cbOk: function(data, textStatus, jqXHR) {
+              // console.log(data);
+              if (data.code === 0) {
+               console.log(data)
+               var form = data.data, $form = $('.cfdf-form');
+               
+              } else {
+                Util.toast(data.msg);
+              }
+              
+            },
+            cbErr: function(e, xhr, type) {
+              Util.toast("获取群组详情失败！");
+              
+            }
+        });
+    }
+
     function getJFPHList() {
         jfphPager.page = jfphPager.page < 1 ? 1: jfphPager.page
         var $panel = $('.jfph-panel');
@@ -1147,6 +1176,7 @@
             data: {
                 limit: jfphPager.limit,
                 page: jfphPager.page,
+                groupId: groups[currentGroup].id,
                 isOrderGrade: 1
             },
             dataType: "json",
