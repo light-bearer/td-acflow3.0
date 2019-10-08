@@ -25,6 +25,7 @@
     var SEAT_MODE = GameApi.SEAT_MODE;
 
     var throttleCountdown;
+    window.globalState = 1;
 
 
     /** 主要初始化 */
@@ -136,7 +137,9 @@
         function initGame(roomData, gamersData) {
 
             var state = roomData.state;
+            window.globalState = roomData.state;;
             $(".game-btns").attr("data-state", state);
+
             // var userInfo = Util.getSession(Util.baseInfo),
             var isBanker = baseInfo.id == gamersData.userIdOfRob;
             //当前参与人数少于2时，不能进行游戏
@@ -147,8 +150,13 @@
             }
             $('.game-btn-action').attr('data-disable', 'false');
             var gameResultList = roomData.gameResultDtoList;
+            var _bankerContent = $(".game-banker-content");
+            if (state != 4) {
+                _bankerContent.hide();
+            }
 
             switch (state) {
+
                 case 1:
                     //准备中
                     var curUser = gamersData.roomUserDtoList && gamersData.roomUserDtoList.filter(item => baseInfo.id === item.userId) || {};
@@ -193,7 +201,10 @@
                                 GameApi.provideFinish({
                                     roomId: roomId
                                 }, function() {
-                                    $('.seat').removeClass('banker')
+                                    //状态修改完毕后重置页面部分元素状态
+                                    $('.seat').removeClass('banker');
+                                    $(".money-track-group").hide();
+                                    $(".an-game__cover").removeClass("slideOutRight")
                                 });
                             }, 4000);
                         }
@@ -210,19 +221,28 @@
                     // countDown(10, function() {
                     //     state == 2 && rob(0, true); //倒计时结束，状态未改变时自动提交
                     // });
+
                     throttleCountdown(10, function() {
-                        state == 2 && rob(0, true); //倒计时结束，状态未改变时自动提交
+                        console.info('window--111--', window.globalState)
+                            //使用全部变量，避开闭包
+                        window.globalState === 2 && rob(0, true); //倒计时结束，状态未改变时自动提交
+
                     });
                     break;
                 case 3:
                     // 抢庄完成：这里要调用动态效果，轮询定庄，定完庄后，调用接口修改房间状态；
                     creatBankerTrack();
-                    GameApi.updateState(roomId);
+                    GameApi.updateState(roomId, function() {
+                        setTimeout(function() {
+                            $('.money-track-group').hide();
+                        }, 500);
+                    });
                     break;
                 case 4:
-                    var _bankerContent = $(".game-banker-content");
+
                     $('.game-btn-db').attr('data-isbanker', isBanker);
                     if (isBanker) {
+                        console.info('show game-banker-content  ', state, isBanker)
                         _bankerContent.show();
                     } else {
                         _bankerContent.hide();
@@ -236,7 +256,7 @@
                     // });
                     throttleCountdown(20, function() {
                         if (isBanker) {
-                            state == 4 && db();
+                            window.globalState === 4 && db();
                         }
                     });
                     break;
@@ -252,7 +272,7 @@
                         // });
 
                         throttleCountdown(15, function() {
-                            state == 5 && stopBet(true);
+                            window.globalState === 5 && stopBet(true);
                             $(".chip-group").hide();
                             $(".game-btn-stop").hide();
                         });
@@ -273,7 +293,7 @@
                         //     state == 6 && bankerOpen();
                         // });
                         throttleCountdown(10, function() {
-                            state == 6 && bankerOpen();
+                            window.globalState === 6 && bankerOpen();
                         });
                     } else {
                         $(".game-btns").removeClass("banker");
@@ -287,6 +307,7 @@
                     //游戏已完成
                     location.href = "./gameOver.html?roomNumber=" + roomNumber;
                     break;
+
 
             }
             // var gameResultList = roomData.gameResultDtoList,
@@ -675,7 +696,7 @@
                 } else {
                     gamer.push(0);
                 }
-                console.info('test---',curUserStatus.robClass)
+                // console.info('test---', curUserStatus.robClass)
                 var curUserClass = "seat current-user " + curUserStatus.robClass + " " + curUserStatus.bankerClass,
                     $curUserSeat = $('#' + curUser.id);
                 // console.info('$curUserSeat----', $curUserSeat)
@@ -957,11 +978,11 @@
                 //state (integer): 游戏状态：1准备中、2抢庄中、3抢庄完成、4定宝中、5下注中、6开奖中
                 //isRob (integer): 是否抢庄：0未操作、1抢庄、2不抢
                 // result.robClass = data.isRob == 1 ? "rob" : "norob";
-                
-                if(data.isRob == 1) {
+
+                if (data.isRob == 1) {
                     result.robClass = 'rob';
                 }
-                 if(data.isRob == 2) {
+                if (data.isRob == 2) {
                     result.robClass = 'norob';
                 }
             }
@@ -1044,7 +1065,6 @@
             $(".money-track-group").append($track);
         }
         //抢庄特效
-
         function creatBankerTrack() {
             var start = $(".an-game__cover").offset(),
                 // end = $(".banker").offset();
