@@ -5,6 +5,22 @@
 .align-left {
     text-align: left;
 }
+.input-wrapper {
+    background:rgba(71,42,26,1);
+    // box-shadow:0px pxToRem(3px) pxToRem(5px) 0px rgba(51,33,22,0.92);
+    border-radius: pxToRem(10px);
+    width: pxToRem(250px);
+    height: pxToRem(64px);
+    display: flex;
+    align-items: center;
+    input {
+        background: transparent;
+        color: #fff;
+        font-size: pxToRem(28px);
+        width: 100%;
+        padding: 0 pxToRem(16px);
+    }
+}
 .mc-content {
     padding-top: pxToRem(243px);
     padding-bottom: pxToRem(266px);
@@ -422,7 +438,7 @@
         // .txt-create-club {
         //     background-image: url("../images/club/txt_create_club.png");
         // }
-        .input-wrapper {
+        .common-input-wrapper {
             text-align: center;
         }
         .common-input {
@@ -486,22 +502,10 @@
             right: pxToRem(11px);
         }
         .input-wrapper {
-            background:rgba(71,42,26,1);
-            // box-shadow:0px pxToRem(3px) pxToRem(5px) 0px rgba(51,33,22,0.92);
-            border-radius: pxToRem(10px);
-            width: pxToRem(250px);
-            height: pxToRem(64px);
-
             position: absolute;
             top: pxToRem(119px);
             left: pxToRem(207px);
-            input {
-                background: transparent;
-                color: #fff;
-                font-size: pxToRem(28px);
-                width: 100%;
-                padding: 0 pxToRem(16px);
-            }
+            
         }
         
         .checkbox-radio-wrapper {
@@ -684,7 +688,7 @@
         .txt-member {
             height: percent(52, 950);
             top: percent(44, 950);
-            background-image: url("../images/club/m_title.png");
+            background-image: url("../images/club/txt_member.png");
         }
         @at-root .member-list {
             width: pxToRem(677px);
@@ -841,6 +845,7 @@
             overflow: auto;
         }
         @at-root .loadmore {
+            display: none;
             height: pxToRem(118px);
             line-height: pxToRem(118px);
             text-align: center;
@@ -848,6 +853,7 @@
             font-size: pxToRem(30px);
         }
         @at-root .nomore {
+            display: none;
             background: url("../images/club/bg_detail_bottom.png") no-repeat center;
             background-size: contain;
             width: pxToRem(302px);
@@ -930,13 +936,34 @@
         height:pxToRem(59px);
         &.select {
             width: pxToRem(148px);
-            .icon-select {
+            color: #fff;
+            &:after {
+                content: '';
                 position: absolute;
                 // top: 50%;
                 top: 0;
                 right: pxToRem(-44px);
+                display: block;
+                background: url("../images/club/select.png") no-repeat center;
+                background-size: contain;
+                width: pxToRem(64px); 
+                height: pxToRem(64px);
                 // transform: translate(0, -50%);
             }
+            select {
+                -webkit-appearance: none;
+                background: transparent;
+                border: none;
+                font-size: pxToRem(35px);
+                color: #fff;
+            }
+        }
+    }
+    .input-wrapper {
+        height: pxToRem(59px);
+        input {
+            font-size: pxToRem(35px);
+            text-align: center;
         }
     }
     .row {
@@ -945,6 +972,8 @@
         font-size: pxToRem(30px);
         padding: 0 pxToRem(26px) pxToRem(26px);
         &>div:first-of-type {
+            display: flex;
+            align-items: center;
             width: pxToRem(213px);
         }
     }
@@ -964,10 +993,14 @@
     right: 0;
     background: url("../images/mycard/bg_mycard.png") no-repeat center;
     background: cover;
-    overflow: auto;
+    // overflow: auto;
     .panel-content {
-        position: relative;
-        padding-top: pxToRem(54px);
+        position: absolute;
+        top: pxToRem(54px);
+        right:0;
+        bottom: 0;
+        left: 0;
+        overflow: auto;
         .rank-item {
             height: pxToRem(150px);
             background: url("../images/club/m_bg_item.png") no-repeat center;
@@ -1030,7 +1063,6 @@
 
 // 详情
 .popup-detail {
-    display: block;
     @extend .popup-multi;
     .popup-content {
         width: pxToRem(467px);
@@ -1047,6 +1079,7 @@
         top: percent(97, 768);
         bottom: percent(10, 768);
         padding: pxToRem(7px) 0;
+        overflow: auto;
         
     }
     .btn-group {
@@ -1071,6 +1104,7 @@
         height: 100%;
     }
     .row {
+        position: relative;
         display: flex;
         align-items: center;
         line-height:pxToRem(44px);
@@ -1081,8 +1115,37 @@
         margin: 0 auto;
         width: pxToRem(440px);
         height: pxToRem(109px);
+        padding-left: pxToRem(129px);
+        &.active {
+            &:before {
+                background-image: url("../images/club/bg_circle.png");
+            }
+        }
         &:before {
             content: '';
+            position: absolute;
+            top: 50%;
+            left: pxToRem(31px);
+            width: pxToRem(68px);
+            height: pxToRem(68px);
+            transform: translate(0, -50%);
+            
+            background-repeat: repeat;
+            background-size: contain;
+            background-position: center;
+            background-image: url("../images/club/bg_circle_black.png");
+        }
+        .info-avator-wrapper {
+            width: pxToRem(90px);
+            height: pxToRem(90px);
+            margin-right: pxToRem(12px);
+        }
+        .info {
+            width: pxToRem(198px);
+            p {
+                @include ellipsis;
+            }
+
         }
     }
     
