@@ -191,7 +191,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        z-index: 13;
+        z-index: 104;
         background-repeat: no-repeat;
         &::before {
             content: "";
@@ -224,6 +224,7 @@
                 background-image: url("../images/anbao/result/gold_hu.png");
                 width: pxToRem(307px);
                 height: pxToRem(351px);
+                animation-name: breathY;
             }
         }
         &.chu,
@@ -246,6 +247,7 @@
                 background-image: url("../images/anbao/result/gold_ru.png");
                 width: pxToRem(327px);
                 height: pxToRem(202px);
+                animation-name: breathX;
             }
         }
         .row {
@@ -871,6 +873,7 @@
         background-color: rgba(0, 0, 0, 0.6);
         border-top-left-radius: pxToRem(10px);
         z-index: 10010;
+        padding: 0 pxToRem(30px) pxToRem(30px) pxToRem(30px);
         >li {
             width: 100%;
             height: pxToRem(90px);

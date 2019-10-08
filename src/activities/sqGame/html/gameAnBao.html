@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no" />
+    <meta name="viewport" content="initial-scale=1, user-scalable=0,
+            minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no" />
     <meta name="format-detection" content="telephone=no" />
     <title>暗宝</title>
     <!-- build:css ../css/common.css -->
@@ -28,8 +29,7 @@
         <i class="ab-txt"></i>
         <section class="ab-room">
             <p>
-                房号:<span id="roomNumber"></span>局数:<span id="number"></span
-          ><span id="type"></span>
+                房号:<span id="roomNumber"></span>局数:<span id="number"></span><span id="type"></span>
             </p>
             <p><span id="odds"></span>下注上限<span id="chipLimit"></span></p>
         </section>
@@ -37,7 +37,7 @@
         <div class="an-game-content"></div>
         <!-- zh-粘虎； zr-粘入；zl-粘龙；zc-粘出；j-角； ca-串；h-虎；r-入；cu-出；l-龙-->
         <div class="an-game-content fact">
-            <div class="an-game__bottom ">
+            <div class="an-game__bottom">
                 <div class="row slim">
                     <div id="item0" class="item" data-type="none"></div>
                     <div id="item_zh01" class="item" data-type="code" data-value="24"></div>
@@ -86,7 +86,8 @@
                     </div>
                 </div>
             </div>
-            <div class="an-game__top" style="background-image: url(../images/anbao/pic_game_center.png)"></div>
+            <div class="an-game__top" style="background-image:
+                    url(../images/anbao/pic_game_center.png)"></div>
             <div class="an-game__cover"></div>
         </div>
         <div class="game-banker-content">
@@ -100,7 +101,8 @@
                     <div class="gb-item" data-type="long"></div>
                 </li>
             </ul>
-            <div class="an-game__top" style="background-image: url(../images/anbao/pic_game_center.png)"></div>
+            <div class="an-game__top" style="background-image:
+                    url(../images/anbao/pic_game_center.png)"></div>
             <div class="an-game__cover"></div>
         </div>
         <!-- 座位号 -->
@@ -130,13 +132,15 @@
         <div class="game-btns">
             <!-- 准备 -->
             <div class="game-btn-count">0</div>
-            <div class="game-btn-action game-btn-yellow-small game-btn-ready" data-type="ready">
+            <div class="game-btn-action game-btn-yellow-small
+                    game-btn-ready" data-type="ready">
                 准备
             </div>
             <!-- 抢庄中 -->
             <div class="game-count-down"></div>
             <div class="flex-btns">
-                <div class="game-btn-rob game-btn-action game-btn-yellow-small" data-type="rob">
+                <div class="game-btn-rob game-btn-action
+                        game-btn-yellow-small" data-type="rob">
                     抢庄
                 </div>
                 <div class="game-btn-blue game-btn-norob game-btn-action" data-type="norob">
@@ -153,10 +157,12 @@
                 <div class="game-btn-blue game-btn-action game-btn-stop" data-type="stop">
                     停止下注
                 </div>
-                <div class="game-btn-yellow-big game-btn-action game-btn-chips">
+                <div class="game-btn-yellow-big game-btn-action
+                        game-btn-chips">
                     0
                 </div>
-                <div class="game-btn-yellow-big game-btn-action game-btn-statis" data-type="betStatis">
+                <div class="game-btn-yellow-big game-btn-action
+                        game-btn-statis" data-type="betStatis">
                     下注统计
                 </div>
             </div>
@@ -222,10 +228,21 @@
     <div class="msg-popup">
         <div class="msg-masker"></div>
         <ul class="msg-list">
-            <li data-type="1">压好请点停止下注</li>
+            <li data-name="潮汕人民感谢你送宝成功">潮汕人民感谢你送宝成功</li>
+            <li data-name="龙虎相争一出一入">龙虎相争一出一入</li>
+            <li data-name="马咯，拿来给阿兄输咯">马咯，拿来给阿兄输咯</li>
+            <li data-name="你们家开银行的">你们家开银行的</li>
+            <li data-name="你有老爷保佑，莫事个">你有老爷保佑，莫事个</li>
+            <li data-name="是想输一把，实力不允许啊">是想输一把，实力不允许啊</li>
+            <li data-name="哇，约了就准死">哇，约了就准死</li>
+            <li data-name="压出开入，压龙开虎，够衰">压出开入，压龙开虎，够衰</li>
+            <li data-name="压好请停止下注">压好请停止下注</li>
+            <li data-name="赢个甜筒输个冰箱">赢个甜筒输个冰箱</li>
+            <li data-name="整个潮汕你最成功">整个潮汕你最成功</li>
+
         </ul>
     </div>
-
+    <audio src="" id="gameAudio"></audio>
     <!-- <div class="popup-wrapper">
       <div class="tj-content popup-content">
           <i class="icon-close"></i>
@@ -244,7 +261,6 @@
 <script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/gameApi.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/antiPlug.js" type="text/javascript" charset="utf-8"></script>
-
 <script src="../js/gameAnbao.js" type="text/javascript" charset="utf-8"></script>
 
 </html>

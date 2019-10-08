@@ -7,7 +7,8 @@
         hasShowResult = false, //是否已显示游戏结果
         baseInfo = Util.getSession(Util.baseInfo),
         token = Util.getSession(Util.token),
-        code = Util.getParam("code");
+        code = Util.getParam("code"),
+        gameAudio = document.getElementById('gameAudio');
     // countInterval = null;
     // var roomData; //房间数据
     // 当前座位模式
@@ -24,7 +25,7 @@
     // 位置模式, 座位，从左下角当前登录者开始，顺时针布局
     var SEAT_MODE = GameApi.SEAT_MODE;
 
-    var throttleCountdown;
+    var throttleCountdown, throttleAudio;
     window.globalState = 1;
 
 
@@ -58,7 +59,11 @@
 
             throttleCountdown = Util.throttle(function(count, cb) {
                 countDown(count, cb)
-            }, 20 * 1000)
+            }, 20 * 1000);
+            throttleAudio = Util.throttle(function(url) {
+                playAudio(url);
+
+            }, 10 * 1000)
 
             setInterval(function() {
                 getRoomDetail({ useResult: true, random: false }, function(roomData) {
@@ -135,13 +140,14 @@
          * @param {*} data
          */
         function initGame(roomData, gamersData) {
-
             var state = roomData.state;
             window.globalState = roomData.state;;
             $(".game-btns").attr("data-state", state);
 
             // var userInfo = Util.getSession(Util.baseInfo),
             var isBanker = baseInfo.id == gamersData.userIdOfRob;
+
+
             //当前参与人数少于2时，不能进行游戏
             if (+roomData.joinUserCount < 2) {
                 // $(".game-btns").hide();
@@ -155,9 +161,11 @@
                 _bankerContent.hide();
             }
 
-            switch (state) {
+            switch (+state) {
 
                 case 1:
+
+
                     //准备中
                     var curUser = gamersData.roomUserDtoList && gamersData.roomUserDtoList.filter(item => baseInfo.id === item.userId) || {};
                     if (curUser[0].state == 3) {
@@ -176,19 +184,29 @@
                             $(".an-game__cover")
                                 .removeClass("slideOutRight")
                                 .addClass("slideOutRight");
-                            // hasShowResult = true;
-                            // ----- 测试赢钱 -------
+                            //播放音效
+                            playAudio('../media/process/' + result.resultCode +
+                                    '.m4a')
+                                // hasShowResult = true;
+                                // ----- 测试赢钱 -------
                             if (banker === undefined || banker === null || banker === '') return;
                             var bankerUser = getBanker(gamersData);
                             initTrack(banker, gamer);
+                            setTimeout(function() {
+                                if (+bankerUser.winInteger < 0) {
+                                    playAudio('../media/process/庄家派钱.mp3')
+                                } else {
+                                    playAudio('../media/process/庄家收钱.mp3')
+                                }
+                            }, 1000);
 
                             gamer.forEach(function(g) {
                                 // 如果闲家赢了就加上earn样式，否则就remove earn样式
                                 if (+bankerUser.winInteger < 0) {
                                     $("#track" + g + "_" + banker).addClass("earn");
-
                                 } else {
                                     $("#track" + g + "_" + banker).removeClass("earn");
+
 
                                 }
                             });
@@ -231,6 +249,7 @@
                     break;
                 case 3:
                     // 抢庄完成：这里要调用动态效果，轮询定庄，定完庄后，调用接口修改房间状态；
+                    throttleAudio('../media/process/叮.mp3');
                     creatBankerTrack();
                     GameApi.updateState(roomId, function() {
                         setTimeout(function() {
@@ -239,7 +258,7 @@
                     });
                     break;
                 case 4:
-
+                    //定宝
                     $('.game-btn-db').attr('data-isbanker', isBanker);
                     if (isBanker) {
                         console.info('show game-banker-content  ', state, isBanker)
@@ -248,12 +267,13 @@
                         _bankerContent.hide();
                         // $(".game-btn-db").hide();
                     }
-                    //定宝
                     // countDown(20, function() {
                     //     if (isBanker) {
                     //         state == 4 && db();
                     //     }
                     // });
+                    throttleAudio('../media/process/庄家定宝.m4a');
+
                     throttleCountdown(20, function() {
                         if (isBanker) {
                             window.globalState === 4 && db();
@@ -389,6 +409,11 @@
                     cb && cb();
                     clearInterval(countInterval);
                 }
+                if (window.globalState === 4 && count <= 8) {
+                    //庄家定宝：庄、闲家都调用庄家定宝.m4a，倒计时如果达到8秒，每1秒都调用一次定宝倒计时.m4a；
+                    playAudio('../media/process/定宝倒计时.mp3')
+
+                }
                 count--;
                 $(".game-count-down").html(count);
             }, 1000);
@@ -436,6 +461,8 @@
                         var x = e.clientX - 10,
                             y = e.clientY - 12;
                         bets(0, chip, null, { x: x, y: y });
+                        //播放下注音频
+                        playAudio('../media/process/下注.mp3');
                         toBet({ chip: chip, x: x, y: y, code: value });
                         $(".game-btn-chips").html(totalChip);
                     } else {
@@ -469,12 +496,16 @@
                     break;
                 case "rob":
                     //抢庄
+                    gameAudio.src = '../media/process/抢.m4a';
+                    gameAudio.play();
                     rob(1, false);
                     // $('#' + baseInfo.id).addClass('rob');
                     break;
                 case "norob":
                     //不抢庄
                     rob(2, false);
+                    gameAudio.src = '../media/process/不抢.m4a';
+                    gameAudio.play();
                     // $('#' + baseInfo.id).addClass('norob');
 
                     break;
@@ -492,6 +523,10 @@
                     break;
                 case "kb":
                     //开宝
+                    playAudio('../media/process/开宝.m4a');
+                    setTimeout(function() {
+                        playAudio('../media/process/开宝完成.mp3');
+                    }, 2000)
                     bankerOpen();
                     break;
             }
@@ -1219,6 +1254,8 @@
             // setTimeout(function(e) {
             //   $chip.remove();
             // }, 300);
+
+
         }
 
         $(".game-msg").on("click", function() {
@@ -1229,8 +1266,11 @@
         });
         $(".msg-list").on("click", "li", function() {
             var _target = $(this),
-                type = _target.attr("data-type");
+                name = _target.attr("data-name");
             $(".msg-masker").trigger("click");
+            gameAudio.src = "../media/talk/" + name + '.m4a';
+            gameAudio.play();
+
         });
 
 
@@ -1262,6 +1302,15 @@
                 // wx.updateAppMessageShareData(shareData);
                 // showDialog();
             });
+        }
+
+        function playAudio(url) {
+            wx && wx.getNetworkType({
+                complete: function(resp) {
+                    gameAudio.src = url;
+                    gameAudio.play().catch(function() {});
+                }
+            })
         }
     }
 })();
