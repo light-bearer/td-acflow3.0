@@ -308,6 +308,11 @@
             }
         })
     });
+    // 上分， 加载更多
+    $('.sf-pane').on('click', '.loadmore', function(e) {
+        sfPager.page += 1;
+        getSFList();
+    })
     // 详情 全部选择
     $('.popup-detail').on('click', '.btn-all', function(e) {
         $('.popup-detail').find('.row').removeClass('active').addClass('active');
