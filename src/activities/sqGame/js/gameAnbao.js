@@ -61,7 +61,7 @@
                 countDown(count, cb)
             }, 20 * 1000);
             throttleAudio = Util.throttle(function(url) {
-                playAudio(url);
+                playAudio(encodeURIComponent(url));
 
             }, 10 * 1000)
 
@@ -156,16 +156,16 @@
             }
             $('.game-btn-action').attr('data-disable', 'false');
             var gameResultList = roomData.gameResultDtoList;
+            gameResultList = gameResultList.sort(function(a, b) {
+                return a.numberOfGame - b.numberOfGame;
+            });
             var _bankerContent = $(".game-banker-content");
             if (state != 4) {
                 _bankerContent.hide();
             }
 
             switch (+state) {
-
                 case 1:
-
-
                     //准备中
                     var curUser = gamersData.roomUserDtoList && gamersData.roomUserDtoList.filter(item => baseInfo.id === item.userId) || {};
                     if (curUser[0].state == 3) {
@@ -180,10 +180,10 @@
                             //显示上一局游戏结果
                             var result = gameResultList[gameResultList.length - 1],
                                 className = getResultClass(result.resultCode);
-                            $(".an-game__bottom").attr("class", "an-game__bottom  " + className);
-                            $(".an-game__cover")
-                                .removeClass("slideOutRight")
-                                .addClass("slideOutRight");
+                            // $(".an-game__bottom").attr("class", "an-game__bottom  " + className);
+                            $(".an-game__bottom").addClass(className);
+                            $(".an-game__cover").addClass("slideOutRight");
+
                             //播放音效
                             playAudio('../media/process/' + result.resultCode +
                                     '.m4a')
@@ -198,20 +198,20 @@
                                 } else {
                                     playAudio('../media/process/庄家收钱.mp3')
                                 }
+                                gamer.forEach(function(g) {
+                                    // 如果闲家赢了就加上earn样式，否则就remove earn样式
+                                    if (+bankerUser.winInteger < 0) {
+                                        $("#track" + g + "_" + banker).addClass("earn");
+                                    } else {
+                                        $("#track" + g + "_" + banker).removeClass("earn");
+
+                                    }
+                                });
+                                $(".money-track-group").show();
+                                // ------ 测试赢钱 end ------
+
                             }, 1000);
 
-                            gamer.forEach(function(g) {
-                                // 如果闲家赢了就加上earn样式，否则就remove earn样式
-                                if (+bankerUser.winInteger < 0) {
-                                    $("#track" + g + "_" + banker).addClass("earn");
-                                } else {
-                                    $("#track" + g + "_" + banker).removeClass("earn");
-
-
-                                }
-                            });
-                            $(".money-track-group").show();
-                            // ------ 测试赢钱 end ------
 
                             setTimeout(function() {
                                 // $(".game-btns").attr("data-state", state)
@@ -222,24 +222,27 @@
                                     //状态修改完毕后重置页面部分元素状态
                                     $('.seat').removeClass('banker');
                                     $(".money-track-group").hide();
-                                    $(".an-game__cover").removeClass("slideOutRight")
+                                    $(".an-game__cover").removeClass("slideOutRight");
                                 });
                             }, 4000);
                         }
                     } else {
                         $('.seat').removeClass('banker');
                         $('.chip[data-type="move"]').remove();
-                        $(".game-btns").attr("data-state", state)
+                        $(".game-btns").attr("data-state", state);
+                        $('.chip-group').hide();
+                        totalChip = 0;
+                        $(".an-game__cover").removeClass("slideOutRight");
+                        $(".an-game__bottom").attr("class", "an-game__bottom ");
+
                     }
 
                     break;
                 case 2:
                     //抢庄中
-
                     // countDown(10, function() {
                     //     state == 2 && rob(0, true); //倒计时结束，状态未改变时自动提交
                     // });
-
                     throttleCountdown(10, function() {
                         console.info('window--111--', window.globalState)
                             //使用全部变量，避开闭包
@@ -272,7 +275,7 @@
                     //         state == 4 && db();
                     //     }
                     // });
-                    throttleAudio('../media/process/庄家定宝.m4a');
+                    // throttleAudio('../media/process/庄家定宝.m4a');
 
                     throttleCountdown(20, function() {
                         if (isBanker) {
@@ -409,7 +412,7 @@
                     cb && cb();
                     clearInterval(countInterval);
                 }
-                if (window.globalState === 4 && count <= 8) {
+                if (window.globalState === 4 && count <= 9) {
                     //庄家定宝：庄、闲家都调用庄家定宝.m4a，倒计时如果达到8秒，每1秒都调用一次定宝倒计时.m4a；
                     playAudio('../media/process/定宝倒计时.mp3')
 
@@ -511,6 +514,7 @@
                     break;
                 case "db":
                     //庄家定宝
+                    throttleAudio('../media/process/庄家定宝.m4a');
                     db();
                     break;
                 case "stop":
@@ -1305,12 +1309,19 @@
         }
 
         function playAudio(url) {
-            wx && wx.getNetworkType({
-                complete: function(resp) {
-                    gameAudio.src = url;
-                    gameAudio.play().catch(function() {});
-                }
-            })
+            url = decodeURIComponent(url);
+            if (wx) {
+                wx.getNetworkType({
+                    complete: function(resp) {
+                        gameAudio.src = url;
+                        gameAudio.play().catch(function() {});
+                    }
+                })
+            } else {
+                gameAudio.src = url;
+                gameAudio.play().catch(function() {});
+            }
+
         }
     }
 })();

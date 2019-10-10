@@ -198,17 +198,22 @@
             background-repeat: no-repeat;
             background-size: contain;
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            // top: 50%;
+            // left: 50%;
+            // transform: translate(-50%, -50%);
             animation: breath 1.5s linear both 2 1s;
-            // transform-origin: 0 0;
+            transform-origin: 50% 50%;
+            background-position: center;
         }
         &.long {
             &::before {
                 background-image: url("../images/anbao/result/gold_long.png");
-                width: pxToRem(282px);
-                height: pxToRem(338px);
+                background-size: pxToRem(282px) pxToRem(338px);
+                // height: pxToRem(338px);
             }
         }
         &.long,
@@ -216,14 +221,14 @@
             background-image: url("../images/anbao/game_result_right.png");
             background-size: pxToRem(428px) pxToRem(515px);
             background-position: right;
-            animation: resultAnit 1s ease-in both 3;
+            animation: resultAnit 1s steps(2, end) both 3;
         }
         &.hu {
             transform: rotateY(180deg);
             &::before {
                 background-image: url("../images/anbao/result/gold_hu.png");
-                width: pxToRem(307px);
-                height: pxToRem(351px);
+                background-size: pxToRem(307px) pxToRem(351px);
+                // height: pxToRem(351px);
                 animation-name: breathY;
             }
         }
@@ -232,21 +237,19 @@
             background-image: url("../images/anbao/game_result_top.png");
             background-size: pxToRem(484px) pxToRem(449px);
             background-position: top;
-            animation: resultAnit2 1s ease-in both 3;
+            animation: resultAnit 1s steps(2, end) both 3;
         }
         &.chu {
             &::before {
                 background-image: url("../images/anbao/result/gold_chu.png");
-                width: pxToRem(232px);
-                height: pxToRem(344px);
+                background-size: pxToRem(232px) pxToRem(344px);
             }
         }
         &.ru {
             transform: rotateX(180deg);
             &::before {
                 background-image: url("../images/anbao/result/gold_ru.png");
-                width: pxToRem(327px);
-                height: pxToRem(202px);
+                background-size: pxToRem(327px) pxToRem(202px);
                 animation-name: breathX;
             }
         }
@@ -618,7 +621,8 @@
     width: 100%;
     position: absolute;
     z-index: 100;
-    bottom: percent(100);
+    // bottom: percent(100);
+    bottom: pxToRem(100px);
     top: 80%;
     // bottom: 0;
     text-align: center;

@@ -52,7 +52,7 @@
                     console.log(data);
                     if (data.code === 0) {
                         // Util.setSession(TOKEN, "c060689f35c0423ca050691c23806db5");
-                        // Util.setSession(TOKEN, "9417832d2b944869918f58eb76239dbb");
+                        // Util.setSession(TOKEN, "bc2a5801401e4e51b2905f65d08e7bb1");
                         // Util.setSession(TOKEN, 1234);
 
 
