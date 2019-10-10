@@ -54,24 +54,8 @@
             <div class="loadmore">点击加载更多</div>
             <div class="nomore">已经到底了</div>
         </div>
-
-         <!-- 积分排行 -->
-         <div class="jfph-panel" data-status="0">
-            <div class="row rank-th"><div>排名</div><div>昵称</div><div>ID</div><div>大赢家</div><div>100分</div><div>300分</div><div>500分</div></div>
-            <div class="panel-content">
-                <div class="list-scroll">
-                    <!-- <div class="rank-item"> 
-                        <div class="row">
-                            <div>1</div><div>ohayooo</div><div>3762346</div><div>0</div><div>0</div><div>0</div><div>0</div>
-                        </div>
-                        <div class="row"><div>总分:</div><div class="total-score">0</div></div>
-                    </div> -->
-                </div>
-                <div class="loadmore"></div>
-                <div class="nomore"></div>
-            </div>
-        </div>
         
+
         <div class="club-footer">
             <div class="btn-groups">
                 <div class="btn gametype" data-type="gametype"></div>
@@ -226,7 +210,7 @@
             <i class="icon-title txt-member"></i>
             <div class="member-list popup-content-main">
                 <div class="list-scroll">
-                    <div class="member-item owner">
+                    <!-- <div class="member-item owner">
                         <div class="info-avator-wrapper">
                             <img src=""/>
                         </div>
@@ -244,7 +228,7 @@
                             <p>ID:34723847</p>
                         </div>
                         <div class="btn-remove"></div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="loadmore">点击加载更多</div>
                 <div class="nomore">已经到底了</div>
@@ -309,25 +293,68 @@
         <div class="popup-content">
             <i class="icon-close"></i>
             <i class="icon-title txt-limit"></i>
-            <div class="popup-content-main cfdf-form" data-give="1">
-                <div class="row"><div>参与游戏分数</div><div class="input-wrapper"><input id="joinGrade" placeholder="请输入数字" value="0"></input></div></div>
-                <div class="row"><div>参与游戏抢庄</div><div class="input-wrapper"><input id="robGrade" placeholder="请输入数字" value="0"></input></div></div>
-                <div class="row"><div>最低游戏分数</div><div class="input-wrapper"><input id="lowestGrade" placeholder="请输入数字" value="0"></input></div></div>
+            <div class="popup-content-main cfdf-form" data-give="2">
+                <div class="row"><div>参与游戏分数</div><div class="input-wrapper"><input id="joinGrade" type="number" pattern="\d*" placeholder="请输入数字" value="0"></input></div></div>
+                <div class="row"><div>参与游戏抢庄</div><div class="input-wrapper"><input id="robGrade" type="number" pattern="\d*" placeholder="请输入数字" value="0"></input></div></div>
+                <div class="row"><div>最低游戏分数</div><div class="input-wrapper"><input id="lowestGrade" type="number" pattern="\d*" placeholder="请输入数字" value="0"></input></div></div>
                 <!-- <div class="row"><div>表情赠送</div><div class="display-wrapper select">大赢家 <i class="icon-select"></i></div></div> -->
                 <div class="row"><div>表情赠送</div><div class="display-wrapper select">
-                    <select>
+                    <select id="giveCount">
                     <option value="1">所有赢家</option>
-                    <option value="2">大赢家</option>
+                    <option value="2" selected>大赢家</option>
                     <option value="3">两个赢家</option>
                     <option value="4">三个赢家</option>
                 </select></div></div>
-                <div class="row give-count1"><div>所有赢家</div><div class="input-wrapper"><input placeholder="请输入数字" value="1"></input></div></div>
-                <div class="row give-count2"><div>大赢家</div><div class="input-wrapper"><input placeholder="请输入数字" value="1"></input></div></div>
-                <div class="row give-count3"><div>二赢家</div><div class="input-wrapper"><input placeholder="请输入数字" value="1"></input></div></div>
-                <div class="row give-count4"><div>三赢家</div><div class="input-wrapper"><input placeholder="请输入数字" value="1"></input></div></div>
+                <div class="row give-count1"><div>所有赢家</div><div class="input-wrapper"><input id="allWinerCount" type="number" pattern="\d*" placeholder="请输入数字" value="0"></input></div></div>
+                <div class="row give-count2"><div>大赢家</div><div class="input-wrapper"><input id="oneWinerCount" type="number" pattern="\d*" placeholder="请输入数字" value="0"></input></div></div>
+                <div class="row give-count3"><div>二赢家</div><div class="input-wrapper"><input id="twoWinerCount" type="number" pattern="\d*" placeholder="请输入数字" value="0"></input></div></div>
+                <div class="row give-count4"><div>三赢家</div><div class="input-wrapper"><input id="threeWinerCount" type="number" pattern="\d*" placeholder="请输入数字" value="0"></input></div></div>
             </div>
             <div class="btn-group">
                 <div class="btn-confirm-yellow"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 积分排行 -->
+    <div class="popup-wrapper popup-jfph">
+        <div class="masker"></div>
+        <div class="jfph-panel" data-status="0">
+            <div class="row rank-th"><div>排名</div><div>昵称</div><div>ID</div><div>大赢家</div><div>100分</div><div>300分</div><div>500分</div></div>
+            <div class="panel-content">
+                <div class="list-scroll">
+                    <!-- <div class="rank-item"> 
+                        <div class="row">
+                            <div>1</div><div>ohayooo</div><div>3762346</div><div>0</div><div>0</div><div>0</div><div>0</div>
+                        </div>
+                        <div class="row"><div>总分:</div><div class="total-score">0</div></div>
+                    </div> -->
+                </div>
+                <div class="loadmore"></div>
+                <div class="nomore">已经到底了</div>
+            </div>
+        </div>
+    </div>
+    <!-- 上分 -->
+    <div class="popup-wrapper popup-sf">
+        <div class="masker"></div>
+        <div class="sf-panel" data-status="0">
+            <div class="row rank-th"><div>排名</div><div>昵称</div><div>ID</div><div>大赢家</div><div>100分</div><div>300分</div><div>500分</div></div>
+            <div class="panel-content">
+                <div class="list-scroll">
+                    <!-- <div class="rank-item"> 
+                        <div class="row">
+                            <div>1</div><div>ohayooo</div><div>3762346</div><div>0</div><div>0</div><div>0</div><div>0</div>
+                        </div>
+                        <div class="row"><div>总分:</div><div class="total-score">0</div></div>
+                        <div class="manage">
+                            <div>管理：</div>
+                            <div><div class="btn-add-jf"></div></div>
+                            <div><div class="btn-reduce-jf"></div></div>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="loadmore"></div>
+                <div class="nomore">已经到底了</div>
             </div>
         </div>
     </div>

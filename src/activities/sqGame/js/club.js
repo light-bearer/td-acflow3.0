@@ -4,12 +4,12 @@
     code = Util.getParam("code"); // 授权code
 
     var interval = null, 
-        msgPager = {limit: Util.pager.limit, page: Util.pager.page},
-        memberPager = {limit: Util.pager.limit, page: Util.pager.page},
-        roomPager = {limit: Util.pager.limit, page: Util.pager.page},
-        integalPager = {limit: Util.pager.limit, page: Util.pager.page},
-        jfphPager = {limit: Util.pager.limit, page: Util.pager.page},
-        detailPager = {limit: Util.pager.limit, page: Util.pager.page};
+        msgPager,
+        memberPager,
+        roomPager,
+        integalPager,
+        jfphPager,
+        detailPager;
 
     var groups = [],
         currentGroup = '',
@@ -31,8 +31,19 @@
     } 
     // 初始化页面
     initPage()
+    initPager();
     // 1、进来第一步，调群组列表
     // getListOfUser();
+    // 重置page
+    function initPager() {
+        msgPager = {limit: Util.pager.limit, page: Util.pager.page},
+        memberPager = {limit: Util.pager.limit, page: Util.pager.page},
+        roomPager = {limit: Util.pager.limit, page: Util.pager.page},
+        integalPager = {limit: Util.pager.limit, page: Util.pager.page},
+        jfphPager = {limit: Util.pager.limit, page: Util.pager.page},
+        sfPager = {limit: Util.pager.limit, page: Util.pager.page},
+        detailPager = {limit: Util.pager.limit, page: Util.pager.page};
+    }
 
     // $(".create-room-popup").show();
     $('.btn-groups').on('click', '.btn', function(e) {
@@ -69,6 +80,9 @@
                 break;
             case 'jfph': 
                 eventJFPH();
+                break;
+            case 'sf': 
+                eventSF();
                 break;
             case 'detail':
                 eventDetail();
@@ -258,9 +272,9 @@
     });
     // 基金账单明细
     $('.popup-found').on('click', '.btn-found-detail', function(e) {
-        if($('.popup-found-detail .list-main .row').length <= 0) {
+        if(detailPager.page <= 1) {
             getIntegalDetail();
-        }
+        } 
         $('.popup-found-detail').show();
     })
     // 基金账单明细加载更多
@@ -268,7 +282,37 @@
         integalPager.page += 1;
         getIntegalDetail();
     });
-
+    // 抽分调分 赠送表情选择
+    $('.popup-cfdf').on('change', '#giveCount', function(e) {
+        $('.cfdf-form').attr('data-give', this.value);
+    });
+    // 抽分调分 保存数据
+    $('.popup-cfdf').on('click', '.btn-confirm-yellow', function(e) {
+        saveCFDF(e);
+    });
+    // 积分排行 加载更多
+    $('.jfph-panel').on('click', '.loadmore', function() {
+        jfphPager.page += 1;
+        getJFPHList();
+    })
+    // 上分， 积分变更
+    $('.sf-panel').on('click', '.btn-add-jf, .btn-reduce-jf', function(e) {
+        var $target = $(e.currentTarget),
+            id = $target.attr('data-id'),
+            type = $target.attr('data-type');
+        inputDialog({
+            title: '../images/club/txt_score_change.png',
+            placeholder: '请输入数字',
+            cb: function(inputValue) {
+                changeGrade(id, type, inputValue);
+            }
+        })
+    });
+    // 上分， 加载更多
+    $('.sf-pane').on('click', '.loadmore', function(e) {
+        sfPager.page += 1;
+        getSFList();
+    })
     // 详情 全部选择
     $('.popup-detail').on('click', '.btn-all', function(e) {
         $('.popup-detail').find('.row').removeClass('active').addClass('active');
@@ -1002,7 +1046,9 @@
     }
     // 成员
     function eventMember() {
-        getGroupUserList();
+        if(memberPager <= 1) {
+            getGroupUserList();
+        }
         $('.popup-members').show();
     }
 
@@ -1020,18 +1066,13 @@
     }
     // 积分排行
     function eventJFPH() {
-        var $panel = $('.jfph-panel'),
-        status = $panel.attr('data-status');
-        if (status === '0') {
-            $panel.attr('data-status', 1);
-            $panel.show();
-            if ($panel.find('.rank-item').length <= 0) {
-                getJFPHList();
-            }
-            return;
-        }
-        $panel.attr('data-status', 0);
-        $panel.hide();
+        jfphPager.page <= 1 && getJFPHList();
+        $('.popup-jfph').show();
+    }
+    // 上分
+    function eventSF() {
+        sfPager.page <= 1 && getSFList();
+        $('.popup-sf').show();
     }
     // 详情
     function eventDetail() {
@@ -1040,8 +1081,12 @@
     }
     // 选择群组
     function handleSelectGroup(e) {
+        initPager();
         var $target = $(e.currentTarget),
             index = $target.attr('data-index');
+        if($target.hasClass('active')) {
+            return;
+        }
         $('.my-info').removeClass('active');
         $target.addClass('active');
         currentGroup = index;
@@ -1055,6 +1100,7 @@
         $('.cfdf, .jfph, .sf').hide();
         $('.room.game, .room.normal').removeClass('active');
         $('.room.normal').addClass('active');
+
     }
     // 选择房间
     function handleSelectRoom(e) {
@@ -1073,8 +1119,8 @@
         $target.addClass('active');
         roomPager.page = 1;
         getRoomListOfGroup();
-    }
 
+    }
     
     function getGroupUserList() {
         memberPager.page = memberPager.page < 1 ? 1: memberPager.page
@@ -1150,7 +1196,16 @@
               if (data.code === 0) {
                console.log(data)
                var form = data.data, $form = $('.cfdf-form');
-               
+               // 重置
+               $form.find('#joinGrade').val(form.joinGrade || 0);
+               $form.find('#robGrade').val(form.robGrade || 0);
+               $form.find('#lowestGrade').val(form.lowestGrade || 0);
+               $form.find('#giveCount').val(form.giveCount || 2);
+               $form.attr('data-give', form.giveCount || 2);
+               $form.find('#allWinerCount').val(form.allWinerCount || 0);
+               $form.find('#oneWinerCount').val(form.oneWinerCount || 0);
+               $form.find('#twoWinerCount').val(form.twoWinerCount || 0);
+               $form.find('#twoWinerCount').val(form.twoWinerCount || 0);
               } else {
                 Util.toast(data.msg);
               }
@@ -1159,6 +1214,91 @@
             cbErr: function(e, xhr, type) {
               Util.toast("获取群组详情失败！");
               
+            }
+        });
+    }
+    // 抽分调分 保存数据
+    function saveCFDF(e) {
+        var $form = $('.cfdf-form');
+        var joinGrade = $form.find('#joinGrade').val().trim(),
+        robGrade = $form.find('#robGrade').val().trim(),
+        lowestGrade = $form.find('#lowestGrade').val().trim(),
+        giveCount = $form.find('#giveCount').val();
+        allWinerCount = $form.find('#allWinerCount').val().trim(),
+        oneWinerCount = $form.find('#oneWinerCount').val().trim(),
+        twoWinerCount = $form.find('#twoWinerCount').val().trim(),
+        threeWinerCount = $form.find('#threeWinerCount').val().trim();
+
+        if (!/^[0-9]*$/.test(joinGrade)) {
+            Util.toast('参与游戏分数只能输入数字！');
+            return;
+        }
+        if (!/^[0-9]*$/.test(robGrade)) {
+            Util.toast('参与游戏抢庄只能输入数字！');
+            return;
+        }
+        if (!/^[0-9]*$/.test(lowestGrade)) {
+            Util.toast('最低游戏分数只能输入数字！');
+            return;
+        }
+        
+        var _data = {
+            id: groups[currentGroup].id,
+            joinGrade: joinGrade,
+            robGrade: robGrade,
+            lowestGrade: lowestGrade,
+            giveCount: giveCount,
+        }
+
+        if (giveCount === '1') {
+            if (!/^[0-9]*$/.test(allWinerCount)) {
+                Util.toast('所有赢家只能输入数字！');
+                return;
+            }
+            _data.allWinerCount = allWinerCount
+        }
+
+
+        if (giveCount !== '1') {
+            if (!/^[0-9]*$/.test(oneWinerCount)) {
+                Util.toast('大赢家只能输入数字！');
+                return;
+            }
+            _data.oneWinerCount = oneWinerCount
+        }
+
+        if (giveCount === '3' || giveCount === '4') {
+            if (!/^[0-9]*$/.test(twoWinerCount)) {
+                Util.toast('二赢家只能输入数字！');
+                return;
+            }
+            _data.twoWinerCount = twoWinerCount
+        }
+        if (giveCount === '4') {
+            if (!/^[0-9]*$/.test(threeWinerCount)) {
+                Util.toast('三赢家只能输入数字！');
+                return;
+            }
+            _data.threeWinerCount = threeWinerCount
+        }
+
+        Util.Ajax({
+            url: Util.openAPI + "/app/group/set",
+            type: "post",
+            data: _data,
+            dataType: "json",
+            cbOk: function(data, textStatus, jqXHR) {
+              // console.log(data);
+              if (data.code === 0) {
+                Util.toast("保存成功");
+               $('.popup-cfdf').hide();
+              } else {
+                Util.toast(data.msg);
+              }
+              
+            },
+            cbErr: function(e, xhr, type) {
+              Util.toast("保存数据失败，请稍后再试");
             }
         });
     }
@@ -1192,9 +1332,9 @@
                 for(var i = 0; i < _rows.length; i ++) {
                     _temp += '<div class="rank-item">'
                     + '<div class="row">'
-                    + '<div>1</div><div>ohayooo</div><div>3762346</div><div>0</div><div>0</div><div>0</div><div>0</div>'
+                    + '<div>' + (i + 1) +'</div><div>'+ _rows[i].userNickName +'</div><div>'+ _rows[i].userId +'</div><div>'+( _rows[i].winerCount || 0) +'</div><div>'+ (_rows[i].oneCount  || 0)  +'</div><div>'+ (_rows[i].threeCount  || 0)  +'</div><div>'+ ( _rows[i].fiveCount  || 0) +'</div>'
                     + '</div>'
-                    + '<div class="row"><div>总分:</div><div class="total-score">0</div></div>'
+                    + '<div class="row"><div>总分:</div><div class="total-score">'+ (_rows[i].grade || 0)  +'</div></div>'
                 + '</div>';
                 }
                 $panel.find('.list-scroll').append(_temp);
@@ -1219,7 +1359,99 @@
             }
         });
     }
+    // 上分数据
+    function getSFList() {
+        sfPager.page = sfPager.page < 1 ? 1: sfPager.page
+        var $panel = $('.sf-panel');
+        Util.Ajax({
+            url: Util.openAPI + "/app/groupUser/getGroupUserList",
+            type: "get",
+            data: {
+                limit: sfPager.limit,
+                page: sfPager.page,
+                groupId: groups[currentGroup].id,
+                isOrderGrade: 1
+            },
+            dataType: "json",
+            cbOk: function(data, textStatus, jqXHR) {
+              // console.log(data);
+              if (data.code === 0) {
+                console.log(data)
+                var _temp = '';
+                if(sfPager.page === 1) {
+                    $panel.find('.list-scroll').html('');
+                }
+                var _rows = data.data.rows, _group = groups[currentGroup];
+                for(var i = 0; i < _rows.length; i ++) {
+                    _temp += '<div class="rank-item">'
+                    + '<div class="row">'
+                    + '<div>' + (i + 1) +'</div><div>'+ _rows[i].userNickName +'</div><div>'+ _rows[i].userId +'</div><div>'+( _rows[i].winerCount || 0) +'</div><div>'+ (_rows[i].oneCount  || 0)  +'</div><div>'+ (_rows[i].threeCount  || 0)  +'</div><div>'+ ( _rows[i].fiveCount  || 0) +'</div>'
+                    + '</div>'
+                    + '<div class="row"><div>总分:</div><div class="total-score">'+ (_rows[i].grade || 0)  +'</div></div>'
+                    + '<div class="manage"><div>管理：</div><div><div class="btn-add-jf" data-id="'+ _rows[i].id +'" data-type="add"></div></div><div><div class="btn-reduce-jf" data-id="'+ _rows[i].id +'" data-type="reduce"></div></div></div>'
+                    + '</div>';
+                }
+                $panel.find('.list-scroll').append(_temp);
+                if (sfPager.limit * sfPager.page >= data.data.total) {
+                    $panel.find('.nomore').show();
+                    $panel.find('.loadmore').hide();
+                } else {
+                    $panel.find('.nomore').hide();
+                    $panel.find('.loadmore').show();
+                }
+              } else {
+                sfPager.page -= 1;
+                Util.toast(data.msg);
+              }
+              
+            },
+            cbErr: function(e, xhr, type) {
+              Util.toast("获取上分数据失败！");
+              sfPager.page -= 1;
+            }
+        });
+    }
 
+    // 变更积分
+    function changeGrade(id, type, value) {
+        if (!/^[0-9]*$/.test(value)) {
+            Util.toast('只能输入数字！');
+            return;
+        }
+
+        switch(type) {
+            case 'add':
+                value = '+' + value;
+                break;
+            case 'reduce':
+                value = '-' + value;
+                break;
+        }
+
+        Util.Ajax({
+            url: Util.openAPI + "/app/groupUser/actionGrade",
+            type: "get",
+            data: {
+               id: id,
+               grade: parseInt(value),
+            },
+            dataType: "json",
+            cbOk: function(data, textStatus, jqXHR) {
+              if (data.code === 0) {
+                Util.toast('积分变更成功！');
+                sfPager.page = 1;
+                getSFList();
+              } else {
+                Util.toast(data.msg);
+              }
+              
+            },
+            cbErr: function(e, xhr, type) {
+              Util.toast("积分变更失败！");
+            }
+        });
+
+    }
     // 滚动加载更多成员
     function handleScroll(e) {
         var $target = $(e.currentTarget);
@@ -1231,6 +1463,7 @@
                 getGroupUserList();
             }
     }
+    
     /**
    * @func
    * @desc 带输入框弹窗
