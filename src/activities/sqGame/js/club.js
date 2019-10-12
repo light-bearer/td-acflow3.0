@@ -24,14 +24,16 @@
       console.log(baseInfo, token)
     if (!baseInfo ||  !token) {
         Util.auth(code, function(token) {
-            Util.getUserInfo(function(data) {});
+            Util.getUserInfo(function(data) {
+                initPage()
+            });
             // getListOfUser();
-            initPage()
         });
-    } 
-    // 初始化页面
-    initPage()
-    initPager();
+    } else {
+        // 初始化页面
+        initPage()
+    }
+    
     // 1、进来第一步，调群组列表
     // getListOfUser();
     // 重置page
@@ -331,6 +333,7 @@
         getDetailList();
     })
     function initPage() {
+        initPager();
         getListOfUser(function() {
             // 获取房间列表
             getRoomListOfGroup();
@@ -429,9 +432,9 @@
                             +'<div class="info-avator-wrapper"> <img src="'+ _rows[i].userImg + '"/></div>'
                             +'<div class="info"><span>'+ _rows[i].userNickName +'</span><span>ID:'+ _rows[i].userId +'</span></div>'
                             +'<div class="btns">'
-                            +'<div class="btn-approval btn-shield" data-id="'+ _rows[i].userId + '" data-state="0"></div>'
-                            +'<div class="btn-approval btn-reject" data-id="'+ _rows[i].userId + '" data-state="-1"></div>'
-                            +'<div class="btn-approval btn-agree" data-id="'+ _rows[i].userId + '" data-state="1"></div>'
+                            +'<div class="btn-approval btn-shield" data-id="'+ _rows[i].id + '" data-state="0"></div>'
+                            +'<div class="btn-approval btn-reject" data-id="'+ _rows[i].id + '" data-state="-1"></div>'
+                            +'<div class="btn-approval btn-agree" data-id="'+ _rows[i].id + '" data-state="1"></div>'
                             +'</div>'
                             +'</div>';
                         }
@@ -562,7 +565,7 @@
             type: "post",
             dataType: "json",
             data: {
-                id: groupId
+                groupNumber: groupId
             },
             cbOk: function(data, textStatus, jqXHR) {
             // console.log(data);
@@ -1430,7 +1433,7 @@
 
         Util.Ajax({
             url: Util.openAPI + "/app/groupUser/actionGrade",
-            type: "get",
+            type: "post",
             data: {
                id: id,
                grade: parseInt(value),
